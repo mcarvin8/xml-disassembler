@@ -1,0 +1,12 @@
+.github
+.husky
+.vscode
+coverage
+src
+node_modules
+test
+.gitignore
+.releaserc.json
+jest.config.js
+rollup.config.mjs
+tsconfig.json
