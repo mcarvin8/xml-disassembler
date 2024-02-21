@@ -95,4 +95,16 @@ describe("main function", () => {
     // Ensure that the console.log spy was called with the correct message
     expect(console.log).toHaveBeenCalled();
   });
+  it("should disassemble a XML file with an array of leaf elements and no defined unique ID element.", async () => {
+    const handler = new ReassembleXMLFileHandler();
+    await handler.reassemble({
+      xmlPath: "test/baselines/array-of-leafs/Dreamhouse",
+      xmlElement: "CustomApplication",
+      xmlNamespace: "http://soap.sforce.com/2006/04/metadata",
+      fileExtension: "app-meta.xml",
+    });
+
+    // Ensure that the console.log spy was called with the correct message
+    expect(console.log).toHaveBeenCalled();
+  });
 });

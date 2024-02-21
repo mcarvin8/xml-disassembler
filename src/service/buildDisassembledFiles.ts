@@ -36,6 +36,7 @@ export function buildDisassembledFiles(
               element,
               metadataPath,
               uniqueIdElements,
+              rootElementName,
               key,
               indent,
             );
@@ -50,6 +51,7 @@ export function buildDisassembledFiles(
           rootElement[key] as XmlElement,
           metadataPath,
           uniqueIdElements,
+          rootElementName,
           key,
           indent,
         );
@@ -84,11 +86,11 @@ function buildNestedFile(
   element: XmlElement,
   metadataPath: string,
   uniqueIdElements: string | undefined,
+  rootElementName: string,
   parentKey: string,
   indent: string,
 ): void {
   let elementContent = "";
-  elementContent += `${XML_HEADER}\n`;
 
   const fieldName = findUniqueIdElement(element, uniqueIdElements);
 
@@ -102,9 +104,11 @@ function buildNestedFile(
   // Call the buildNestedElements to build the XML content string
   elementContent = buildNestedElements(element);
   let decomposeFileContents = `${XML_HEADER}\n`;
+  decomposeFileContents += `<${rootElementName}>\n`;
   decomposeFileContents += `${indent}<${parentKey}>\n`;
   decomposeFileContents += `${elementContent}\n`;
   decomposeFileContents += `${indent}</${parentKey}>\n`;
+  decomposeFileContents += `</${rootElementName}>`;
 
   // Write the XML content to the determined output path
   fs.writeFileSync(outputPath, decomposeFileContents);
