@@ -19,8 +19,17 @@ export async function buildReassembledFile(
   );
 
   // Remove duplicate parent elements
-  finalXmlContent = finalXmlContent.replace(`<${xmlElement}>`, "");
-  finalXmlContent = finalXmlContent.replace(`</${xmlElement}>`, "");
+  finalXmlContent = finalXmlContent.replace(
+    new RegExp(
+      `<${xmlElement}[^>]*${xmlNamespace ? `( xmlns="${xmlNamespace}")?` : ""}>`,
+      "g",
+    ),
+    "",
+  );
+  finalXmlContent = finalXmlContent.replace(
+    new RegExp(`</${xmlElement}>`, "g"),
+    "",
+  );
 
   // Remove extra indentation within CDATA sections
   finalXmlContent = finalXmlContent.replace(
