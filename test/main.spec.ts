@@ -1,7 +1,7 @@
 import {
   DisassembleXMLFileHandler,
   ReassembleXMLFileHandler,
-} from "@src/index";
+} from "../src/index";
 
 describe("main function", () => {
   beforeEach(() => {
