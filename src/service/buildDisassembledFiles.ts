@@ -13,7 +13,6 @@ export function buildDisassembledFiles(
   xmlString: string,
   metadataPath: string,
   uniqueIdElements: string | undefined,
-  xmlElement: string,
   baseName: string,
   indent: string,
 ): void {
@@ -65,7 +64,7 @@ export function buildDisassembledFiles(
 
   if (leafCount > 0) {
     let leafFile = `${XML_HEADER}\n`;
-    leafFile += `<${xmlElement}>\n`;
+    leafFile += `<${rootElementName}>\n`;
 
     const sortedLeafContent = leafContent
       .split("\n") // Split by lines
@@ -73,7 +72,7 @@ export function buildDisassembledFiles(
       .sort() // Sort alphabetically
       .join("\n"); // Join back into a string
     leafFile += sortedLeafContent;
-    leafFile += `\n</${xmlElement}>`;
+    leafFile += `\n</${rootElementName}>`;
     const leafOutputPath = path.join(metadataPath, `${baseName}.xml`);
     fs.writeFileSync(leafOutputPath, leafFile);
 

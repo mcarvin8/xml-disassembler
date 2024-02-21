@@ -34,7 +34,6 @@ Import the `DisassembleXMLFileHandler` class from the package.
 ```typescript
 /* 
 FLAGS
-- xmlElement: XML Root Element used for disassembled leaf file
 - xmlPath: Directory containing the XML files to disassemble (must be directory). This will only disassemble files in the immediate directory.
 - uniqueIdElements: (Optional) Comma-separated list of unique and required ID elements used to name disassembled files for nested elements. Defaults to SHA-256 hash if unique ID elements are undefined or not found.
 */
@@ -45,7 +44,6 @@ await handler.disassemble({
   xmlPath: "test/baselines/general",
   uniqueIdElements:
     "application,apexClass,name,externalDataSource,flow,object,apexPage,recordType,tab,field",
-  xmlElement: "PermissionSet",
 });
 ```
 
