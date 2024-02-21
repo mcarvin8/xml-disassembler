@@ -2,9 +2,7 @@
 
 [![NPM](https://img.shields.io/npm/v/xml-disassembler.svg?label=xml-disassembler)](https://www.npmjs.com/package/xml-disassembler) [![Downloads/week](https://img.shields.io/npm/dw/xml-disassembler.svg)](https://npmjs.org/package/xml-disassembler)
 
-A JS package to disassemble XML files into smaller, more manageable files and re-assemble them when needed.
-
-This package is in active development and may have bugs. Once this is deemed stable, this plugin will be released as v1.0.0.
+A TS package to disassemble XML files into smaller, more manageable files and re-assemble them when needed.
 
 ## Background
 
@@ -36,16 +34,16 @@ Import the `DisassembleXMLFileHandler` class from the package.
 ```typescript
 /* 
 FLAGS
-- xmlElement: XML Root Element used for disassembled leaf file
 - xmlPath: Directory containing the XML files to disassemble (must be directory). This will only disassemble files in the immediate directory.
 - uniqueIdElements: (Optional) Comma-separated list of unique and required ID elements used to name disassembled files for nested elements. Defaults to SHA-256 hash if unique ID elements are undefined or not found.
 */
+import { DisassembleXMLFileHandler } from "xml-disassembler";
+
 const handler = new DisassembleXMLFileHandler();
 await handler.disassemble({
   xmlPath: "test/baselines/general",
   uniqueIdElements:
     "application,apexClass,name,externalDataSource,flow,object,apexPage,recordType,tab,field",
-  xmlElement: "PermissionSet",
 });
 ```
 
@@ -102,10 +100,14 @@ An XML with the following nested and leaf elements
 
 will be diassembled as such:
 
-- Each nested element (`<recordTypeVisibilities>`, `<applicationVisibilities>`, `pageAccesses`, etc.) will be disassembled into sub-directories by the nested element name. If a unique & required ID element (`application` is the unique ID element for `<applicationVisibilities>`) is found, the disassembled file will be named using it.
+- Each nested element (`<recordTypeVisibilities>`, `<applicationVisibilities>`, `pageAccesses`, etc.) will be disassembled into sub-directories by the nested element name. If a unique & required ID element (`application` is the unique ID element for `<applicationVisibilities>`) is found, the disassembled file will be named using it. Otherwise, the disassembled files for nested elements will be named using the SHA-256 of the element contents.
 - Each leaf element (`<description>`, `<label>`, `<userLicense>`) will be disassembled into the same file.
 
 <img src="https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled.png">
+
+<br>
+
+<img src="https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-hashes.png">
 
 <br>
 
@@ -125,6 +127,8 @@ FLAGS
 - xmlNamespace: (Optional) Namespace for the final XML (default: None)
 - fileExtension: (Optional) Desired file extension for the final XML (default: `.xml`)
 */
+import { ReassembleXMLFileHandler } from "xml-disassembler";
+
 const handler = new ReassembleXMLFileHandler();
 await handler.reassemble({
   xmlPath: "test/baselines/general/HR_Admin",

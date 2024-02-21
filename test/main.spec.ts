@@ -1,7 +1,7 @@
 import {
   DisassembleXMLFileHandler,
   ReassembleXMLFileHandler,
-} from "@src/index";
+} from "../src/index";
 
 describe("main function", () => {
   beforeEach(() => {
@@ -18,7 +18,6 @@ describe("main function", () => {
       xmlPath: "test/baselines/general",
       uniqueIdElements:
         "application,apexClass,name,externalDataSource,flow,object,apexPage,recordType,tab,field",
-      xmlElement: "PermissionSet",
     });
 
     // Ensure that the console.log spy was called with the correct message
@@ -41,7 +40,6 @@ describe("main function", () => {
     await handler.disassemble({
       xmlPath: "test/baselines/cdata",
       uniqueIdElements: "apiName",
-      xmlElement: "MarketingAppExtension",
     });
 
     // Ensure that the console.log spy was called with the correct message
@@ -62,7 +60,6 @@ describe("main function", () => {
     await handler.disassemble({
       xmlPath: "test/baselines/comments",
       uniqueIdElements: "invalid",
-      xmlElement: "GlobalValueSetTranslation",
     });
 
     // Ensure that the console.log spy was called with the correct message
@@ -84,7 +81,6 @@ describe("main function", () => {
       xmlPath: "test/baselines/child-unique-id-element",
       uniqueIdElements:
         "apexClass,name,object,field,layout,actionName,targetReference,assignToReference,choiceText,promptText",
-      xmlElement: "Flow",
     });
 
     // Ensure that the console.log spy was called with the correct message
@@ -94,7 +90,18 @@ describe("main function", () => {
     const handler = new DisassembleXMLFileHandler();
     await handler.disassemble({
       xmlPath: "test/baselines/array-of-leafs",
-      xmlElement: "Application",
+    });
+
+    // Ensure that the console.log spy was called with the correct message
+    expect(console.log).toHaveBeenCalled();
+  });
+  it("should disassemble a XML file with an array of leaf elements and no defined unique ID element.", async () => {
+    const handler = new ReassembleXMLFileHandler();
+    await handler.reassemble({
+      xmlPath: "test/baselines/array-of-leafs/Dreamhouse",
+      xmlElement: "CustomApplication",
+      xmlNamespace: "http://soap.sforce.com/2006/04/metadata",
+      fileExtension: "app-meta.xml",
     });
 
     // Ensure that the console.log spy was called with the correct message

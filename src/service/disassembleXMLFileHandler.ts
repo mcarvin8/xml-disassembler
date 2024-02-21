@@ -6,10 +6,9 @@ import { buildDisassembledFiles } from "@src/service/buildDisassembledFiles";
 export class DisassembleXMLFileHandler {
   async disassemble(xmlAttributes: {
     xmlPath: string;
-    xmlElement: string;
-    uniqueIdElements?: string | undefined;
+    uniqueIdElements?: string;
   }): Promise<void> {
-    const { xmlPath, xmlElement, uniqueIdElements } = xmlAttributes;
+    const { xmlPath, uniqueIdElements } = xmlAttributes;
     const files = await fs.readdir(xmlPath);
     for (const file of files) {
       const filePath = path.join(xmlPath, file);
@@ -17,7 +16,6 @@ export class DisassembleXMLFileHandler {
         xmlPath,
         filePath,
         uniqueIdElements,
-        xmlElement,
       });
     }
   }
@@ -25,17 +23,15 @@ export class DisassembleXMLFileHandler {
   async processFile(xmlAttributes: {
     xmlPath: string;
     filePath: string;
-    xmlElement: string;
-    uniqueIdElements?: string | undefined;
+    uniqueIdElements?: string;
   }): Promise<void> {
-    const { xmlPath, filePath, xmlElement, uniqueIdElements } = xmlAttributes;
+    const { xmlPath, filePath, uniqueIdElements } = xmlAttributes;
 
     if (filePath.endsWith(".xml")) {
       console.log(`Parsing file: ${filePath}`);
       const xmlContent = await fs.readFile(filePath, "utf-8");
-      const baseName = path
-        .basename(filePath, path.extname(filePath))
-        .split(".")[0];
+      const fullName = path.basename(filePath, path.extname(filePath));
+      const baseName = fullName.split(".")[0];
 
       let outputPath;
       outputPath = path.join(xmlPath, baseName);
@@ -43,8 +39,7 @@ export class DisassembleXMLFileHandler {
         xmlContent,
         outputPath,
         uniqueIdElements,
-        xmlElement,
-        baseName,
+        fullName,
         INDENT,
       );
     }
