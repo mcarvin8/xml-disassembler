@@ -33,9 +33,8 @@ export class DisassembleXMLFileHandler {
     if (filePath.endsWith(".xml")) {
       console.log(`Parsing file: ${filePath}`);
       const xmlContent = await fs.readFile(filePath, "utf-8");
-      const baseName = path
-        .basename(filePath, path.extname(filePath))
-        .split(".")[0];
+      const fullName = path.basename(filePath, path.extname(filePath));
+      const baseName = fullName.split(".")[0];
 
       let outputPath;
       outputPath = path.join(xmlPath, baseName);
@@ -44,7 +43,7 @@ export class DisassembleXMLFileHandler {
         outputPath,
         uniqueIdElements,
         xmlElement,
-        baseName,
+        fullName,
         INDENT,
       );
     }
