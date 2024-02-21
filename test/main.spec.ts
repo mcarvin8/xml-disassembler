@@ -27,7 +27,6 @@ describe("main function", () => {
     const handler = new ReassembleXMLFileHandler();
     await handler.reassemble({
       xmlPath: "test/baselines/general/HR_Admin",
-      xmlElement: "PermissionSet",
       xmlNamespace: "http://soap.sforce.com/2006/04/metadata",
       fileExtension: "permissionset-meta.xml",
     });
@@ -49,7 +48,6 @@ describe("main function", () => {
     const handler = new ReassembleXMLFileHandler();
     await handler.reassemble({
       xmlPath: "test/baselines/cdata/VidLand_US",
-      xmlElement: "MarketingAppExtension",
     });
 
     // Ensure that the console.log spy was called with the correct message
@@ -69,7 +67,6 @@ describe("main function", () => {
     const handler = new ReassembleXMLFileHandler();
     await handler.reassemble({
       xmlPath: "test/baselines/comments/Numbers-fr",
-      xmlElement: "GlobalValueSetTranslation",
     });
 
     // Ensure that the console.log spy was called with the correct message
@@ -99,7 +96,6 @@ describe("main function", () => {
     const handler = new ReassembleXMLFileHandler();
     await handler.reassemble({
       xmlPath: "test/baselines/array-of-leafs/Dreamhouse",
-      xmlElement: "CustomApplication",
       xmlNamespace: "http://soap.sforce.com/2006/04/metadata",
       fileExtension: "app-meta.xml",
     });
