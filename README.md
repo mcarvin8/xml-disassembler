@@ -98,7 +98,7 @@ An XML with the following nested and leaf elements
 </PermissionSet>
 ```
 
-will be diassembled as such:
+will be disassembled as such:
 
 - Each nested element (`<recordTypeVisibilities>`, `<applicationVisibilities>`, `pageAccesses`, etc.) will be disassembled into sub-directories by the nested element name. If a unique & required ID element (`application` is the unique ID element for `<applicationVisibilities>`) is found, the disassembled file will be named using it. Otherwise, the disassembled files for nested elements will be named using the SHA-256 of the element contents.
 - Each leaf element (`<description>`, `<label>`, `<userLicense>`) will be disassembled into the same file.
@@ -122,7 +122,6 @@ Import the `ReassembleXMLFileHandler` class from the package.
 ```typescript
 /* 
 FLAGS
-- xmlElement: XML Root Element for the final reassembled file
 - xmlPath: Path to the disassembled XML files to reassemble (must be a directory)
 - xmlNamespace: (Optional) Namespace for the final XML (default: None)
 - fileExtension: (Optional) Desired file extension for the final XML (default: `.xml`)
@@ -132,11 +131,12 @@ import { ReassembleXMLFileHandler } from "xml-disassembler";
 const handler = new ReassembleXMLFileHandler();
 await handler.reassemble({
   xmlPath: "test/baselines/general/HR_Admin",
-  xmlElement: "PermissionSet",
   xmlNamespace: "http://soap.sforce.com/2006/04/metadata",
   fileExtension: "permissionset-meta.xml",
 });
 ```
+
+_NOTE_: You should be reassembling files created by this package's `DisassembleXMLFileHandler` class for intended results. This class will assume all disassembled files in `xmlPath` have the same XML Root Element.
 
 The reassembled XML file will be created in the parent directory of `xmlPath` and will overwrite the original file used to create the original disassembled directories, if it still exists and the `fileExtension` flag matches the original file extension.
 
