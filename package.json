@@ -1,7 +1,7 @@
 {
-  "name": "xml-transformer",
+  "name": "xml-disassembler",
   "version": "0.0.1",
-  "description": "A package to break down XML files into smaller, more manageable files and reassemble them when needed.",
+  "description": "A package to diassemble XML files into smaller, more manageable files and reassemble them when needed.",
   "author": "Matt Carvin",
   "license": "ISC",
   "main": "dist/index.cjs",

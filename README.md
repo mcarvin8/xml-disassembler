@@ -1,8 +1,8 @@
-# XML Transformer
+# XML Disassembler
 
-[![NPM](https://img.shields.io/npm/v/xml-transformer.svg?label=xml-transformer)](https://www.npmjs.com/package/xml-transformer) [![Downloads/week](https://img.shields.io/npm/dw/xml-transformer.svg)](https://npmjs.org/package/xml-transformer)
+[![NPM](https://img.shields.io/npm/v/xml-disassembler.svg?label=xml-disassembler)](https://www.npmjs.com/package/xml-disassembler) [![Downloads/week](https://img.shields.io/npm/dw/xml-disassembler.svg)](https://npmjs.org/package/xml-disassembler)
 
-A JS package to transform XML files into smaller, more manageable files and re-assemble them when needed.
+A JS package to disassemble XML files into smaller, more manageable files and re-assemble them when needed.
 
 This package is in active development and may have bugs. Once this is deemed stable, this plugin will be released as v1.0.0.
 
@@ -11,7 +11,7 @@ This package is in active development and may have bugs. Once this is deemed sta
 Install the package:
 
 ```
-npm install xml-transformer
+npm install xml-disassembler
 ```
 
 ### Diassembling Files
