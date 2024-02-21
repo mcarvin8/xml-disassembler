@@ -6,7 +6,7 @@ import { buildDisassembledFiles } from "@src/service/buildDisassembledFiles";
 export class DisassembleXMLFileHandler {
   async disassemble(xmlAttributes: {
     xmlPath: string;
-    uniqueIdElements?: string | undefined;
+    uniqueIdElements?: string;
   }): Promise<void> {
     const { xmlPath, uniqueIdElements } = xmlAttributes;
     const files = await fs.readdir(xmlPath);
@@ -23,7 +23,7 @@ export class DisassembleXMLFileHandler {
   async processFile(xmlAttributes: {
     xmlPath: string;
     filePath: string;
-    uniqueIdElements?: string | undefined;
+    uniqueIdElements?: string;
   }): Promise<void> {
     const { xmlPath, filePath, uniqueIdElements } = xmlAttributes;
 
