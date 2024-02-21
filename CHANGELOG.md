@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/mcarvin8/xml-disassembler/compare/v1.0.1...v1.0.2) (2024-02-21)
+
+### Bug Fixes
+
+- ensure xmlPath is a directory ([5076799](https://github.com/mcarvin8/xml-disassembler/commit/50767991fb0ee91261ebe5d3723a70c9baf20cc6))
+- remove the root xml element as a reassemble flag and dynamically get it from a disassembled file in the path ([849cf3b](https://github.com/mcarvin8/xml-disassembler/commit/849cf3b8d5878f62471d5810b5acbe0cf638e3f0))
+
 ## [1.0.1](https://github.com/mcarvin8/xml-disassembler/compare/v1.0.0...v1.0.1) (2024-02-21)
 
 ### Bug Fixes
