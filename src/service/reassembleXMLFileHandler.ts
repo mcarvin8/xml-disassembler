@@ -75,7 +75,11 @@ export class ReassembleXMLFileHandler {
   }): Promise<void> {
     const { xmlPath, xmlNamespace, fileExtension } = xmlAttributes;
     const combinedXmlContents: string[] = [];
+    const fileStat = await fs.stat(xmlPath);
 
+    if (!fileStat.isDirectory()) {
+      throw new Error("The provided xmlPath is not a directory.");
+    }
     // Process files directly inside the `xmlPath` directory
     const filesInxmlPath = await fs.readdir(xmlPath);
     for (const file of filesInxmlPath) {

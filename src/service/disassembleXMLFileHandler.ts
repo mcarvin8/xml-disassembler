@@ -9,6 +9,11 @@ export class DisassembleXMLFileHandler {
     uniqueIdElements?: string;
   }): Promise<void> {
     const { xmlPath, uniqueIdElements } = xmlAttributes;
+    const fileStat = await fs.stat(xmlPath);
+
+    if (!fileStat.isDirectory()) {
+      throw new Error("The provided xmlPath is not a directory.");
+    }
     const files = await fs.readdir(xmlPath);
     for (const file of files) {
       const filePath = path.join(xmlPath, file);
