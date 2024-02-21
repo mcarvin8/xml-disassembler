@@ -1,3 +1,9 @@
+## [1.0.1-release.2](https://github.com/mcarvin8/xml-disassembler/compare/v1.0.1-release.1...v1.0.1-release.2) (2024-02-21)
+
+### Bug Fixes
+
+- update tsconfig includes value ([d92afcb](https://github.com/mcarvin8/xml-disassembler/commit/d92afcb47f967b1afc01579c7066eb68d12faac4))
+
 ## [1.0.1-release.1](https://github.com/mcarvin8/xml-disassembler/compare/v1.0.0...v1.0.1-release.1) (2024-02-21)
 
 ### Bug Fixes
