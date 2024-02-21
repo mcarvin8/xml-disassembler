@@ -14,7 +14,7 @@
     "noUnusedParameters": false,
     "removeComments": true,
     "baseUrl": ".",
-    "types": ["node"],
+    "types": ["node", "jest"],
     "paths": {
       "@src/*": ["./src/*"],
     },
