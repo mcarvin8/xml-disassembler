@@ -1,5 +1,7 @@
-import { DisassembleXMLFileHandler } from "@src/service/disassembleXMLFileHandler";
-import { ReassembleXMLFileHandler } from "@src/service/reassembleXMLFileHandler";
+import {
+  DisassembleXMLFileHandler,
+  ReassembleXMLFileHandler,
+} from "@src/index";
 
 describe("main function", () => {
   beforeEach(() => {
