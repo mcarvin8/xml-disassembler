@@ -1,3 +1,9 @@
+## [1.0.4](https://github.com/mcarvin8/xml-disassembler/compare/v1.0.3...v1.0.4) (2024-02-22)
+
+### Bug Fixes
+
+- add purge flag to disassemble to remove any pre-existing disassembled files ([c0d6049](https://github.com/mcarvin8/xml-disassembler/commit/c0d6049fa229ca9826ad9a8e20f092bf27cc5d32))
+
 ## [1.0.3](https://github.com/mcarvin8/xml-disassembler/compare/v1.0.2...v1.0.3) (2024-02-22)
 
 ### Bug Fixes
