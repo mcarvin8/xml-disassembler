@@ -27,7 +27,6 @@ describe("main function", () => {
     const handler = new ReassembleXMLFileHandler();
     await handler.reassemble({
       xmlPath: "test/baselines/general/HR_Admin",
-      xmlNamespace: "http://soap.sforce.com/2006/04/metadata",
       fileExtension: "permissionset-meta.xml",
     });
 
@@ -96,7 +95,6 @@ describe("main function", () => {
     const handler = new ReassembleXMLFileHandler();
     await handler.reassemble({
       xmlPath: "test/baselines/array-of-leafs/Dreamhouse",
-      xmlNamespace: "http://soap.sforce.com/2006/04/metadata",
       fileExtension: "app-meta.xml",
     });
 
@@ -108,6 +106,27 @@ describe("main function", () => {
     await handler.disassemble({
       xmlPath: "test/baselines/array-of-leafs",
       purge: true,
+    });
+
+    // Ensure that the console.log spy was called with the correct message
+    expect(console.log).toHaveBeenCalled();
+  });
+  it('should disassemble a XML file with no namespace."', async () => {
+    const handler = new DisassembleXMLFileHandler();
+    await handler.disassemble({
+      xmlPath: "test/baselines/no-namespace",
+      uniqueIdElements:
+        "application,apexClass,name,externalDataSource,flow,object,apexPage,recordType,tab,field",
+    });
+
+    // Ensure that the console.log spy was called with the correct message
+    expect(console.log).toHaveBeenCalled();
+  });
+  it('should reassemble a XML file with no namespace."', async () => {
+    const handler = new ReassembleXMLFileHandler();
+    await handler.reassemble({
+      xmlPath: "test/baselines/no-namespace/HR_Admin",
+      fileExtension: "permissionset-meta.xml",
     });
 
     // Ensure that the console.log spy was called with the correct message

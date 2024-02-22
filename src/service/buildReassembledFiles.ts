@@ -7,7 +7,7 @@ export async function buildReassembledFile(
   combinedXmlContents: string[],
   filePath: string,
   xmlElement: string,
-  xmlNamespace?: string | undefined,
+  xmlNamespace: string | undefined,
 ): Promise<void> {
   // Combine XML contents into a single string
   let finalXmlContent = combinedXmlContents.join("\n");
