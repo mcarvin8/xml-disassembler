@@ -1,3 +1,9 @@
+## [1.0.3](https://github.com/mcarvin8/xml-disassembler/compare/v1.0.2...v1.0.3) (2024-02-22)
+
+### Bug Fixes
+
+- switch to relative path in index ([25acde7](https://github.com/mcarvin8/xml-disassembler/commit/25acde788d15c9619e32de47230a1c408d573832))
+
 ## [1.0.3-release.1](https://github.com/mcarvin8/xml-disassembler/compare/v1.0.2...v1.0.3-release.1) (2024-02-22)
 
 ### Bug Fixes
