@@ -103,4 +103,14 @@ describe("main function", () => {
     // Ensure that the console.log spy was called with the correct message
     expect(console.log).toHaveBeenCalled();
   });
+  it("should purge the existing disassembled directory before disassembling the file.", async () => {
+    const handler = new DisassembleXMLFileHandler();
+    await handler.disassemble({
+      xmlPath: "test/baselines/array-of-leafs",
+      purge: true,
+    });
+
+    // Ensure that the console.log spy was called with the correct message
+    expect(console.log).toHaveBeenCalled();
+  });
 });
