@@ -1,3 +1,9 @@
+## [1.0.5](https://github.com/mcarvin8/xml-disassembler/compare/v1.0.4...v1.0.5) (2024-02-22)
+
+### Bug Fixes
+
+- dynamically get xml namespace and add to disassembled/reassembled files if defined ([59544ee](https://github.com/mcarvin8/xml-disassembler/commit/59544ee961f2aa637ca8c90a0b2477c0fa5aadb1))
+
 ## [1.0.4](https://github.com/mcarvin8/xml-disassembler/compare/v1.0.3...v1.0.4) (2024-02-22)
 
 ### Bug Fixes
