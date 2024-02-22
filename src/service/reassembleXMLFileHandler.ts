@@ -34,7 +34,7 @@ export class ReassembleXMLFileHandler {
 
   async processFilesForRootElement(
     dirPath: string,
-  ): Promise<string | undefined> {
+  ): Promise<[string, string | undefined] | undefined> {
     const files = await fs.readdir(dirPath);
     const xmlParser = new XMLParser(XML_PARSER_OPTION);
 
@@ -57,9 +57,15 @@ export class ReassembleXMLFileHandler {
           XmlElement
         >;
         const rootElementName = Object.keys(xmlParsed)[1];
+        const rootElement: XmlElement = xmlParsed[rootElementName];
+        let rootElementNamespace: string | undefined;
+        if (rootElement["@_xmlns"] !== undefined) {
+          rootElementNamespace = String(rootElement["@_xmlns"]);
+        } else {
+          rootElementNamespace = undefined;
+        }
         if (rootElementName !== undefined) {
-          // Found root element name, return it
-          return rootElementName;
+          return [rootElementName, rootElementNamespace];
         }
       }
     }
@@ -70,10 +76,9 @@ export class ReassembleXMLFileHandler {
 
   async reassemble(xmlAttributes: {
     xmlPath: string;
-    xmlNamespace?: string;
     fileExtension?: string;
   }): Promise<void> {
-    const { xmlPath, xmlNamespace, fileExtension } = xmlAttributes;
+    const { xmlPath, fileExtension } = xmlAttributes;
     const combinedXmlContents: string[] = [];
     const fileStat = await fs.stat(xmlPath);
 
@@ -95,8 +100,8 @@ export class ReassembleXMLFileHandler {
       }
     }
 
-    // Process at least one XML file to get the `rootElementName`
-    let rootElementName = await this.processFilesForRootElement(xmlPath);
+    // Process at least one XML file to get the `rootElementName` and `rootElementNamespace`
+    const rootResult = await this.processFilesForRootElement(xmlPath);
 
     const parentDirectory = path.dirname(xmlPath); // Get the parent directory path
     const subdirectoryBasename = path.basename(xmlPath);
@@ -105,12 +110,13 @@ export class ReassembleXMLFileHandler {
       : `${subdirectoryBasename}.xml`;
     const filePath = path.join(parentDirectory, fileName);
 
-    if (rootElementName !== undefined) {
+    if (rootResult !== undefined) {
+      const [rootElementName, rootElementNamespace] = rootResult;
       await buildReassembledFile(
         combinedXmlContents,
         filePath,
         rootElementName,
-        xmlNamespace,
+        rootElementNamespace,
       );
     } else {
       console.error("Root element name is undefined");

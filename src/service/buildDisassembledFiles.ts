@@ -18,9 +18,14 @@ export function buildDisassembledFiles(
 ): void {
   const xmlParser = new XMLParser(XML_PARSER_OPTION);
   const result = xmlParser.parse(xmlString) as Record<string, XmlElement>;
-
   const rootElementName = Object.keys(result)[1];
   const rootElement: XmlElement = result[rootElementName];
+  let rootElementNamespace: string | undefined;
+  if (rootElement["@_xmlns"] !== undefined) {
+    rootElementNamespace = String(rootElement["@_xmlns"]);
+  } else {
+    rootElementNamespace = undefined;
+  }
   let leafContent = "";
   let leafCount = 0;
 
@@ -37,6 +42,7 @@ export function buildDisassembledFiles(
               metadataPath,
               uniqueIdElements,
               rootElementName,
+              rootElementNamespace,
               key,
               indent,
             );
@@ -52,6 +58,7 @@ export function buildDisassembledFiles(
           metadataPath,
           uniqueIdElements,
           rootElementName,
+          rootElementNamespace,
           key,
           indent,
         );
@@ -66,7 +73,11 @@ export function buildDisassembledFiles(
 
   if (leafCount > 0) {
     let leafFile = `${XML_HEADER}\n`;
-    leafFile += `<${rootElementName}>\n`;
+    leafFile += `<${rootElementName}`;
+    if (rootElementNamespace) {
+      leafFile += ` xmlns="${rootElementNamespace}"`;
+    }
+    leafFile += `>\n`;
 
     const sortedLeafContent = leafContent
       .split("\n") // Split by lines
@@ -87,6 +98,7 @@ function buildNestedFile(
   metadataPath: string,
   uniqueIdElements: string | undefined,
   rootElementName: string,
+  rootElementNamespace: string | undefined,
   parentKey: string,
   indent: string,
 ): void {
@@ -104,7 +116,11 @@ function buildNestedFile(
   // Call the buildNestedElements to build the XML content string
   elementContent = buildNestedElements(element);
   let decomposeFileContents = `${XML_HEADER}\n`;
-  decomposeFileContents += `<${rootElementName}>\n`;
+  decomposeFileContents += `<${rootElementName}`;
+  if (rootElementNamespace) {
+    decomposeFileContents += ` xmlns="${rootElementNamespace}"`;
+  }
+  decomposeFileContents += `>\n`;
   decomposeFileContents += `${indent}<${parentKey}>\n`;
   decomposeFileContents += `${elementContent}\n`;
   decomposeFileContents += `${indent}</${parentKey}>\n`;

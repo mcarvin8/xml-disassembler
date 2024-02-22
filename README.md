@@ -127,7 +127,6 @@ Import the `ReassembleXMLFileHandler` class from the package.
 /* 
 FLAGS
 - xmlPath: Path to the disassembled XML files to reassemble (must be a directory)
-- xmlNamespace: (Optional) Namespace for the final XML (default: None)
 - fileExtension: (Optional) Desired file extension for the final XML (default: `.xml`)
 */
 import { ReassembleXMLFileHandler } from "xml-disassembler";
@@ -135,7 +134,6 @@ import { ReassembleXMLFileHandler } from "xml-disassembler";
 const handler = new ReassembleXMLFileHandler();
 await handler.reassemble({
   xmlPath: "test/baselines/general/HR_Admin",
-  xmlNamespace: "http://soap.sforce.com/2006/04/metadata",
   fileExtension: "permissionset-meta.xml",
 });
 ```
