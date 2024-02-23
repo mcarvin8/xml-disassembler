@@ -1,3 +1,9 @@
+## [1.0.6](https://github.com/mcarvin8/xml-disassembler/compare/v1.0.5...v1.0.6) (2024-02-23)
+
+### Bug Fixes
+
+- configure logging with log4js ([65b106a](https://github.com/mcarvin8/xml-disassembler/commit/65b106afac9206c3db4a9ef352e3b08d2085b051))
+
 ## [1.0.6-release.1](https://github.com/mcarvin8/xml-disassembler/compare/v1.0.5...v1.0.6-release.1) (2024-02-23)
 
 ### Bug Fixes
