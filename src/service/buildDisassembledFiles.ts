@@ -2,6 +2,7 @@
 
 import * as fs from "node:fs";
 import * as path from "node:path";
+import { logger } from "@src/index";
 import { XMLParser } from "fast-xml-parser";
 
 import { XML_HEADER } from "@src/helpers/constants";
@@ -89,7 +90,7 @@ export function buildDisassembledFiles(
     const leafOutputPath = path.join(metadataPath, `${baseName}.xml`);
     fs.writeFileSync(leafOutputPath, leafFile);
 
-    console.log(`All leaf elements saved to: ${leafOutputPath}`);
+    logger.debug(`All leaf elements saved to: ${leafOutputPath}`);
   }
 }
 
@@ -128,5 +129,5 @@ function buildNestedFile(
 
   // Write the XML content to the determined output path
   fs.writeFileSync(outputPath, decomposeFileContents);
-  console.log(`XML content saved to: ${outputPath}`);
+  logger.debug(`XML content saved to: ${outputPath}`);
 }

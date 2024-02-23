@@ -1,6 +1,7 @@
 "use strict";
 
 import * as fs from "node:fs/promises";
+import { logger } from "@src/index";
 import { XML_HEADER, INDENT } from "@src/helpers/constants";
 
 export async function buildReassembledFile(
@@ -54,5 +55,5 @@ export async function buildReassembledFile(
     filePath,
     `${XML_HEADER}\n${openTag}${finalXmlContent}${closeTag}`,
   );
-  console.log(`Created reassembled file: ${filePath}`);
+  logger.debug(`Created reassembled file: ${filePath}`);
 }
