@@ -154,6 +154,8 @@ To configure logging, import the `setLogLevel` function from the package and run
 
 The log file (`disassemble.log`) will be created when running the package in all cases, even when the `setLogLevel` is not explicity called as shown below. The file will be created but empty by default when running the `ReassembleXMLFileHandler` and `DisassembleXMLFileHandler` classes.
 
+**NOTE**: The logging package used, `log4js`, requires `fs-extra` to be installed in your project as a dependency (`npm install --save fs-extra`).
+
 ```typescript
 import {
   DisassembleXMLFileHandler,
