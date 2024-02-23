@@ -146,6 +146,44 @@ The reassembled XML file will be created in the parent directory of `xmlPath` an
 
 The XML parser, which uses the `fast-xml-parser` package, is configured to retain any Character Data (CDATA) values (`<![CDATA[some stuff]]>`) and comments (`<translation><!-- Four --></translation>`) in the original XML file.
 
+## Logging
+
+By default, the package will not print any debugging statements to the console.
+
+To configure logging, import the `setLogLevel` function from the package and run the function with `debug` to print debugging statements to a log file.
+
+The log file (`disassemble.log`) will be created when running the package in all cases, even when the `setLogLevel` is not explicity called as shown below. The file will be created but empty by default when running the `ReassembleXMLFileHandler` and `DisassembleXMLFileHandler` classes.
+
+**NOTE**: The logging package used, `log4js`, requires `fs-extra` to be installed in your project as a dependency (`npm install --save fs-extra`).
+
+```typescript
+import {
+  DisassembleXMLFileHandler,
+  ReassembleXMLFileHandler,
+  setLogLevel,
+} from "xml-disassembler";
+
+const debug: boolean = true;
+
+if (debug) {
+  setLogLevel("debug");
+}
+
+const disassembleHandler = new DisassembleXMLFileHandler();
+await disassembleHandler.disassemble({
+  xmlPath: "test/baselines/general",
+  uniqueIdElements:
+    "application,apexClass,name,externalDataSource,flow,object,apexPage,recordType,tab,field",
+  purge: true,
+});
+
+const reassembleHandler = new ReassembleXMLFileHandler();
+await reassembleHandler.reassemble({
+  xmlPath: "test/baselines/general/HR_Admin",
+  fileExtension: "permissionset-meta.xml",
+});
+```
+
 ## Template
 
 This project was created from a template provided by [Allan Oricil](https://github.com/AllanOricil). Thank you Allan!

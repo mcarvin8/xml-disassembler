@@ -1,5 +1,6 @@
 import * as fs from "node:fs/promises";
 import * as path from "node:path";
+import { logger } from "@src/index";
 import { XMLParser } from "fast-xml-parser";
 import { XmlElement, XML_PARSER_OPTION } from "@src/helpers/types";
 import { buildReassembledFile } from "@src/service/buildReassembledFiles";
@@ -83,6 +84,7 @@ export class ReassembleXMLFileHandler {
     const fileStat = await fs.stat(xmlPath);
 
     if (!fileStat.isDirectory()) {
+      logger.error("The provided xmlPath is not a directory.");
       throw new Error("The provided xmlPath is not a directory.");
     }
     // Process files directly inside the `xmlPath` directory
