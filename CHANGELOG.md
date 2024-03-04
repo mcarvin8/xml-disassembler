@@ -1,3 +1,9 @@
+## [1.0.7](https://github.com/mcarvin8/xml-disassembler/compare/v1.0.6...v1.0.7) (2024-03-04)
+
+### Bug Fixes
+
+- fix root element name check, improve logging messages to reach full code coverage ([9a4de6b](https://github.com/mcarvin8/xml-disassembler/commit/9a4de6b6bc91166d2e4af0f5ed7babf4d2b83dbf))
+
 ## [1.0.6](https://github.com/mcarvin8/xml-disassembler/compare/v1.0.5...v1.0.6) (2024-02-23)
 
 ### Bug Fixes
