@@ -6,3 +6,5 @@ src/**/*.js
 test/**/*.js
 .env
 package-lock.json
+
+disassemble.log

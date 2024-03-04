@@ -20,13 +20,9 @@ export class ReassembleXMLFileHandler {
     for (const file of files) {
       const filePath = path.join(dirPath, file);
       const fileStat = await fs.stat(filePath);
-      if (fileStat.isFile()) {
+      if (fileStat.isFile() && filePath.endsWith(".xml")) {
         const xmlContent = await fs.readFile(filePath, "utf-8");
         combinedXmlContents.push(xmlContent);
-      } else if (fileStat.isDirectory()) {
-        const subdirectoryContents =
-          await this.processFilesInDirectory(filePath);
-        combinedXmlContents.push(...subdirectoryContents); // Concatenate contents from subdirectories
       }
     }
 
@@ -50,7 +46,7 @@ export class ReassembleXMLFileHandler {
           // Found root element name, return it
           return result;
         }
-      } else if (fileStat.isFile()) {
+      } else if (fileStat.isFile() && filePath.endsWith(".xml")) {
         // Process files
         const xmlContent = await fs.readFile(filePath, "utf-8");
         const xmlParsed = xmlParser.parse(xmlContent) as Record<
@@ -65,7 +61,7 @@ export class ReassembleXMLFileHandler {
         } else {
           rootElementNamespace = undefined;
         }
-        if (rootElementName !== undefined) {
+        if (rootElementName !== undefined && rootElementName.length > 0) {
           return [rootElementName, rootElementNamespace];
         }
       }
@@ -85,14 +81,14 @@ export class ReassembleXMLFileHandler {
 
     if (!fileStat.isDirectory()) {
       logger.error("The provided xmlPath is not a directory.");
-      throw new Error("The provided xmlPath is not a directory.");
+      return;
     }
     // Process files directly inside the `xmlPath` directory
     const filesInxmlPath = await fs.readdir(xmlPath);
     for (const file of filesInxmlPath) {
       const filePath = path.join(xmlPath, file);
       const fileStat = await fs.stat(filePath);
-      if (fileStat.isFile()) {
+      if (fileStat.isFile() && filePath.endsWith(".xml")) {
         const xmlContent = await fs.readFile(filePath, "utf-8");
         combinedXmlContents.push(xmlContent);
       } else if (fileStat.isDirectory()) {
@@ -121,7 +117,8 @@ export class ReassembleXMLFileHandler {
         rootElementNamespace,
       );
     } else {
-      console.error("Root element name is undefined");
+      logger.error("Root element name is undefined");
+      return;
     }
   }
 }

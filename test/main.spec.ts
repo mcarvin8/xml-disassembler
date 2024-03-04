@@ -117,7 +117,7 @@ describe("main function", () => {
     // Ensure that the logger.debug spy was called with the correct message
     expect(logger.error).not.toHaveBeenCalled();
   });
-  it('should disassemble a XML file with no namespace."', async () => {
+  it("should disassemble a XML file with no namespace.", async () => {
     const handler = new DisassembleXMLFileHandler();
     await handler.disassemble({
       xmlPath: "test/baselines/no-namespace",
@@ -128,7 +128,7 @@ describe("main function", () => {
     // Ensure that the logger.debug spy was called with the correct message
     expect(logger.error).not.toHaveBeenCalled();
   });
-  it('should reassemble a XML file with no namespace."', async () => {
+  it("should reassemble a XML file with no namespace.", async () => {
     const handler = new ReassembleXMLFileHandler();
     await handler.reassemble({
       xmlPath: "test/baselines/no-namespace/HR_Admin",
@@ -137,5 +137,30 @@ describe("main function", () => {
 
     // Ensure that the logger.debug spy was called with the correct message
     expect(logger.error).not.toHaveBeenCalled();
+  });
+  it("should test disassemble error condition (file path provided).", async () => {
+    const handler = new DisassembleXMLFileHandler();
+    await handler.disassemble({
+      xmlPath: "test/baselines/no-namespace/HR_Admin.permissionset-meta.xml",
+    });
+
+    expect(logger.error).toHaveBeenCalled();
+  });
+  it("should test reassemble error condition (file path provided).", async () => {
+    const handler = new ReassembleXMLFileHandler();
+    await handler.reassemble({
+      xmlPath:
+        "test/baselines/no-namespace/HR_Admin/HR_Admin.permissionset-meta.xml",
+    });
+
+    expect(logger.error).toHaveBeenCalled();
+  });
+  it("should test reassemble error condition (no root element in XML).", async () => {
+    const handler = new ReassembleXMLFileHandler();
+    await handler.reassemble({
+      xmlPath: "test/baselines/no-root-element/Assessment_Bot",
+    });
+
+    expect(logger.error).toHaveBeenCalled();
   });
 });

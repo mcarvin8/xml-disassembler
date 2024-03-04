@@ -15,7 +15,7 @@ export class DisassembleXMLFileHandler {
 
     if (!fileStat.isDirectory()) {
       logger.error("The provided xmlPath is not a directory.");
-      throw new Error("The provided xmlPath is not a directory.");
+      return;
     }
     const files = await fs.readdir(xmlPath);
     for (const file of files) {
@@ -38,7 +38,7 @@ export class DisassembleXMLFileHandler {
     const { xmlPath, filePath, uniqueIdElements, purge } = xmlAttributes;
 
     if (filePath.endsWith(".xml")) {
-      logger.debug(`Parsing file: ${filePath}`);
+      logger.debug(`Parsing file to disassemble: ${filePath}`);
       const xmlContent = await fs.readFile(filePath, "utf-8");
       const fullName = path.basename(filePath, path.extname(filePath));
       const baseName = fullName.split(".")[0];

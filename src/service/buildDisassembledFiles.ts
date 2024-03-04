@@ -90,7 +90,7 @@ export function buildDisassembledFiles(
     const leafOutputPath = path.join(metadataPath, `${baseName}.xml`);
     fs.writeFileSync(leafOutputPath, leafFile);
 
-    logger.debug(`All leaf elements saved to: ${leafOutputPath}`);
+    logger.debug(`Created disassembled file: ${leafOutputPath}`);
   }
 }
 
@@ -129,5 +129,5 @@ function buildNestedFile(
 
   // Write the XML content to the determined output path
   fs.writeFileSync(outputPath, decomposeFileContents);
-  logger.debug(`XML content saved to: ${outputPath}`);
+  logger.debug(`Created disassembled file: ${outputPath}`);
 }
