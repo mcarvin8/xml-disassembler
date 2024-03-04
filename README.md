@@ -105,7 +105,7 @@ An XML with the following nested and leaf elements
 will be disassembled as such:
 
 - Each nested element (`<recordTypeVisibilities>`, `<applicationVisibilities>`, `pageAccesses`, etc.) will be disassembled into sub-directories by the nested element name. If a unique & required ID element (`application` is the unique ID element for `<applicationVisibilities>`) is found, the disassembled file will be named using it. Otherwise, the disassembled files for nested elements will be named using the SHA-256 of the element contents.
-- Each leaf element (`<description>`, `<label>`, `<userLicense>`) will be disassembled into the same file.
+- Each leaf element (`<description>`, `<label>`, `<userLicense>`) will be disassembled into the same file, which will have the same file-name as the original file.
 
 <img src="https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled.png">
 
@@ -114,10 +114,6 @@ will be disassembled as such:
 <img src="https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-hashes.png">
 
 <br>
-
-### File Handlers
-
-It is up to the user to add additional file handlers before they run the `DisassembleXMLFileHandler` class.
 
 ## Reassembling Files
 
@@ -141,6 +137,13 @@ await handler.reassemble({
 _NOTE_: You should be reassembling files created by this package's `DisassembleXMLFileHandler` class for intended results. This class will assume all disassembled files in `xmlPath` have the same XML Root Element.
 
 The reassembled XML file will be created in the parent directory of `xmlPath` and will overwrite the original file used to create the original disassembled directories, if it still exists and the `fileExtension` flag matches the original file extension.
+
+## Use Case
+
+Refer to the Salesforce plugin, [SFDX Decomposer](https://github.com/mcarvin8/sfdx-decomposer-plugin), to see a use case of this package:
+
+- [Disassemble Use Case](https://github.com/mcarvin8/sfdx-decomposer-plugin/blob/main/src/service/decomposeFileHandler.ts)
+- [Reassemble Use Case](https://github.com/mcarvin8/sfdx-decomposer-plugin/blob/main/src/service/recomposeFileHandler.ts)
 
 ## XML Parser
 
