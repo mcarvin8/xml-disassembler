@@ -1,3 +1,9 @@
+## [1.0.8](https://github.com/mcarvin8/xml-disassembler/compare/v1.0.7...v1.0.8) (2024-03-07)
+
+### Bug Fixes
+
+- do not disassemble files if the file only has leaf elements ([ca9efbb](https://github.com/mcarvin8/xml-disassembler/commit/ca9efbb64958b128e031d78e752025c814932fd8))
+
 ## [1.0.7](https://github.com/mcarvin8/xml-disassembler/compare/v1.0.6...v1.0.7) (2024-03-04)
 
 ### Bug Fixes
