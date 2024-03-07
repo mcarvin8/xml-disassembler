@@ -29,6 +29,7 @@ export function buildDisassembledFiles(
   }
   let leafContent = "";
   let leafCount = 0;
+  let hasNestedElements: boolean = false;
 
   // Iterate through child elements to find the field name for each
   Object.keys(rootElement)
@@ -47,6 +48,7 @@ export function buildDisassembledFiles(
               key,
               indent,
             );
+            hasNestedElements = true;
           } else {
             const fieldValue = element;
             leafContent += `${indent}<${key}>${String(fieldValue)}</${key}>\n`;
@@ -63,6 +65,7 @@ export function buildDisassembledFiles(
           key,
           indent,
         );
+        hasNestedElements = true;
       } else {
         // Process XML elements that do not have children (e.g., leaf elements)
         const fieldValue = rootElement[key];
@@ -71,6 +74,13 @@ export function buildDisassembledFiles(
         leafCount++;
       }
     });
+
+  if (!hasNestedElements) {
+    logger.error(
+      `The XML file ${baseName}.xml only has leaf elements. This file will not be disassembled.`,
+    );
+    return;
+  }
 
   if (leafCount > 0) {
     let leafFile = `${XML_HEADER}\n`;

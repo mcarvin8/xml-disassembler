@@ -163,4 +163,12 @@ describe("main function", () => {
 
     expect(logger.error).toHaveBeenCalled();
   });
+  it("should test disassemble error condition (XML file only has leaf elements).", async () => {
+    const handler = new DisassembleXMLFileHandler();
+    await handler.disassemble({
+      xmlPath: "test/baselines/no-nested-elements",
+    });
+
+    expect(logger.error).toHaveBeenCalled();
+  });
 });
