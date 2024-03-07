@@ -155,6 +155,14 @@ describe("main function", () => {
 
     expect(logger.error).toHaveBeenCalled();
   });
+  it("should test disassemble error condition (no root element in XML).", async () => {
+    const handler = new DisassembleXMLFileHandler();
+    await handler.disassemble({
+      xmlPath: "test/baselines/no-root-element",
+    });
+
+    expect(logger.error).toHaveBeenCalled();
+  });
   it("should test reassemble error condition (no root element in XML).", async () => {
     const handler = new ReassembleXMLFileHandler();
     await handler.reassemble({

@@ -14,7 +14,7 @@ export class DisassembleXMLFileHandler {
     const fileStat = await fs.stat(xmlPath);
 
     if (!fileStat.isDirectory()) {
-      logger.error("The provided xmlPath is not a directory.");
+      logger.error(`The provided xmlPath ${xmlPath} is not a directory.`);
       return;
     }
     const files = await fs.readdir(xmlPath);

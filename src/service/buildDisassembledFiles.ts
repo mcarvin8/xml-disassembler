@@ -20,6 +20,10 @@ export function buildDisassembledFiles(
   const xmlParser = new XMLParser(XML_PARSER_OPTION);
   const result = xmlParser.parse(xmlString) as Record<string, XmlElement>;
   const rootElementName = Object.keys(result)[1];
+  if (rootElementName.length === 0) {
+    logger.error(`A Root Element Name was not found in ${baseName}.xml`);
+    return;
+  }
   const rootElement: XmlElement = result[rootElementName];
   let rootElementNamespace: string | undefined;
   if (rootElement["@_xmlns"] !== undefined) {

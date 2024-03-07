@@ -80,7 +80,7 @@ export class ReassembleXMLFileHandler {
     const fileStat = await fs.stat(xmlPath);
 
     if (!fileStat.isDirectory()) {
-      logger.error("The provided xmlPath is not a directory.");
+      logger.error(`The provided xmlPath ${xmlPath} is not a directory.`);
       return;
     }
     // Process files directly inside the `xmlPath` directory
@@ -117,7 +117,9 @@ export class ReassembleXMLFileHandler {
         rootElementNamespace,
       );
     } else {
-      logger.error("Root element name is undefined");
+      logger.error(
+        `A Root Element Name was not found in any files under ${xmlPath}`,
+      );
       return;
     }
   }

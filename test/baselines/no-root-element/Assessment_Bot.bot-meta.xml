@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<>
+    <description>Bot that does an assessment based on the configured assessment metadata</description>
+    <label>Assessment Bot</label>
+    <logPrivateConversationData>true</logPrivateConversationData>
+    <botMlDomain>
+        <label>Assessment Bot</label>
+        <name>Assessment_Bot</name>
+    </botMlDomain>
+</>
