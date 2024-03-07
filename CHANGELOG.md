@@ -1,3 +1,9 @@
+## [1.0.9](https://github.com/mcarvin8/xml-disassembler/compare/v1.0.8...v1.0.9) (2024-03-07)
+
+### Bug Fixes
+
+- ensure root element name is not empty when disassembling ([41fdd6f](https://github.com/mcarvin8/xml-disassembler/commit/41fdd6f6b74d2665e0e62079cc5828513b7452b0))
+
 ## [1.0.8](https://github.com/mcarvin8/xml-disassembler/compare/v1.0.7...v1.0.8) (2024-03-07)
 
 ### Bug Fixes
