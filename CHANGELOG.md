@@ -1,3 +1,9 @@
+## [1.0.10-beta.1](https://github.com/mcarvin8/xml-disassembler/compare/v1.0.9...v1.0.10-beta.1) (2024-03-07)
+
+### Bug Fixes
+
+- sort files based on name in root path ([f21c989](https://github.com/mcarvin8/xml-disassembler/commit/f21c989e29c08b7f32913a507cc2d1540feb8549))
+
 ## [1.0.9](https://github.com/mcarvin8/xml-disassembler/compare/v1.0.8...v1.0.9) (2024-03-07)
 
 ### Bug Fixes

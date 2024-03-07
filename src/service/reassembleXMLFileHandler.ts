@@ -85,6 +85,14 @@ export class ReassembleXMLFileHandler {
     }
     // Process files directly inside the `xmlPath` directory
     const filesInxmlPath = await fs.readdir(xmlPath);
+
+    // Sort files based on the name
+    filesInxmlPath.sort((fileA, fileB) => {
+      const fullNameA = fileA.split(".")[0].toLowerCase();
+      const fullNameB = fileB.split(".")[0].toLowerCase();
+      return fullNameA.localeCompare(fullNameB);
+    });
+
     for (const file of filesInxmlPath) {
       const filePath = path.join(xmlPath, file);
       const fileStat = await fs.stat(filePath);
