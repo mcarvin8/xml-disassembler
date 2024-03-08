@@ -1,3 +1,4 @@
+import * as fs from "node:fs/promises";
 import {
   DisassembleXMLFileHandler,
   ReassembleXMLFileHandler,
@@ -24,12 +25,13 @@ describe("main function", () => {
       xmlPath: "test/baselines/general",
       uniqueIdElements:
         "application,apexClass,name,externalDataSource,flow,object,apexPage,recordType,tab,field",
+      postPurge: true,
     });
 
     // Ensure that the logger.debug spy was called with the correct message
     expect(logger.error).not.toHaveBeenCalled();
   });
-  it('should reassemble a general XML file (nested and leaf elements) with a namespace and file extension."', async () => {
+  it('should reassemble a general XML file (nested and leaf elements) with a namespace and alternate file extension."', async () => {
     const handler = new ReassembleXMLFileHandler();
     await handler.reassemble({
       xmlPath: "test/baselines/general/HR_Admin",
@@ -44,16 +46,23 @@ describe("main function", () => {
     await handler.disassemble({
       xmlPath: "test/baselines/cdata",
       uniqueIdElements: "apiName",
+      postPurge: true,
     });
 
     // Ensure that the logger.debug spy was called with the correct message
     expect(logger.error).not.toHaveBeenCalled();
   });
-  it("should reassemble a XML file with CDATA.", async () => {
+  it("should reassemble a XML file with CDATA and use the default file extension.", async () => {
     const handler = new ReassembleXMLFileHandler();
     await handler.reassemble({
       xmlPath: "test/baselines/cdata/VidLand_US",
     });
+
+    // rename file manually to confirm file is identical to baseline
+    fs.rename(
+      "test/baselines/cdata/VidLand_US.xml",
+      "test/baselines/cdata/VidLand_US.marketingappextension-meta.xml",
+    );
 
     // Ensure that the logger.debug spy was called with the correct message
     expect(logger.error).not.toHaveBeenCalled();
@@ -63,6 +72,7 @@ describe("main function", () => {
     await handler.disassemble({
       xmlPath: "test/baselines/comments",
       uniqueIdElements: "invalid",
+      postPurge: true,
     });
 
     // Ensure that the logger.debug spy was called with the correct message
@@ -72,6 +82,7 @@ describe("main function", () => {
     const handler = new ReassembleXMLFileHandler();
     await handler.reassemble({
       xmlPath: "test/baselines/comments/Numbers-fr",
+      fileExtension: "globalValueSetTranslation-meta.xml",
     });
 
     // Ensure that the logger.debug spy was called with the correct message
@@ -83,6 +94,17 @@ describe("main function", () => {
       xmlPath: "test/baselines/child-unique-id-element",
       uniqueIdElements:
         "apexClass,name,object,field,layout,actionName,targetReference,assignToReference,choiceText,promptText",
+      postPurge: true,
+    });
+
+    // Ensure that the logger.debug spy was called with the correct message
+    expect(logger.error).not.toHaveBeenCalled();
+  });
+  it("should reassemble a XML file with a deeply nested unique ID element.", async () => {
+    const handler = new ReassembleXMLFileHandler();
+    await handler.reassemble({
+      xmlPath: "test/baselines/child-unique-id-element/Get_Info",
+      fileExtension: "flow-meta.xml",
     });
 
     // Ensure that the logger.debug spy was called with the correct message
@@ -92,12 +114,13 @@ describe("main function", () => {
     const handler = new DisassembleXMLFileHandler();
     await handler.disassemble({
       xmlPath: "test/baselines/array-of-leafs",
+      postPurge: true,
     });
 
     // Ensure that the logger.debug spy was called with the correct message
     expect(logger.error).not.toHaveBeenCalled();
   });
-  it("should disassemble a XML file with an array of leaf elements and no defined unique ID element.", async () => {
+  it("should reassemble a XML file with an array of leaf elements and no defined unique ID element.", async () => {
     const handler = new ReassembleXMLFileHandler();
     await handler.reassemble({
       xmlPath: "test/baselines/array-of-leafs/Dreamhouse",
@@ -111,7 +134,18 @@ describe("main function", () => {
     const handler = new DisassembleXMLFileHandler();
     await handler.disassemble({
       xmlPath: "test/baselines/array-of-leafs",
-      purge: true,
+      prePurge: true,
+      postPurge: true,
+    });
+
+    // Ensure that the logger.debug spy was called with the correct message
+    expect(logger.error).not.toHaveBeenCalled();
+  });
+  it("should reassemble the files from the previous test (prePurge).", async () => {
+    const handler = new ReassembleXMLFileHandler();
+    await handler.reassemble({
+      xmlPath: "test/baselines/array-of-leafs/Dreamhouse",
+      fileExtension: "app-meta.xml",
     });
 
     // Ensure that the logger.debug spy was called with the correct message
@@ -124,6 +158,10 @@ describe("main function", () => {
       uniqueIdElements:
         "application,apexClass,name,externalDataSource,flow,object,apexPage,recordType,tab,field",
     });
+
+    // Delete the original file manaully to ensure false "postPurge" is tested
+    // but ensure the file is recreated by the next test
+    fs.unlink("test/baselines/no-namespace/HR_Admin.permissionset-meta.xml");
 
     // Ensure that the logger.debug spy was called with the correct message
     expect(logger.error).not.toHaveBeenCalled();

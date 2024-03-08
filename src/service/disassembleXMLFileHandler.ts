@@ -8,9 +8,15 @@ export class DisassembleXMLFileHandler {
   async disassemble(xmlAttributes: {
     xmlPath: string;
     uniqueIdElements?: string;
-    purge?: boolean;
+    prePurge?: boolean;
+    postPurge?: boolean;
   }): Promise<void> {
-    const { xmlPath, uniqueIdElements, purge = false } = xmlAttributes;
+    const {
+      xmlPath,
+      uniqueIdElements,
+      prePurge = false,
+      postPurge = false,
+    } = xmlAttributes;
     const fileStat = await fs.stat(xmlPath);
 
     if (!fileStat.isDirectory()) {
@@ -24,7 +30,8 @@ export class DisassembleXMLFileHandler {
         xmlPath,
         filePath,
         uniqueIdElements,
-        purge,
+        prePurge,
+        postPurge,
       });
     }
   }
@@ -33,9 +40,11 @@ export class DisassembleXMLFileHandler {
     xmlPath: string;
     filePath: string;
     uniqueIdElements?: string;
-    purge?: boolean;
+    prePurge: boolean;
+    postPurge: boolean;
   }): Promise<void> {
-    const { xmlPath, filePath, uniqueIdElements, purge } = xmlAttributes;
+    const { xmlPath, filePath, uniqueIdElements, prePurge, postPurge } =
+      xmlAttributes;
 
     if (filePath.endsWith(".xml")) {
       logger.debug(`Parsing file to disassemble: ${filePath}`);
@@ -46,7 +55,7 @@ export class DisassembleXMLFileHandler {
       let outputPath;
       outputPath = path.join(xmlPath, baseName);
 
-      if (purge) {
+      if (prePurge) {
         await fs.rm(outputPath, { recursive: true });
       }
 
@@ -56,6 +65,8 @@ export class DisassembleXMLFileHandler {
         uniqueIdElements,
         fullName,
         INDENT,
+        postPurge,
+        xmlPath,
       );
     }
   }

@@ -29,6 +29,8 @@ npm install xml-disassembler
 
 ## Disassembling Files
 
+Disassemble 1 or multiple XML files in the immediate directory (`xmlPath`), without recursion. Each XML will be disassembled into their own sub-directories using their base name (everything before the first `.` in the file-name).
+
 Import the `DisassembleXMLFileHandler` class from the package.
 
 ```typescript
@@ -37,8 +39,10 @@ FLAGS
 - xmlPath: Directory containing the XML files to disassemble (must be directory). This will only disassemble files in the immediate directory.
 - uniqueIdElements: (Optional) Comma-separated list of unique and required ID elements used to name disassembled files for nested elements. 
                                Defaults to SHA-256 hash if unique ID elements are undefined or not found.
-- purge: (Optional) Boolean value. If set to true, purge pre-existing disassembled directories prior to disassembling the file.
+- prePurge:  (Optional) Boolean value. If set to true, purge pre-existing disassembled directories prior to disassembling the file.
                                Defaults to false.
+- postPurge: (Optional) Boolean value. If set to true, purge the original XML file after disassembling it.
+                               Defaults to false.                               
 */
 import { DisassembleXMLFileHandler } from "xml-disassembler";
 
@@ -47,7 +51,8 @@ await handler.disassemble({
   xmlPath: "test/baselines/general",
   uniqueIdElements:
     "application,apexClass,name,externalDataSource,flow,object,apexPage,recordType,tab,field",
-  purge: true,
+  prePurge: true,
+  postPurge: true,
 });
 ```
 
@@ -117,6 +122,8 @@ will be disassembled as such:
 
 ## Reassembling Files
 
+Reassemble 1 XML directory (`xmlPath`) containing disassembled files back into 1 XML file.
+
 Import the `ReassembleXMLFileHandler` class from the package.
 
 ```typescript
@@ -177,7 +184,8 @@ await disassembleHandler.disassemble({
   xmlPath: "test/baselines/general",
   uniqueIdElements:
     "application,apexClass,name,externalDataSource,flow,object,apexPage,recordType,tab,field",
-  purge: true,
+  prePurge: true,
+  postPurge: true,
 });
 
 const reassembleHandler = new ReassembleXMLFileHandler();
