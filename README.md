@@ -200,3 +200,7 @@ await reassembleHandler.reassemble({
 This project was created from a template provided by [Allan Oricil](https://github.com/AllanOricil). Thank you Allan!
 
 His original [license](https://github.com/AllanOricil/js-template/blob/main/LICENSE) remains in this project.
+
+## Contributing
+
+Any contributions you would like to make are appreciated. Please see [CONTRIBUTING](https://github.com/mcarvin8/xml-disassembler/blob/main/CONTRIBUTING.md).
