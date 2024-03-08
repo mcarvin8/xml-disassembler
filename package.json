@@ -36,6 +36,7 @@
     "@semantic-release/github": "^9.2.6",
     "@semantic-release/npm": "^11.0.2",
     "@semantic-release/release-notes-generator": "^12.1.0",
+    "@types/fs-extra": "^11.0.4",
     "@types/jest": "^29.5.11",
     "@types/node": "^20.11.19",
     "eslint": "^8.56.0",
