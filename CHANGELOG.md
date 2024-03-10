@@ -1,3 +1,9 @@
+## [1.1.1-beta.2](https://github.com/mcarvin8/xml-disassembler/compare/v1.1.1-beta.1...v1.1.1-beta.2) (2024-03-10)
+
+### Bug Fixes
+
+- revert reassemble class due to TS2307: Cannot find module '@src/helpers/types' ([74a3300](https://github.com/mcarvin8/xml-disassembler/commit/74a3300142cc7f60537e68964d32d4e3da062192))
+
 ## [1.1.1-beta.1](https://github.com/mcarvin8/xml-disassembler/compare/v1.1.0...v1.1.1-beta.1) (2024-03-10)
 
 ### Bug Fixes
