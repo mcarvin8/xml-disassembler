@@ -1,3 +1,10 @@
+# [1.1.0-beta.1](https://github.com/mcarvin8/xml-disassembler/compare/v1.0.10...v1.1.0-beta.1) (2024-03-10)
+
+### Features
+
+- rename `purge` flag to `prePurge` and add `postPurge` flag to disassemble class ([ff9fdc3](https://github.com/mcarvin8/xml-disassembler/commit/ff9fdc326aa745bdb0fcd88fb000de64e2624427))
+- use fast xml parser for reassembly ([bf045a9](https://github.com/mcarvin8/xml-disassembler/commit/bf045a942e7a3d918999df8ff770255db2a5e785))
+
 ## [1.0.10](https://github.com/mcarvin8/xml-disassembler/compare/v1.0.9...v1.0.10) (2024-03-07)
 
 ### Bug Fixes
