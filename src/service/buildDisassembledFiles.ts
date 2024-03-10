@@ -1,6 +1,7 @@
 "use strict";
 
 import * as fs from "node:fs";
+import * as promise from "node:fs/promises";
 import * as path from "node:path";
 import { logger } from "@src/index";
 import { XMLParser } from "fast-xml-parser";
@@ -16,6 +17,8 @@ export function buildDisassembledFiles(
   uniqueIdElements: string | undefined,
   baseName: string,
   indent: string,
+  postPurge: boolean,
+  parentPath: string,
 ): void {
   const xmlParser = new XMLParser(XML_PARSER_OPTION);
   const result = xmlParser.parse(xmlString) as Record<string, XmlElement>;
@@ -105,6 +108,10 @@ export function buildDisassembledFiles(
     fs.writeFileSync(leafOutputPath, leafFile);
 
     logger.debug(`Created disassembled file: ${leafOutputPath}`);
+    if (postPurge) {
+      const originalFilePath = path.resolve(`${parentPath}/${baseName}.xml`);
+      promise.unlink(originalFilePath);
+    }
   }
 }
 
