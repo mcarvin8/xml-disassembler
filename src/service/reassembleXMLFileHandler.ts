@@ -6,14 +6,13 @@ import { XmlElement, XML_PARSER_OPTION } from "@src/helpers/types";
 import { buildReassembledFile } from "@src/service/buildReassembledFiles";
 import { buildNestedElements } from "@src/service/buildNestedElements";
 
-const xmlParser = new XMLParser(XML_PARSER_OPTION);
-
 export class ReassembleXMLFileHandler {
   async processFilesInDirectory(
     dirPath: string,
   ): Promise<[string[], [string, string | undefined] | undefined]> {
     const combinedXmlContents: string[] = [];
     let rootResult: [string, string | undefined] | undefined = undefined;
+    const xmlParser = new XMLParser(XML_PARSER_OPTION);
 
     const files = await fs.readdir(dirPath);
 
@@ -71,6 +70,7 @@ export class ReassembleXMLFileHandler {
     const { xmlPath, fileExtension } = xmlAttributes;
     const combinedXmlContents: string[] = [];
     const fileStat = await fs.stat(xmlPath);
+    const xmlParser = new XMLParser(XML_PARSER_OPTION);
 
     if (!fileStat.isDirectory()) {
       logger.error(
