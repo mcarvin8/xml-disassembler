@@ -4,16 +4,10 @@ import { logger } from "@src/index";
 import { XMLParser } from "fast-xml-parser";
 import { XmlElement, XML_PARSER_OPTION } from "@src/helpers/types";
 import { buildReassembledFile } from "@src/service/buildReassembledFiles";
-import { buildNestedElements } from "@src/service/buildNestedElements";
 
 export class ReassembleXMLFileHandler {
-  async processFilesInDirectory(
-    dirPath: string,
-  ): Promise<[string[], [string, string | undefined] | undefined]> {
+  async processFilesInDirectory(dirPath: string): Promise<string[]> {
     const combinedXmlContents: string[] = [];
-    let rootResult: [string, string | undefined] | undefined = undefined;
-    const xmlParser = new XMLParser(XML_PARSER_OPTION);
-
     const files = await fs.readdir(dirPath);
 
     // Sort files based on the name
@@ -28,37 +22,51 @@ export class ReassembleXMLFileHandler {
       const fileStat = await fs.stat(filePath);
       if (fileStat.isFile() && filePath.endsWith(".xml")) {
         const xmlContent = await fs.readFile(filePath, "utf-8");
+        combinedXmlContents.push(xmlContent);
+      }
+    }
+
+    return combinedXmlContents;
+  }
+
+  async processFilesForRootElement(
+    dirPath: string,
+  ): Promise<[string, string | undefined] | undefined> {
+    const files = await fs.readdir(dirPath);
+    const xmlParser = new XMLParser(XML_PARSER_OPTION);
+
+    for (const file of files) {
+      const filePath = path.join(dirPath, file);
+      const fileStat = await fs.stat(filePath);
+
+      if (fileStat.isDirectory()) {
+        // Recursively process files in subdirectory
+        const result = await this.processFilesForRootElement(filePath);
+        if (result !== undefined) {
+          // Found root element name, return it
+          return result;
+        }
+      } else if (fileStat.isFile() && filePath.endsWith(".xml")) {
+        // Process files
+        const xmlContent = await fs.readFile(filePath, "utf-8");
         const xmlParsed = xmlParser.parse(xmlContent) as Record<
           string,
           XmlElement
         >;
-        const rootResultFromFile =
-          await this.processFilesForRootElement(xmlParsed);
-        if (rootResultFromFile && !rootResult) {
-          rootResult = rootResultFromFile;
+        const rootElementName = Object.keys(xmlParsed)[1];
+        const rootElement: XmlElement = xmlParsed[rootElementName];
+        let rootElementNamespace: string | undefined;
+        if (rootElement["@_xmlns"] !== undefined) {
+          rootElementNamespace = String(rootElement["@_xmlns"]);
+        } else {
+          rootElementNamespace = undefined;
         }
-        const combinedXmlString = buildNestedElements(xmlParsed, 0);
-        combinedXmlContents.push(combinedXmlString);
+        if (rootElementName !== undefined && rootElementName.length > 0) {
+          return [rootElementName, rootElementNamespace];
+        }
       }
     }
 
-    return [combinedXmlContents, rootResult];
-  }
-
-  async processFilesForRootElement(
-    xmlParsed: Record<string, XmlElement>,
-  ): Promise<[string, string | undefined] | undefined> {
-    const rootElementName = Object.keys(xmlParsed)[1];
-    const rootElement: XmlElement = xmlParsed[rootElementName];
-    let rootElementNamespace: string | undefined;
-    if (rootElement["@_xmlns"] !== undefined) {
-      rootElementNamespace = String(rootElement["@_xmlns"]);
-    } else {
-      rootElementNamespace = undefined;
-    }
-    if (rootElementName !== undefined && rootElementName.length > 0) {
-      return [rootElementName, rootElementNamespace];
-    }
     // No root element name found in any files
     return undefined;
   }
@@ -70,15 +78,11 @@ export class ReassembleXMLFileHandler {
     const { xmlPath, fileExtension } = xmlAttributes;
     const combinedXmlContents: string[] = [];
     const fileStat = await fs.stat(xmlPath);
-    const xmlParser = new XMLParser(XML_PARSER_OPTION);
 
     if (!fileStat.isDirectory()) {
-      logger.error(
-        `The provided xmlPath ${xmlPath} to reassemble is not a directory.`,
-      );
+      logger.error(`The provided xmlPath ${xmlPath} is not a directory.`);
       return;
     }
-    logger.debug(`Parsing directory to reassemble: ${xmlPath}`);
     // Process files directly inside the `xmlPath` directory
     const filesInxmlPath = await fs.readdir(xmlPath);
 
@@ -89,28 +93,21 @@ export class ReassembleXMLFileHandler {
       return fullNameA.localeCompare(fullNameB);
     });
 
-    let rootResult: [string, string | undefined] | undefined = undefined;
     for (const file of filesInxmlPath) {
       const filePath = path.join(xmlPath, file);
       const fileStat = await fs.stat(filePath);
       if (fileStat.isFile() && filePath.endsWith(".xml")) {
         const xmlContent = await fs.readFile(filePath, "utf-8");
-        const xmlParsed = xmlParser.parse(xmlContent) as Record<
-          string,
-          XmlElement
-        >;
-        rootResult = await this.processFilesForRootElement(xmlParsed);
-        const combinedXmlString = buildNestedElements(xmlParsed, 0);
-        combinedXmlContents.push(combinedXmlString);
+        combinedXmlContents.push(xmlContent);
       } else if (fileStat.isDirectory()) {
-        const [subdirectoryContents, subdirectoryRootResult] =
+        const subdirectoryContents =
           await this.processFilesInDirectory(filePath);
         combinedXmlContents.push(...subdirectoryContents); // Concatenate contents from subdirectories
-        if (subdirectoryRootResult && !rootResult) {
-          rootResult = subdirectoryRootResult;
-        }
       }
     }
+
+    // Process at least one XML file to get the `rootElementName` and `rootElementNamespace`
+    const rootResult = await this.processFilesForRootElement(xmlPath);
 
     const parentDirectory = path.dirname(xmlPath); // Get the parent directory path
     const subdirectoryBasename = path.basename(xmlPath);
