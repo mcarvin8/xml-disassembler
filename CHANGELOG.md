@@ -1,3 +1,9 @@
+## [1.1.1-beta.1](https://github.com/mcarvin8/xml-disassembler/compare/v1.1.0...v1.1.1-beta.1) (2024-03-10)
+
+### Bug Fixes
+
+- move xmlParser constant ([628f826](https://github.com/mcarvin8/xml-disassembler/commit/628f8264c35d1c9494c6bde64ec1bb795672a2a3))
+
 # [1.1.0](https://github.com/mcarvin8/xml-disassembler/compare/v1.0.10...v1.1.0) (2024-03-10)
 
 ### Features
