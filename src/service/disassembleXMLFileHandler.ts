@@ -26,13 +26,15 @@ export class DisassembleXMLFileHandler {
     const files = await fs.readdir(xmlPath);
     for (const file of files) {
       const filePath = path.join(xmlPath, file);
-      await this.processFile({
-        xmlPath,
-        filePath,
-        uniqueIdElements,
-        prePurge,
-        postPurge,
-      });
+      if (filePath.endsWith(".xml")) {
+        await this.processFile({
+          xmlPath,
+          filePath,
+          uniqueIdElements,
+          prePurge,
+          postPurge,
+        });
+      }
     }
   }
 
@@ -46,28 +48,26 @@ export class DisassembleXMLFileHandler {
     const { xmlPath, filePath, uniqueIdElements, prePurge, postPurge } =
       xmlAttributes;
 
-    if (filePath.endsWith(".xml")) {
-      logger.debug(`Parsing file to disassemble: ${filePath}`);
-      const xmlContent = await fs.readFile(filePath, "utf-8");
-      const fullName = path.basename(filePath, path.extname(filePath));
-      const baseName = fullName.split(".")[0];
+    logger.debug(`Parsing file to disassemble: ${filePath}`);
+    const xmlContent = await fs.readFile(filePath, "utf-8");
+    const fullName = path.basename(filePath, path.extname(filePath));
+    const baseName = fullName.split(".")[0];
 
-      let outputPath;
-      outputPath = path.join(xmlPath, baseName);
+    let outputPath;
+    outputPath = path.join(xmlPath, baseName);
 
-      if (prePurge) {
-        await fs.rm(outputPath, { recursive: true });
-      }
-
-      buildDisassembledFiles(
-        xmlContent,
-        outputPath,
-        uniqueIdElements,
-        fullName,
-        INDENT,
-        postPurge,
-        xmlPath,
-      );
+    if (prePurge) {
+      await fs.rm(outputPath, { recursive: true });
     }
+
+    buildDisassembledFiles(
+      xmlContent,
+      outputPath,
+      uniqueIdElements,
+      fullName,
+      INDENT,
+      postPurge,
+      xmlPath,
+    );
   }
 }
