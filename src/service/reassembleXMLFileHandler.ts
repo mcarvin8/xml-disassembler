@@ -80,9 +80,12 @@ export class ReassembleXMLFileHandler {
     const fileStat = await fs.stat(xmlPath);
 
     if (!fileStat.isDirectory()) {
-      logger.error(`The provided xmlPath ${xmlPath} is not a directory.`);
+      logger.error(
+        `The provided xmlPath ${xmlPath} to reassemble is not a directory.`,
+      );
       return;
     }
+    logger.debug(`Parsing directory to reassemble: ${xmlPath}`);
     // Process files directly inside the `xmlPath` directory
     const filesInxmlPath = await fs.readdir(xmlPath);
 
