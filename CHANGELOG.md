@@ -1,3 +1,9 @@
+## [1.1.2-beta.1](https://github.com/mcarvin8/xml-disassembler/compare/v1.1.1...v1.1.2-beta.1) (2024-03-10)
+
+### Bug Fixes
+
+- revert class to use fast xml parser and move build nested elements function to class ([0febc42](https://github.com/mcarvin8/xml-disassembler/commit/0febc427270e185c28469b4bcfe748e302d73ac3))
+
 ## [1.1.1](https://github.com/mcarvin8/xml-disassembler/compare/v1.1.0...v1.1.1) (2024-03-10)
 
 ### Bug Fixes
