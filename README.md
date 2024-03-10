@@ -29,36 +29,11 @@ npm install xml-disassembler
 
 ## Disassembling Files
 
-Disassemble 1 or multiple XML files in the immediate directory (`xmlPath`), without recursion. Each XML will be disassembled into their own sub-directories using their base name (everything before the first `.` in the file-name).
-
-Import the `DisassembleXMLFileHandler` class from the package.
-
-```typescript
-/* 
-FLAGS
-- xmlPath: Directory containing the XML files to disassemble (must be directory). This will only disassemble files in the immediate directory.
-- uniqueIdElements: (Optional) Comma-separated list of unique and required ID elements used to name disassembled files for nested elements. 
-                               Defaults to SHA-256 hash if unique ID elements are undefined or not found.
-- prePurge:  (Optional) Boolean value. If set to true, purge pre-existing disassembled directories prior to disassembling the file.
-                               Defaults to false.
-- postPurge: (Optional) Boolean value. If set to true, purge the original XML file after disassembling it.
-                               Defaults to false.                               
-*/
-import { DisassembleXMLFileHandler } from "xml-disassembler";
-
-const handler = new DisassembleXMLFileHandler();
-await handler.disassemble({
-  xmlPath: "test/baselines/general",
-  uniqueIdElements:
-    "application,apexClass,name,externalDataSource,flow,object,apexPage,recordType,tab,field",
-  prePurge: true,
-  postPurge: true,
-});
-```
+Disassemble 1 or multiple XML files in the immediate directory (`xmlPath`), without recursion. Each XML file will be disassembled into their own sub-directories using their base name (everything before the first `.` in the file-name).
 
 Example:
 
-An XML with the following nested and leaf elements
+An XML file (`HR_Admin.permissionset-meta.xml`) with the following nested and leaf elements
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -107,10 +82,10 @@ An XML with the following nested and leaf elements
 </PermissionSet>
 ```
 
-will be disassembled as such:
+will be disassembled into a sub-directory named `HR_Admin` as such:
 
-- Each nested element (`<recordTypeVisibilities>`, `<applicationVisibilities>`, `pageAccesses`, etc.) will be disassembled into sub-directories by the nested element name. If a unique & required ID element (`application` is the unique ID element for `<applicationVisibilities>`) is found, the disassembled file will be named using it. Otherwise, the disassembled files for nested elements will be named using the SHA-256 of the element contents.
-- Each leaf element (`<description>`, `<label>`, `<userLicense>`) will be disassembled into the same file, which will have the same file-name as the original file.
+- Each nested element (`<recordTypeVisibilities>`, `<applicationVisibilities>`, `pageAccesses`, etc.) will be disassembled into further sub-directories by the nested element name. If a unique & required ID element (`application` is the unique ID element for `<applicationVisibilities>`) is found, the disassembled file will be named using it. Otherwise, the disassembled files for nested elements will be named using the SHA-256 of the element contents.
+- Each leaf element (`<description>`, `<label>`, `<userLicense>`) will be disassembled into the same file in the first sub-directory, which will have the same file-name as the original file.
 
 <img src="https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled.png">
 
@@ -120,9 +95,36 @@ will be disassembled as such:
 
 <br>
 
+Import the `DisassembleXMLFileHandler` class from the package.
+
+```typescript
+/* 
+FLAGS
+- xmlPath: Directory containing the XML files to disassemble (must be directory). This will only disassemble files in the immediate directory.
+- uniqueIdElements: (Optional) Comma-separated list of unique and required ID elements used to name disassembled files for nested elements. 
+                               Defaults to SHA-256 hash if unique ID elements are undefined or not found.
+- prePurge:  (Optional) Boolean value. If set to true, purge pre-existing disassembled directories prior to disassembling the file.
+                               Defaults to false.
+- postPurge: (Optional) Boolean value. If set to true, purge the original XML file after disassembling it.
+                               Defaults to false.                               
+*/
+import { DisassembleXMLFileHandler } from "xml-disassembler";
+
+const handler = new DisassembleXMLFileHandler();
+await handler.disassemble({
+  xmlPath: "test/baselines/general",
+  uniqueIdElements:
+    "application,apexClass,name,externalDataSource,flow,object,apexPage,recordType,tab,field",
+  prePurge: true,
+  postPurge: true,
+});
+```
+
 ## Reassembling Files
 
 Reassemble 1 XML directory (`xmlPath`) containing disassembled files back into 1 XML file.
+
+**NOTE**: You should be reassembling files created by this package's `DisassembleXMLFileHandler` class for intended results. This class will assume all disassembled files in `xmlPath` have the same XML Root Element. The reassembled XML file will be created in the parent directory of `xmlPath` and will overwrite the original file used to create the original disassembled directories, if it still exists and the `fileExtension` flag matches the original file extension.
 
 Import the `ReassembleXMLFileHandler` class from the package.
 
@@ -140,10 +142,6 @@ await handler.reassemble({
   fileExtension: "permissionset-meta.xml",
 });
 ```
-
-_NOTE_: You should be reassembling files created by this package's `DisassembleXMLFileHandler` class for intended results. This class will assume all disassembled files in `xmlPath` have the same XML Root Element.
-
-The reassembled XML file will be created in the parent directory of `xmlPath` and will overwrite the original file used to create the original disassembled directories, if it still exists and the `fileExtension` flag matches the original file extension.
 
 ## Use Case
 
