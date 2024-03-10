@@ -40,6 +40,9 @@ devDependencies:
   "@semantic-release/release-notes-generator":
     specifier: ^12.1.0
     version: 12.1.0(semantic-release@17.4.7)
+  "@types/fs-extra":
+    specifier: ^11.0.4
+    version: 11.0.4
   "@types/jest":
     specifier: ^29.5.11
     version: 29.5.11
@@ -1844,6 +1847,16 @@ packages:
       }
     dev: true
 
+  /@types/fs-extra@11.0.4:
+    resolution:
+      {
+        integrity: sha512-yTbItCNreRooED33qjunPthRcSjERP1r4MqCZc7wv0u2sUkzTFp45tgUfS5+r7FrZPdmCCNflLhVSP/o+SemsQ==,
+      }
+    dependencies:
+      "@types/jsonfile": 6.1.4
+      "@types/node": 20.11.19
+    dev: true
+
   /@types/graceful-fs@4.1.9:
     resolution:
       {
@@ -1886,6 +1899,15 @@ packages:
     dependencies:
       expect: 29.7.0
       pretty-format: 29.7.0
+    dev: true
+
+  /@types/jsonfile@6.1.4:
+    resolution:
+      {
+        integrity: sha512-D5qGUYwjvnNNextdU59/+fI+spnwtTFmyQP0h+PfIOSkNfpU6AOICUOkm4i0OnSk+NyjdPJrxCDro0sJsWlRpQ==,
+      }
+    dependencies:
+      "@types/node": 20.11.19
     dev: true
 
   /@types/minimist@1.2.5:

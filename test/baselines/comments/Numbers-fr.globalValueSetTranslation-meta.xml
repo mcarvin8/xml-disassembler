@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GlobalValueSetTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
     <valueTranslation>
+        <masterLabel>Three</masterLabel>
+        <translation>Trois</translation>
+    </valueTranslation>
+    <valueTranslation>
         <masterLabel>Five</masterLabel>
         <translation>cinq</translation>
     </valueTranslation>
@@ -9,9 +13,5 @@
         <translation>
             <!-- Four -->
         </translation>
-    </valueTranslation>
-    <valueTranslation>
-        <masterLabel>Three</masterLabel>
-        <translation>Trois</translation>
     </valueTranslation>
 </GlobalValueSetTranslation>
