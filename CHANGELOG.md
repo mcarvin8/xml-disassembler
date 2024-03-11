@@ -1,3 +1,9 @@
+## [1.1.2-beta.2](https://github.com/mcarvin8/xml-disassembler/compare/v1.1.2-beta.1...v1.1.2-beta.2) (2024-03-11)
+
+### Bug Fixes
+
+- copy XmlElement interface into reassemble file ([25e5599](https://github.com/mcarvin8/xml-disassembler/commit/25e559970d43693c36ecf336ce1523d689f1f235))
+
 ## [1.1.2-beta.1](https://github.com/mcarvin8/xml-disassembler/compare/v1.1.1...v1.1.2-beta.1) (2024-03-10)
 
 ### Bug Fixes
