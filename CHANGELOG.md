@@ -1,3 +1,11 @@
+## [1.1.2](https://github.com/mcarvin8/xml-disassembler/compare/v1.1.1...v1.1.2) (2024-03-11)
+
+### Bug Fixes
+
+- copy XmlElement interface into reassemble file ([25e5599](https://github.com/mcarvin8/xml-disassembler/commit/25e559970d43693c36ecf336ce1523d689f1f235))
+- revert class to use fast xml parser and move build nested elements function to class ([0febc42](https://github.com/mcarvin8/xml-disassembler/commit/0febc427270e185c28469b4bcfe748e302d73ac3))
+- use buildNestedElements function with different starting indent level ([d611430](https://github.com/mcarvin8/xml-disassembler/commit/d6114306df7fafa2aea5491ef057f7121834e373))
+
 ## [1.1.2-beta.3](https://github.com/mcarvin8/xml-disassembler/compare/v1.1.2-beta.2...v1.1.2-beta.3) (2024-03-11)
 
 ### Bug Fixes
