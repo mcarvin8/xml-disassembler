@@ -3,14 +3,14 @@ import * as path from "node:path";
 import { logger } from "@src/index";
 import { XMLParser, XMLBuilder } from "fast-xml-parser";
 import { INDENT } from "@src/helpers/constants";
-import {
-  XmlElement,
-  XML_PARSER_OPTION,
-  JSON_PARSER_OPTION,
-} from "@src/helpers/types";
+import { XML_PARSER_OPTION, JSON_PARSER_OPTION } from "@src/helpers/types";
 import { buildReassembledFile } from "@src/service/buildReassembledFiles";
 
 const xmlParser = new XMLParser(XML_PARSER_OPTION);
+
+interface XmlElement {
+  [key: string]: string | XmlElement | string[] | XmlElement[];
+}
 
 export class ReassembleXMLFileHandler {
   async processFilesInDirectory(
