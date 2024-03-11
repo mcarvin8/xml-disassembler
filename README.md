@@ -29,7 +29,7 @@ npm install xml-disassembler
 
 ## Disassembling Files
 
-Disassemble 1 or multiple XML files in the immediate directory (`xmlPath`), without recursion. Each XML file will be disassembled into their own sub-directories using their base name (everything before the first `.` in the file-name).
+Disassemble 1 XML file or multiple XML files in the immediate directory, without recursion. Each XML file will be disassembled into their own sub-directories using their base name (everything before the first `.` in the file-name).
 
 Example:
 
@@ -100,7 +100,7 @@ Import the `DisassembleXMLFileHandler` class from the package.
 ```typescript
 /* 
 FLAGS
-- xmlPath: Directory containing the XML files to disassemble (must be directory). This will only disassemble files in the immediate directory.
+- xmlPath: Path to 1 XML file or a directory of XML files to disassemble. If the path provided is a directory, only the files in the immediate directory will be disasssembled.
 - uniqueIdElements: (Optional) Comma-separated list of unique and required ID elements used to name disassembled files for nested elements. 
                                Defaults to SHA-256 hash if unique ID elements are undefined or not found.
 - prePurge:  (Optional) Boolean value. If set to true, purge pre-existing disassembled directories prior to disassembling the file.

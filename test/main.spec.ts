@@ -148,7 +148,7 @@ describe("main function", () => {
   });
   it("should disassemble a XML file with no namespace.", async () => {
     await disassembleHandler.disassemble({
-      xmlPath: "mock/no-namespace",
+      xmlPath: "mock/no-namespace/HR_Admin.permissionset-meta.xml",
       uniqueIdElements:
         "application,apexClass,name,externalDataSource,flow,object,apexPage,recordType,tab,field",
     });
@@ -167,11 +167,15 @@ describe("main function", () => {
 
     expect(logger.error).not.toHaveBeenCalled();
   });
-  it("should test disassemble error condition (file path provided).", async () => {
+  it("should test disassemble error condition (XML file path not provided).", async () => {
+    let fakeFile = "mock/not-an-xml.txt";
+    fakeFile = path.resolve(fakeFile);
+    const fakeFileContents = "Testing error condition.";
+    fs.writeFileSync(fakeFile, fakeFileContents);
     await disassembleHandler.disassemble({
-      xmlPath: "mock/no-namespace/HR_Admin.permissionset-meta.xml",
+      xmlPath: fakeFile,
     });
-
+    fs.unlinkSync(fakeFile);
     expect(logger.error).toHaveBeenCalled();
   });
   it("should test reassemble error condition (file path provided).", async () => {

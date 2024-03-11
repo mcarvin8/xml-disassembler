@@ -19,23 +19,33 @@ export class DisassembleXMLFileHandler {
     } = xmlAttributes;
     const fileStat = await fs.stat(xmlPath);
 
-    if (!fileStat.isDirectory()) {
-      logger.error(
-        `The provided xmlPath ${xmlPath} to disassemble is not a directory.`,
-      );
-      return;
-    }
-    const files = await fs.readdir(xmlPath);
-    for (const file of files) {
-      const filePath = path.join(xmlPath, file);
-      if (filePath.endsWith(".xml")) {
-        await this.processFile({
-          xmlPath,
-          filePath,
-          uniqueIdElements,
-          prePurge,
-          postPurge,
-        });
+    if (fileStat.isFile()) {
+      const filePath = path.resolve(xmlPath);
+      if (!filePath.endsWith(".xml")) {
+        logger.error(`The file path ${filePath} is not an XML file.`);
+        return;
+      }
+      const basePath = path.dirname(filePath);
+      await this.processFile({
+        xmlPath: basePath,
+        filePath,
+        uniqueIdElements,
+        prePurge,
+        postPurge,
+      });
+    } else if (fileStat.isDirectory()) {
+      const files = await fs.readdir(xmlPath);
+      for (const file of files) {
+        const filePath = path.join(xmlPath, file);
+        if (filePath.endsWith(".xml")) {
+          await this.processFile({
+            xmlPath,
+            filePath,
+            uniqueIdElements,
+            prePurge,
+            postPurge,
+          });
+        }
       }
     }
   }
