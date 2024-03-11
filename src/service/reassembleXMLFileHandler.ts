@@ -1,10 +1,10 @@
 import * as fs from "node:fs/promises";
 import * as path from "node:path";
 import { logger } from "@src/index";
-import { XMLParser, XMLBuilder } from "fast-xml-parser";
-import { INDENT } from "@src/helpers/constants";
-import { XML_PARSER_OPTION, JSON_PARSER_OPTION } from "@src/helpers/types";
+import { XMLParser } from "fast-xml-parser";
+import { XML_PARSER_OPTION } from "@src/helpers/types";
 import { buildReassembledFile } from "@src/service/buildReassembledFiles";
+import { buildNestedElements } from "@src/service/buildNestedElements";
 
 const xmlParser = new XMLParser(XML_PARSER_OPTION);
 
@@ -42,7 +42,7 @@ export class ReassembleXMLFileHandler {
         if (rootResultFromFile && !rootResult) {
           rootResult = rootResultFromFile;
         }
-        const combinedXmlString = await this.buildNestedElements(xmlParsed, 0);
+        const combinedXmlString = buildNestedElements(xmlParsed, 0);
         combinedXmlContents.push(combinedXmlString);
       }
     }
@@ -104,7 +104,7 @@ export class ReassembleXMLFileHandler {
           XmlElement
         >;
         rootResult = await this.processFilesForRootElement(xmlParsed);
-        const combinedXmlString = await this.buildNestedElements(xmlParsed, 0);
+        const combinedXmlString = buildNestedElements(xmlParsed, 0);
         combinedXmlContents.push(combinedXmlString);
       } else if (fileStat.isDirectory()) {
         const [subdirectoryContents, subdirectoryRootResult] =
@@ -137,23 +137,5 @@ export class ReassembleXMLFileHandler {
       );
       return;
     }
-  }
-  async buildNestedElements(
-    element: XmlElement,
-    indentLevel: number = 0,
-  ): Promise<string> {
-    const xmlBuilder = new XMLBuilder(JSON_PARSER_OPTION);
-    const xmlString = xmlBuilder.build(element) as string;
-
-    // Manually format the XML string with the desired indentation
-    const formattedXml: string = xmlString
-      .split("\n")
-      .map(
-        (line: string) => `${" ".repeat(indentLevel * INDENT.length)}${line}`,
-      )
-      .join("\n")
-      .trimEnd();
-
-    return formattedXml;
   }
 }
