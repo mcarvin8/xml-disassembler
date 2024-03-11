@@ -1,3 +1,9 @@
+## [1.1.3](https://github.com/mcarvin8/xml-disassembler/compare/v1.1.2...v1.1.3) (2024-03-11)
+
+### Bug Fixes
+
+- allow file-path to be accepted by disassemble ([31ecd17](https://github.com/mcarvin8/xml-disassembler/commit/31ecd1720a7cee8ad17f7e646b7b0354935d7b5d))
+
 ## [1.1.2](https://github.com/mcarvin8/xml-disassembler/compare/v1.1.1...v1.1.2) (2024-03-11)
 
 ### Bug Fixes
