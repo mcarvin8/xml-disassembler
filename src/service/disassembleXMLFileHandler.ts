@@ -1,4 +1,5 @@
-import * as fs from "node:fs/promises";
+import * as fs from "node:fs";
+import * as promises from "node:fs/promises";
 import * as path from "node:path";
 import { logger } from "@src/index";
 import { INDENT } from "@src/helpers/constants";
@@ -17,7 +18,7 @@ export class DisassembleXMLFileHandler {
       prePurge = false,
       postPurge = false,
     } = xmlAttributes;
-    const fileStat = await fs.stat(xmlPath);
+    const fileStat = await promises.stat(xmlPath);
 
     if (fileStat.isFile()) {
       const filePath = path.resolve(xmlPath);
@@ -34,7 +35,7 @@ export class DisassembleXMLFileHandler {
         postPurge,
       });
     } else if (fileStat.isDirectory()) {
-      const files = await fs.readdir(xmlPath);
+      const files = await promises.readdir(xmlPath);
       for (const file of files) {
         const filePath = path.join(xmlPath, file);
         if (filePath.endsWith(".xml")) {
@@ -61,7 +62,7 @@ export class DisassembleXMLFileHandler {
       xmlAttributes;
 
     logger.debug(`Parsing file to disassemble: ${filePath}`);
-    const xmlContent = await fs.readFile(filePath, "utf-8");
+    const xmlContent = await promises.readFile(filePath, "utf-8");
     const fullName = path.basename(filePath, path.extname(filePath));
     const baseName = fullName.split(".")[0];
 
@@ -69,7 +70,9 @@ export class DisassembleXMLFileHandler {
     outputPath = path.join(xmlPath, baseName);
 
     if (prePurge) {
-      await fs.rm(outputPath, { recursive: true });
+      if (fs.existsSync(outputPath)) {
+        await promises.rm(outputPath, { recursive: true });
+      }
     }
 
     buildDisassembledFiles(
