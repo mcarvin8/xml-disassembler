@@ -1,3 +1,9 @@
+## [1.1.4](https://github.com/mcarvin8/xml-disassembler/compare/v1.1.3...v1.1.4) (2024-03-12)
+
+### Bug Fixes
+
+- fix postPurge statement placement in buildDisassembledFiles ([89a7600](https://github.com/mcarvin8/xml-disassembler/commit/89a76008459b4dbfef23534d522324378c7aabd7))
+
 ## [1.1.4-beta.1](https://github.com/mcarvin8/xml-disassembler/compare/v1.1.3...v1.1.4-beta.1) (2024-03-12)
 
 ### Bug Fixes
