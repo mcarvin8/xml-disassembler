@@ -108,10 +108,10 @@ export function buildDisassembledFiles(
     fs.writeFileSync(leafOutputPath, leafFile);
 
     logger.debug(`Created disassembled file: ${leafOutputPath}`);
-    if (postPurge) {
-      const originalFilePath = path.resolve(`${parentPath}/${baseName}.xml`);
-      promise.unlink(originalFilePath);
-    }
+  }
+  if (postPurge) {
+    const originalFilePath = path.resolve(`${parentPath}/${baseName}.xml`);
+    promise.unlink(originalFilePath);
   }
 }
 
