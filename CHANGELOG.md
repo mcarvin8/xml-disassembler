@@ -1,3 +1,9 @@
+## [1.1.5](https://github.com/mcarvin8/xml-disassembler/compare/v1.1.4...v1.1.5) (2024-03-12)
+
+### Bug Fixes
+
+- check if folder exists before pre-purging it ([391d37b](https://github.com/mcarvin8/xml-disassembler/commit/391d37b7f7a711537cd632b9e5690020d03def06))
+
 ## [1.1.5-beta.1](https://github.com/mcarvin8/xml-disassembler/compare/v1.1.4...v1.1.5-beta.1) (2024-03-12)
 
 ### Bug Fixes
