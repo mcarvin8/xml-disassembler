@@ -100,7 +100,7 @@ export function buildDisassembledFiles(
     const sortedLeafContent = leafContent
       .split("\n") // Split by lines
       .filter((line) => line.trim() !== "") // Remove empty lines
-      .sort() // Sort alphabetically
+      .sort((a, b) => a.localeCompare(b)) // Sort alphabetically
       .join("\n"); // Join back into a string
     leafFile += sortedLeafContent;
     leafFile += `\n</${rootElementName}>`;

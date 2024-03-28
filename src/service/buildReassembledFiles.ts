@@ -20,13 +20,10 @@ export async function buildReassembledFile(
   );
 
   // Remove duplicate parent elements
-  finalXmlContent = finalXmlContent.replace(
-    new RegExp(
-      `<${xmlElement}[^>]*${xmlNamespace ? `( xmlns="${xmlNamespace}")?` : ""}>`,
-      "g",
-    ),
-    "",
-  );
+  const namespaceRegexPart = xmlNamespace ? `( xmlns="${xmlNamespace}")?` : "";
+  const rootElementRegexString = `<${xmlElement}[^>]*${namespaceRegexPart}>`;
+  const rootElementRegex = new RegExp(rootElementRegexString, "g");
+  finalXmlContent = finalXmlContent.replace(rootElementRegex, "");
   finalXmlContent = finalXmlContent.replace(
     new RegExp(`</${xmlElement}>`, "g"),
     "",
@@ -35,11 +32,15 @@ export async function buildReassembledFile(
   // Remove extra indentation within CDATA sections
   finalXmlContent = finalXmlContent.replace(
     /<!\[CDATA\[\s*([\s\S]*?)\s*]]>/g,
-    (match: string, cdataContent: string) => {
+    function (_, cdataContent) {
       const trimmedContent = cdataContent.trim();
       const lines = trimmedContent.split("\n");
-      const indentedLines = lines.map((line) => line.replace(/^\s*/, ""));
-      return `<![CDATA[\n${INDENT}${indentedLines.join(`\n${INDENT}`)}\n]]>`;
+      const indentedLines = lines.map(function (line: string) {
+        return line.replace(/^\s*/, "");
+      });
+      return (
+        "<![CDATA[\n" + INDENT + indentedLines.join("\n" + INDENT) + "\n]]>"
+      );
     },
   );
 

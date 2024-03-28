@@ -2,7 +2,7 @@
 
 ### Features
 
-- allow users to delete disassembled files are reassembly ([a2f68db](https://github.com/mcarvin8/xml-disassembler/commit/a2f68dbb555d58e860fb3f46d5982c3366bea6ec))
+- allow users to delete disassembled files after reassembly ([a2f68db](https://github.com/mcarvin8/xml-disassembler/commit/a2f68dbb555d58e860fb3f46d5982c3366bea6ec))
 
 ## [1.1.5](https://github.com/mcarvin8/xml-disassembler/compare/v1.1.4...v1.1.5) (2024-03-12)
 

@@ -137,7 +137,6 @@ export class ReassembleXMLFileHandler {
       logger.error(
         `A Root Element Name was not found in any files under ${xmlPath}`,
       );
-      return;
     }
   }
 }
