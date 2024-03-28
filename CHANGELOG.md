@@ -1,3 +1,9 @@
+## [1.2.1](https://github.com/mcarvin8/xml-disassembler/compare/v1.2.0...v1.2.1) (2024-03-28)
+
+### Bug Fixes
+
+- correct sonarlint concerns ([7503c2a](https://github.com/mcarvin8/xml-disassembler/commit/7503c2a69af3c912cbc5a1f61ec2207e2a191770))
+
 # [1.2.0](https://github.com/mcarvin8/xml-disassembler/compare/v1.1.5...v1.2.0) (2024-03-28)
 
 ### Features
