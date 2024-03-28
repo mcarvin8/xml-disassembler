@@ -71,8 +71,9 @@ export class ReassembleXMLFileHandler {
   async reassemble(xmlAttributes: {
     xmlPath: string;
     fileExtension?: string;
+    postPurge?: boolean;
   }): Promise<void> {
-    const { xmlPath, fileExtension } = xmlAttributes;
+    const { xmlPath, fileExtension, postPurge = false } = xmlAttributes;
     const combinedXmlContents: string[] = [];
     const fileStat = await fs.stat(xmlPath);
 
@@ -131,6 +132,7 @@ export class ReassembleXMLFileHandler {
         rootElementName,
         rootElementNamespace,
       );
+      if (postPurge) await fs.rm(xmlPath, { recursive: true });
     } else {
       logger.error(
         `A Root Element Name was not found in any files under ${xmlPath}`,

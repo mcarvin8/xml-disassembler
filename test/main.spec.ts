@@ -138,10 +138,11 @@ describe("main function", () => {
 
     expect(logger.error).not.toHaveBeenCalled();
   });
-  it("should reassemble the files from the previous test (prePurge).", async () => {
+  it("should reassemble the files from the previous test (prePurge) and delete the disassemble files afterwards.", async () => {
     await reassembleHandler.reassemble({
       xmlPath: "mock/array-of-leafs/Dreamhouse",
       fileExtension: "app-meta.xml",
+      postPurge: true,
     });
 
     expect(logger.error).not.toHaveBeenCalled();
