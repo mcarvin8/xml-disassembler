@@ -100,13 +100,13 @@ Import the `DisassembleXMLFileHandler` class from the package.
 ```typescript
 /* 
 FLAGS
-- xmlPath: Path to 1 XML file or a directory of XML files to disassemble. If the path provided is a directory, only the files in the immediate directory will be disasssembled.
+- xmlPath: Path to 1 XML file or a directory of XML files to disassemble. If the path provided is a directory, only the files in the immediate directory will be disassembled.
 - uniqueIdElements: (Optional) Comma-separated list of unique and required ID elements used to name disassembled files for nested elements. 
                                Defaults to SHA-256 hash if unique ID elements are undefined or not found.
 - prePurge:  (Optional) Boolean value. If set to true, purge pre-existing disassembled directories prior to disassembling the file.
                                Defaults to false.
 - postPurge: (Optional) Boolean value. If set to true, purge the original XML file after disassembling it.
-                               Defaults to false.                               
+                               Defaults to false.
 */
 import { DisassembleXMLFileHandler } from "xml-disassembler";
 
@@ -133,6 +133,8 @@ Import the `ReassembleXMLFileHandler` class from the package.
 FLAGS
 - xmlPath: Path to the disassembled XML files to reassemble (must be a directory)
 - fileExtension: (Optional) Desired file extension for the final XML (default: `.xml`)
+- postPurge: (Optional) Boolean value. If set to true, purge the disassembled file directory (xmlPath) after reassembly.
+                               Defaults to false.
 */
 import { ReassembleXMLFileHandler } from "xml-disassembler";
 
@@ -140,6 +142,7 @@ const handler = new ReassembleXMLFileHandler();
 await handler.reassemble({
   xmlPath: "test/baselines/general/HR_Admin",
   fileExtension: "permissionset-meta.xml",
+  postPurge: true,
 });
 ```
 
