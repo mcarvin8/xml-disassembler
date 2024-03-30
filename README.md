@@ -159,13 +159,35 @@ The XML parser, which uses the `fast-xml-parser` package, is configured to retai
 
 ## Logging
 
-By default, the package will not print any debugging statements to the console.
-
-To configure logging, import the `setLogLevel` function from the package and run the function with `debug` to print debugging statements to a log file.
-
-The log file (`disassemble.log`) will be created when running the package in all cases, even when the `setLogLevel` is not explicity called as shown below. The file will be created but empty by default when running the `ReassembleXMLFileHandler` and `DisassembleXMLFileHandler` classes.
+By default, the package will not print any debugging statements to the console. Any error or debugging statements will be added to a log file, `disassemble.log`, created in the same directory you are running this package in. This file will be created when running the package in all cases, even if there are no errors.
 
 **NOTE**: The logging package used, `log4js`, requires `fs-extra` to be installed in your project as a dependency (`npm install --save fs-extra`).
+
+The logger's default state is to only log errors to `disassemble.log`. Check this file for ERROR statements that will look like:
+
+```
+[2024-03-30T14:28:37.950] [ERROR] default - The XML file HR_Admin.no-nested-elements.xml only has leaf elements. This file will not be disassembled.
+```
+
+To add additional debugging statements to the log file, import the `setLogLevel` function from the package and run the function with `debug` to print all debugging statements to a log file.
+
+When the log level is set to `debug`, the log file will contain statements like this to indicate which files were processed for disassembly and reassembly:
+
+```
+[2024-03-30T14:28:37.926] [DEBUG] default - Parsing directory to reassemble: mock/no-namespace/HR_Admin
+[2024-03-30T14:28:37.936] [DEBUG] default - Created reassembled file: mock\no-namespace\HR_Admin.permissionset-meta.xml
+
+[2024-03-30T14:28:37.951] [DEBUG] default - Parsing file to disassemble: mock\no-nested-elements\HR_Admin.permissionset-meta.xml
+[2024-03-30T14:28:37.953] [DEBUG] default - Created disassembled file: mock\no-nested-elements\HR_Admin\applicationVisibilities\5593cf61.applicationVisibilities-meta.xml
+[2024-03-30T14:28:37.954] [DEBUG] default - Created disassembled file: mock\no-nested-elements\HR_Admin\classAccesses\2e5749c9.classAccesses-meta.xml
+[2024-03-30T14:28:37.955] [DEBUG] default - Created disassembled file: mock\no-nested-elements\HR_Admin\fieldPermissions\16129a47.fieldPermissions-meta.xml
+[2024-03-30T14:28:37.956] [DEBUG] default - Created disassembled file: mock\no-nested-elements\HR_Admin\objectPermissions\81268af4.objectPermissions-meta.xml
+[2024-03-30T14:28:37.956] [DEBUG] default - Created disassembled file: mock\no-nested-elements\HR_Admin\pageAccesses\d6d8105a.pageAccesses-meta.xml
+[2024-03-30T14:28:37.957] [DEBUG] default - Created disassembled file: mock\no-nested-elements\HR_Admin\recordTypeVisibilities\077548e3.recordTypeVisibilities-meta.xml
+[2024-03-30T14:28:37.957] [DEBUG] default - Created disassembled file: mock\no-nested-elements\HR_Admin\tabSettings\181e6985.tabSettings-meta.xml
+[2024-03-30T14:28:37.958] [DEBUG] default - Created disassembled file: mock\no-nested-elements\HR_Admin\userPermissions\0288499e.userPermissions-meta.xml
+[2024-03-30T14:28:37.959] [DEBUG] default - Created disassembled file: mock\no-nested-elements\HR_Admin\HR_Admin.permissionset-meta.xml
+```
 
 ```typescript
 import {

@@ -33,10 +33,18 @@ export class ReassembleXMLFileHandler {
       const fileStat = await fs.stat(filePath);
       if (fileStat.isFile() && filePath.endsWith(".xml")) {
         const xmlContent = await fs.readFile(filePath, "utf-8");
-        const xmlParsed = xmlParser.parse(xmlContent) as Record<
-          string,
-          XmlElement
-        >;
+        let xmlParsed: Record<string, XmlElement>;
+        try {
+          xmlParsed = xmlParser.parse(xmlContent, true) as Record<
+            string,
+            XmlElement
+          >;
+        } catch (err) {
+          logger.error(
+            `${filePath} was unable to be parsed and was not added to the reassembled file. Confirm formatting and try again.`,
+          );
+          continue;
+        }
         const rootResultFromFile =
           await this.processFilesForRootElement(xmlParsed);
         if (rootResultFromFile && !rootResult) {
@@ -52,7 +60,7 @@ export class ReassembleXMLFileHandler {
 
   async processFilesForRootElement(
     xmlParsed: Record<string, XmlElement>,
-  ): Promise<[string, string | undefined] | undefined> {
+  ): Promise<[string, string | undefined]> {
     const rootElementName = Object.keys(xmlParsed)[1];
     const rootElement: XmlElement = xmlParsed[rootElementName];
     let rootElementNamespace: string | undefined;
@@ -61,11 +69,7 @@ export class ReassembleXMLFileHandler {
     } else {
       rootElementNamespace = undefined;
     }
-    if (rootElementName !== undefined && rootElementName.length > 0) {
-      return [rootElementName, rootElementNamespace];
-    }
-    // No root element name found in any files
-    return undefined;
+    return [rootElementName, rootElementNamespace];
   }
 
   async reassemble(xmlAttributes: {
@@ -100,10 +104,18 @@ export class ReassembleXMLFileHandler {
       const fileStat = await fs.stat(filePath);
       if (fileStat.isFile() && filePath.endsWith(".xml")) {
         const xmlContent = await fs.readFile(filePath, "utf-8");
-        const xmlParsed = xmlParser.parse(xmlContent) as Record<
-          string,
-          XmlElement
-        >;
+        let xmlParsed: Record<string, XmlElement>;
+        try {
+          xmlParsed = xmlParser.parse(xmlContent, true) as Record<
+            string,
+            XmlElement
+          >;
+        } catch (err) {
+          logger.error(
+            `${filePath} was unable to be parsed and was not added to the reassembled file. Confirm formatting and try again.`,
+          );
+          continue;
+        }
         rootResult = await this.processFilesForRootElement(xmlParsed);
         const combinedXmlString = buildNestedElements(xmlParsed, 0);
         combinedXmlContents.push(combinedXmlString);
@@ -117,7 +129,7 @@ export class ReassembleXMLFileHandler {
       }
     }
 
-    const parentDirectory = path.dirname(xmlPath); // Get the parent directory path
+    const parentDirectory = path.dirname(xmlPath);
     const subdirectoryBasename = path.basename(xmlPath);
     const fileName = fileExtension
       ? `${subdirectoryBasename}.${fileExtension}`
@@ -135,7 +147,7 @@ export class ReassembleXMLFileHandler {
       if (postPurge) await fs.rm(xmlPath, { recursive: true });
     } else {
       logger.error(
-        `A Root Element Name was not found in any files under ${xmlPath}`,
+        `No files under ${xmlPath} were parsed successfully. A reassembled XML file was not created.`,
       );
     }
   }

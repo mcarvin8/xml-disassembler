@@ -20,7 +20,7 @@ git clone git@github.com:mcarvin8/xml-disassembler.git
 2. Install dependencies
 
 ```
-pnpm
+pnpm install
 ```
 
 ## Branching

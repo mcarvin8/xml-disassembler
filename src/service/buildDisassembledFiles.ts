@@ -21,12 +21,17 @@ export function buildDisassembledFiles(
   parentPath: string,
 ): void {
   const xmlParser = new XMLParser(XML_PARSER_OPTION);
-  const result = xmlParser.parse(xmlString) as Record<string, XmlElement>;
-  const rootElementName = Object.keys(result)[1];
-  if (rootElementName.length === 0) {
-    logger.error(`A Root Element Name was not found in ${baseName}.xml`);
+  let result: Record<string, XmlElement>;
+  try {
+    result = xmlParser.parse(xmlString, true) as Record<string, XmlElement>;
+  } catch (err) {
+    logger.error(
+      `${baseName}.xml was unable to be parsed. Confirm formatting and try again.`,
+    );
     return;
   }
+  const rootElementName = Object.keys(result)[1];
+
   const rootElement: XmlElement = result[rootElementName];
   let rootElementNamespace: string | undefined;
   if (rootElement["@_xmlns"] !== undefined) {
