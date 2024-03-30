@@ -1,3 +1,9 @@
+## [1.2.2](https://github.com/mcarvin8/xml-disassembler/compare/v1.2.1...v1.2.2) (2024-03-30)
+
+### Bug Fixes
+
+- set XML validator flag to true when parsing XMLs ([9682cbe](https://github.com/mcarvin8/xml-disassembler/commit/9682cbe7e431a17a5ce877d99b233fc4b42d634e))
+
 ## [1.2.1](https://github.com/mcarvin8/xml-disassembler/compare/v1.2.0...v1.2.1) (2024-03-28)
 
 ### Bug Fixes
