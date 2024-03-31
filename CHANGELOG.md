@@ -1,3 +1,9 @@
+## [1.2.3](https://github.com/mcarvin8/xml-disassembler/compare/v1.2.2...v1.2.3) (2024-03-31)
+
+### Bug Fixes
+
+- preserve any attribute in the root element header ([2926e59](https://github.com/mcarvin8/xml-disassembler/commit/2926e59ac2b55f7e2287ba55c1cc2280f3a92d8c))
+
 ## [1.2.2](https://github.com/mcarvin8/xml-disassembler/compare/v1.2.1...v1.2.2) (2024-03-30)
 
 ### Bug Fixes
