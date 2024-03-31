@@ -56,6 +56,21 @@ describe("main function", () => {
 
     expect(logger.error).not.toHaveBeenCalled();
   });
+  it("should disassemble an XML file with attributes in the root element.", async () => {
+    await disassembleHandler.disassemble({
+      xmlPath: "mock/attributes",
+      postPurge: true,
+    });
+
+    expect(logger.error).not.toHaveBeenCalled();
+  });
+  it("should reassemble an XML file with attributes in the root element", async () => {
+    await reassembleHandler.reassemble({
+      xmlPath: "mock/attributes/notes",
+    });
+
+    expect(logger.error).not.toHaveBeenCalled();
+  });
   it("should disassemble a XML file with CDATA.", async () => {
     await disassembleHandler.disassemble({
       xmlPath: "mock/cdata",

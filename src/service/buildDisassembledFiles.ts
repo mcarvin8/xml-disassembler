@@ -33,12 +33,16 @@ export function buildDisassembledFiles(
   const rootElementName = Object.keys(result)[1];
 
   const rootElement: XmlElement = result[rootElementName];
-  let rootElementNamespace: string | undefined;
-  if (rootElement["@_xmlns"] !== undefined) {
-    rootElementNamespace = String(rootElement["@_xmlns"]);
-  } else {
-    rootElementNamespace = undefined;
+  let rootElementHeader = `<${rootElementName}`;
+  // Add any attributes prefixed with "@"
+  for (const [attrKey, attrValue] of Object.entries(rootElement)) {
+    if (attrKey.startsWith("@")) {
+      logger.debug(attrKey);
+      const cleanAttrKey = attrKey.slice(2); // Remove the "@" prefix
+      rootElementHeader += ` ${cleanAttrKey}="${String(attrValue)}"`;
+    }
   }
+  rootElementHeader += ">";
   let leafContent = "";
   let leafCount = 0;
   let hasNestedElements: boolean = false;
@@ -56,7 +60,7 @@ export function buildDisassembledFiles(
               metadataPath,
               uniqueIdElements,
               rootElementName,
-              rootElementNamespace,
+              rootElementHeader,
               key,
               indent,
             );
@@ -73,7 +77,7 @@ export function buildDisassembledFiles(
           metadataPath,
           uniqueIdElements,
           rootElementName,
-          rootElementNamespace,
+          rootElementHeader,
           key,
           indent,
         );
@@ -96,11 +100,7 @@ export function buildDisassembledFiles(
 
   if (leafCount > 0) {
     let leafFile = `${XML_HEADER}\n`;
-    leafFile += `<${rootElementName}`;
-    if (rootElementNamespace) {
-      leafFile += ` xmlns="${rootElementNamespace}"`;
-    }
-    leafFile += `>\n`;
+    leafFile += rootElementHeader;
 
     const sortedLeafContent = leafContent
       .split("\n") // Split by lines
@@ -125,7 +125,7 @@ function buildNestedFile(
   metadataPath: string,
   uniqueIdElements: string | undefined,
   rootElementName: string,
-  rootElementNamespace: string | undefined,
+  rootElementHeader: string,
   parentKey: string,
   indent: string,
 ): void {
@@ -143,11 +143,7 @@ function buildNestedFile(
   // Call the buildNestedElements to build the XML content string
   elementContent = buildNestedElements(element);
   let decomposeFileContents = `${XML_HEADER}\n`;
-  decomposeFileContents += `<${rootElementName}`;
-  if (rootElementNamespace) {
-    decomposeFileContents += ` xmlns="${rootElementNamespace}"`;
-  }
-  decomposeFileContents += `>\n`;
+  decomposeFileContents += `${rootElementHeader}\n`;
   decomposeFileContents += `${indent}<${parentKey}>\n`;
   decomposeFileContents += `${elementContent}\n`;
   decomposeFileContents += `${indent}</${parentKey}>\n`;

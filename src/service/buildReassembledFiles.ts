@@ -8,7 +8,7 @@ export async function buildReassembledFile(
   combinedXmlContents: string[],
   filePath: string,
   xmlElement: string,
-  xmlNamespace: string | undefined,
+  xmlRootElementHeader: string | undefined,
 ): Promise<void> {
   // Combine XML contents into a single string
   let finalXmlContent = combinedXmlContents.join("\n");
@@ -20,10 +20,10 @@ export async function buildReassembledFile(
   );
 
   // Remove duplicate parent elements
-  const namespaceRegexPart = xmlNamespace ? `( xmlns="${xmlNamespace}")?` : "";
-  const rootElementRegexString = `<${xmlElement}[^>]*${namespaceRegexPart}>`;
-  const rootElementRegex = new RegExp(rootElementRegexString, "g");
-  finalXmlContent = finalXmlContent.replace(rootElementRegex, "");
+  finalXmlContent = finalXmlContent.replace(
+    new RegExp(`<${xmlElement}\\s*[^>]*>`, "g"),
+    "",
+  );
   finalXmlContent = finalXmlContent.replace(
     new RegExp(`</${xmlElement}>`, "g"),
     "",
@@ -47,14 +47,11 @@ export async function buildReassembledFile(
   // Remove extra newlines
   finalXmlContent = finalXmlContent.replace(/(\n\s*){2,}/g, `\n${INDENT}`);
 
-  const openTag = xmlNamespace
-    ? `<${xmlElement} xmlns="${xmlNamespace}">`
-    : `<${xmlElement}>`;
   const closeTag = `</${xmlElement}>`;
 
   await fs.writeFile(
     filePath,
-    `${XML_HEADER}\n${openTag}${finalXmlContent}${closeTag}`,
+    `${XML_HEADER}\n${xmlRootElementHeader}${finalXmlContent}${closeTag}`,
   );
   logger.debug(`Created reassembled file: ${filePath}`);
 }

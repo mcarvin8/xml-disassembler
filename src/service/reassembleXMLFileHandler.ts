@@ -63,13 +63,17 @@ export class ReassembleXMLFileHandler {
   ): Promise<[string, string | undefined]> {
     const rootElementName = Object.keys(xmlParsed)[1];
     const rootElement: XmlElement = xmlParsed[rootElementName];
-    let rootElementNamespace: string | undefined;
-    if (rootElement["@_xmlns"] !== undefined) {
-      rootElementNamespace = String(rootElement["@_xmlns"]);
-    } else {
-      rootElementNamespace = undefined;
+    let rootElementHeader = `<${rootElementName}`;
+    // Add any attributes prefixed with "@"
+    for (const [attrKey, attrValue] of Object.entries(rootElement)) {
+      if (attrKey.startsWith("@")) {
+        logger.debug(attrKey);
+        const cleanAttrKey = attrKey.slice(2); // Remove the "@" prefix
+        rootElementHeader += ` ${cleanAttrKey}="${String(attrValue)}"`;
+      }
     }
-    return [rootElementName, rootElementNamespace];
+    rootElementHeader += ">";
+    return [rootElementName, rootElementHeader];
   }
 
   async reassemble(xmlAttributes: {
@@ -137,12 +141,12 @@ export class ReassembleXMLFileHandler {
     const filePath = path.join(parentDirectory, fileName);
 
     if (rootResult !== undefined) {
-      const [rootElementName, rootElementNamespace] = rootResult;
+      const [rootElementName, rootElementHeader] = rootResult;
       await buildReassembledFile(
         combinedXmlContents,
         filePath,
         rootElementName,
-        rootElementNamespace,
+        rootElementHeader,
       );
       if (postPurge) await fs.rm(xmlPath, { recursive: true });
     } else {
