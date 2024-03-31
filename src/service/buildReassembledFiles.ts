@@ -1,6 +1,7 @@
 "use strict";
 
 import * as fs from "node:fs/promises";
+
 import { logger } from "@src/index";
 import { XML_HEADER, INDENT } from "@src/helpers/constants";
 

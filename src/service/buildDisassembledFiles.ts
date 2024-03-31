@@ -1,15 +1,13 @@
 "use strict";
 
-import * as fs from "node:fs";
 import * as promise from "node:fs/promises";
 import * as path from "node:path";
-import { logger } from "@src/index";
 import { XMLParser } from "fast-xml-parser";
 
-import { XML_HEADER } from "@src/helpers/constants";
+import { logger } from "@src/index";
 import { XmlElement, XML_PARSER_OPTION } from "@src/helpers/types";
-import { findUniqueIdElement } from "@src/service/findUniqueIdElement";
-import { buildNestedElements } from "@src/service/buildNestedElements";
+import { buildNestedFile } from "@src/service/buildNestedFiles";
+import { buildLeafFile } from "@src/service/buildLeafFile";
 
 export function buildDisassembledFiles(
   xmlString: string,
@@ -37,7 +35,6 @@ export function buildDisassembledFiles(
   // Add any attributes prefixed with "@"
   for (const [attrKey, attrValue] of Object.entries(rootElement)) {
     if (attrKey.startsWith("@")) {
-      logger.debug(attrKey);
       const cleanAttrKey = attrKey.slice(2); // Remove the "@" prefix
       rootElementHeader += ` ${cleanAttrKey}="${String(attrValue)}"`;
     }
@@ -99,57 +96,16 @@ export function buildDisassembledFiles(
   }
 
   if (leafCount > 0) {
-    let leafFile = `${XML_HEADER}\n`;
-    leafFile += rootElementHeader;
-
-    const sortedLeafContent = leafContent
-      .split("\n") // Split by lines
-      .filter((line) => line.trim() !== "") // Remove empty lines
-      .sort((a, b) => a.localeCompare(b)) // Sort alphabetically
-      .join("\n"); // Join back into a string
-    leafFile += sortedLeafContent;
-    leafFile += `\n</${rootElementName}>`;
-    const leafOutputPath = path.join(metadataPath, `${baseName}.xml`);
-    fs.writeFileSync(leafOutputPath, leafFile);
-
-    logger.debug(`Created disassembled file: ${leafOutputPath}`);
+    buildLeafFile(
+      leafContent,
+      metadataPath,
+      baseName,
+      rootElementName,
+      rootElementHeader,
+    );
   }
   if (postPurge) {
     const originalFilePath = path.resolve(`${parentPath}/${baseName}.xml`);
     promise.unlink(originalFilePath);
   }
-}
-
-function buildNestedFile(
-  element: XmlElement,
-  metadataPath: string,
-  uniqueIdElements: string | undefined,
-  rootElementName: string,
-  rootElementHeader: string,
-  parentKey: string,
-  indent: string,
-): void {
-  let elementContent = "";
-
-  const fieldName = findUniqueIdElement(element, uniqueIdElements);
-
-  const outputDirectory = path.join(metadataPath, parentKey);
-  const outputFileName: string = `${fieldName}.${parentKey}-meta.xml`;
-  const outputPath = path.join(outputDirectory, outputFileName);
-
-  // Create the output directory if it doesn't exist
-  fs.mkdirSync(outputDirectory, { recursive: true });
-
-  // Call the buildNestedElements to build the XML content string
-  elementContent = buildNestedElements(element);
-  let decomposeFileContents = `${XML_HEADER}\n`;
-  decomposeFileContents += `${rootElementHeader}\n`;
-  decomposeFileContents += `${indent}<${parentKey}>\n`;
-  decomposeFileContents += `${elementContent}\n`;
-  decomposeFileContents += `${indent}</${parentKey}>\n`;
-  decomposeFileContents += `</${rootElementName}>`;
-
-  // Write the XML content to the determined output path
-  fs.writeFileSync(outputPath, decomposeFileContents);
-  logger.debug(`Created disassembled file: ${outputPath}`);
 }

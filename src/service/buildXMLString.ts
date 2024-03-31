@@ -1,12 +1,13 @@
 "use strict";
 
 import { XMLBuilder } from "fast-xml-parser";
+
 import { INDENT } from "@src/helpers/constants";
 import { XmlElement, JSON_PARSER_OPTION } from "@src/helpers/types";
 
-export function buildNestedElements(
+export function buildXMLString(
   element: XmlElement,
-  indentLevel: number = 2,
+  indentLevel: number = 0,
 ): string {
   const xmlBuilder = new XMLBuilder(JSON_PARSER_OPTION);
   const xmlString = xmlBuilder.build(element) as string;

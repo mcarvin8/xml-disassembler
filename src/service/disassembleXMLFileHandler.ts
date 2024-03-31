@@ -1,6 +1,9 @@
+"use strict";
+
 import * as fs from "node:fs";
 import * as promises from "node:fs/promises";
 import * as path from "node:path";
+
 import { logger } from "@src/index";
 import { INDENT } from "@src/helpers/constants";
 import { buildDisassembledFiles } from "@src/service/buildDisassembledFiles";
