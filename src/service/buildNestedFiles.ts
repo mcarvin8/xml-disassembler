@@ -1,6 +1,6 @@
 "use strict";
 
-import * as fs from "node:fs";
+import * as promises from "node:fs/promises";
 import * as path from "node:path";
 
 import { logger } from "@src/index";
@@ -9,7 +9,7 @@ import { XmlElement } from "@src/helpers/types";
 import { findUniqueIdElement } from "@src/service/findUniqueIdElement";
 import { buildXMLString } from "@src/service/buildXMLString";
 
-export function buildNestedFile(
+export async function buildNestedFile(
   element: XmlElement,
   metadataPath: string,
   uniqueIdElements: string | undefined,
@@ -17,7 +17,7 @@ export function buildNestedFile(
   rootElementHeader: string,
   parentKey: string,
   indent: string,
-): void {
+): Promise<void> {
   let elementContent = "";
 
   const fieldName = findUniqueIdElement(element, uniqueIdElements);
@@ -27,7 +27,7 @@ export function buildNestedFile(
   const outputPath = path.join(outputDirectory, outputFileName);
 
   // Create the output directory if it doesn't exist
-  fs.mkdirSync(outputDirectory, { recursive: true });
+  await promises.mkdir(outputDirectory, { recursive: true });
 
   // Call the buildXMLString to build the XML content string
   elementContent = buildXMLString(element, 2);
@@ -39,6 +39,6 @@ export function buildNestedFile(
   decomposeFileContents += `</${rootElementName}>`;
 
   // Write the XML content to the determined output path
-  fs.writeFileSync(outputPath, decomposeFileContents);
+  await promises.writeFile(outputPath, decomposeFileContents);
   logger.debug(`Created disassembled file: ${outputPath}`);
 }

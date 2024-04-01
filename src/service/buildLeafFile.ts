@@ -1,18 +1,18 @@
 "use strict";
 
-import * as fs from "node:fs";
+import * as promises from "node:fs/promises";
 import * as path from "node:path";
 
 import { logger } from "@src/index";
 import { XML_HEADER } from "@src/helpers/constants";
 
-export function buildLeafFile(
+export async function buildLeafFile(
   leafContent: string,
   metadataPath: string,
   baseName: string,
   rootElementName: string,
   rootElementHeader: string,
-): void {
+): Promise<void> {
   let leafFile = `${XML_HEADER}\n`;
   leafFile += rootElementHeader;
 
@@ -24,7 +24,7 @@ export function buildLeafFile(
   leafFile += sortedLeafContent;
   leafFile += `\n</${rootElementName}>`;
   const leafOutputPath = path.join(metadataPath, `${baseName}.xml`);
-  fs.writeFileSync(leafOutputPath, leafFile);
+  await promises.writeFile(leafOutputPath, leafFile);
 
   logger.debug(`Created disassembled file: ${leafOutputPath}`);
 }

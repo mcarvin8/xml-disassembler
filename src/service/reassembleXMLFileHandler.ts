@@ -7,6 +7,7 @@ import { XMLParser } from "fast-xml-parser";
 import { logger } from "@src/index";
 import { XML_PARSER_OPTION } from "@src/helpers/types";
 import { buildReassembledFile } from "@src/service/buildReassembledFiles";
+import { buildRootElementHeader } from "@src/service/buildRootElementHeader";
 import { buildXMLString } from "@src/service/buildXMLString";
 
 const xmlParser = new XMLParser(XML_PARSER_OPTION);
@@ -66,15 +67,10 @@ export class ReassembleXMLFileHandler {
   ): Promise<[string, string | undefined]> {
     const rootElementName = Object.keys(xmlParsed)[1];
     const rootElement: XmlElement = xmlParsed[rootElementName];
-    let rootElementHeader = `<${rootElementName}`;
-    // Add any attributes prefixed with "@"
-    for (const [attrKey, attrValue] of Object.entries(rootElement)) {
-      if (attrKey.startsWith("@")) {
-        const cleanAttrKey = attrKey.slice(2); // Remove the "@" prefix
-        rootElementHeader += ` ${cleanAttrKey}="${String(attrValue)}"`;
-      }
-    }
-    rootElementHeader += ">";
+    const rootElementHeader = buildRootElementHeader(
+      rootElement,
+      rootElementName,
+    );
     return [rootElementName, rootElementHeader];
   }
 

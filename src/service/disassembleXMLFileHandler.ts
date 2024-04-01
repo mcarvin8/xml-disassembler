@@ -78,7 +78,7 @@ export class DisassembleXMLFileHandler {
       }
     }
 
-    buildDisassembledFiles(
+    await buildDisassembledFiles(
       xmlContent,
       outputPath,
       uniqueIdElements,
