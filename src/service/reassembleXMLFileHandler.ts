@@ -56,6 +56,13 @@ export class ReassembleXMLFileHandler {
         }
         const combinedXmlString = buildXMLString(xmlParsed);
         combinedXmlContents.push(combinedXmlString);
+      } else if (fileStat.isDirectory()) {
+        const [subCombinedXmlContents, subRootResult] =
+          await this.processFilesInDirectory(filePath);
+        combinedXmlContents.push(...subCombinedXmlContents);
+        if (subRootResult && !rootResult) {
+          rootResult = subRootResult;
+        }
       }
     }
 
@@ -80,7 +87,7 @@ export class ReassembleXMLFileHandler {
     postPurge?: boolean;
   }): Promise<void> {
     const { xmlPath, fileExtension, postPurge = false } = xmlAttributes;
-    const combinedXmlContents: string[] = [];
+    let combinedXmlContents: string[] = [];
     const fileStat = await promises.stat(xmlPath);
 
     if (!fileStat.isDirectory()) {
@@ -90,46 +97,9 @@ export class ReassembleXMLFileHandler {
       return;
     }
     logger.debug(`Parsing directory to reassemble: ${xmlPath}`);
-    // Process files directly inside the `xmlPath` directory
-    const filesInxmlPath = await promises.readdir(xmlPath);
-
-    // Sort files based on the name
-    filesInxmlPath.sort((fileA, fileB) => {
-      const fullNameA = fileA.split(".")[0].toLowerCase();
-      const fullNameB = fileB.split(".")[0].toLowerCase();
-      return fullNameA.localeCompare(fullNameB);
-    });
-
-    let rootResult: [string, string | undefined] | undefined = undefined;
-    for (const file of filesInxmlPath) {
-      const filePath = path.join(xmlPath, file);
-      const fileStat = await promises.stat(filePath);
-      if (fileStat.isFile() && filePath.endsWith(".xml")) {
-        const xmlContent = await promises.readFile(filePath, "utf-8");
-        let xmlParsed: Record<string, XmlElement>;
-        try {
-          xmlParsed = xmlParser.parse(xmlContent, true) as Record<
-            string,
-            XmlElement
-          >;
-        } catch (err) {
-          logger.error(
-            `${filePath} was unable to be parsed and was not added to the reassembled file. Confirm formatting and try again.`,
-          );
-          continue;
-        }
-        rootResult = await this.processFilesForRootElement(xmlParsed);
-        const combinedXmlString = buildXMLString(xmlParsed);
-        combinedXmlContents.push(combinedXmlString);
-      } else if (fileStat.isDirectory()) {
-        const [subdirectoryContents, subdirectoryRootResult] =
-          await this.processFilesInDirectory(filePath);
-        combinedXmlContents.push(...subdirectoryContents); // Concatenate contents from subdirectories
-        if (subdirectoryRootResult && !rootResult) {
-          rootResult = subdirectoryRootResult;
-        }
-      }
-    }
+    const [subCombinedXmlContents, rootResult] =
+      await this.processFilesInDirectory(xmlPath);
+    combinedXmlContents = subCombinedXmlContents;
 
     const parentDirectory = path.dirname(xmlPath);
     const subdirectoryBasename = path.basename(xmlPath);
