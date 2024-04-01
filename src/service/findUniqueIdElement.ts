@@ -1,12 +1,13 @@
 "use strict";
 
 import { createHash } from "node:crypto";
+
 import { XmlElement } from "@src/helpers/types";
 
 export function findUniqueIdElement(
   element: XmlElement,
   uniqueIdElements?: string | undefined,
-): string | undefined {
+): string {
   if (uniqueIdElements === undefined) {
     return getShortHash(element);
   }
