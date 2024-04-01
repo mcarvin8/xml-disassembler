@@ -1,3 +1,10 @@
+## [1.2.4](https://github.com/mcarvin8/xml-disassembler/compare/v1.2.3...v1.2.4) (2024-04-01)
+
+### Bug Fixes
+
+- findUniqueIdElement should always return a string ([e20584e](https://github.com/mcarvin8/xml-disassembler/commit/e20584ed2ca71eaa7146d23da1b7f8460ae3d6a7))
+- switch disassembled files to async ([e4c5cbc](https://github.com/mcarvin8/xml-disassembler/commit/e4c5cbcfde49e551a2e2d6933c1d1d3420bf4dc1))
+
 ## [1.2.3](https://github.com/mcarvin8/xml-disassembler/compare/v1.2.2...v1.2.3) (2024-03-31)
 
 ### Bug Fixes
