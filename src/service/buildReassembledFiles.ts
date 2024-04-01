@@ -20,7 +20,7 @@ export async function buildReassembledFile(
     "",
   );
 
-  // Remove duplicate parent elements
+  // Remove duplicate root elements
   finalXmlContent = finalXmlContent.replace(
     new RegExp(`<${xmlElement}\\s*[^>]*>`, "g"),
     "",
