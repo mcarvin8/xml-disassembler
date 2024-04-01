@@ -1,6 +1,6 @@
 "use strict";
 
-import * as fs from "node:fs/promises";
+import * as promises from "node:fs/promises";
 import * as path from "node:path";
 import { XMLParser } from "fast-xml-parser";
 
@@ -23,7 +23,7 @@ export class ReassembleXMLFileHandler {
     const combinedXmlContents: string[] = [];
     let rootResult: [string, string | undefined] | undefined = undefined;
 
-    const files = await fs.readdir(dirPath);
+    const files = await promises.readdir(dirPath);
 
     // Sort files based on the name
     files.sort((fileA, fileB) => {
@@ -34,9 +34,9 @@ export class ReassembleXMLFileHandler {
 
     for (const file of files) {
       const filePath = path.join(dirPath, file);
-      const fileStat = await fs.stat(filePath);
+      const fileStat = await promises.stat(filePath);
       if (fileStat.isFile() && filePath.endsWith(".xml")) {
-        const xmlContent = await fs.readFile(filePath, "utf-8");
+        const xmlContent = await promises.readFile(filePath, "utf-8");
         let xmlParsed: Record<string, XmlElement>;
         try {
           xmlParsed = xmlParser.parse(xmlContent, true) as Record<
@@ -81,7 +81,7 @@ export class ReassembleXMLFileHandler {
   }): Promise<void> {
     const { xmlPath, fileExtension, postPurge = false } = xmlAttributes;
     const combinedXmlContents: string[] = [];
-    const fileStat = await fs.stat(xmlPath);
+    const fileStat = await promises.stat(xmlPath);
 
     if (!fileStat.isDirectory()) {
       logger.error(
@@ -91,7 +91,7 @@ export class ReassembleXMLFileHandler {
     }
     logger.debug(`Parsing directory to reassemble: ${xmlPath}`);
     // Process files directly inside the `xmlPath` directory
-    const filesInxmlPath = await fs.readdir(xmlPath);
+    const filesInxmlPath = await promises.readdir(xmlPath);
 
     // Sort files based on the name
     filesInxmlPath.sort((fileA, fileB) => {
@@ -103,9 +103,9 @@ export class ReassembleXMLFileHandler {
     let rootResult: [string, string | undefined] | undefined = undefined;
     for (const file of filesInxmlPath) {
       const filePath = path.join(xmlPath, file);
-      const fileStat = await fs.stat(filePath);
+      const fileStat = await promises.stat(filePath);
       if (fileStat.isFile() && filePath.endsWith(".xml")) {
-        const xmlContent = await fs.readFile(filePath, "utf-8");
+        const xmlContent = await promises.readFile(filePath, "utf-8");
         let xmlParsed: Record<string, XmlElement>;
         try {
           xmlParsed = xmlParser.parse(xmlContent, true) as Record<
@@ -146,7 +146,7 @@ export class ReassembleXMLFileHandler {
         rootElementName,
         rootElementHeader,
       );
-      if (postPurge) await fs.rm(xmlPath, { recursive: true });
+      if (postPurge) await promises.rm(xmlPath, { recursive: true });
     } else {
       logger.error(
         `No files under ${xmlPath} were parsed successfully. A reassembled XML file was not created.`,

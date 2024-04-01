@@ -1,6 +1,6 @@
 "use strict";
 
-import * as promise from "node:fs/promises";
+import * as promises from "node:fs/promises";
 import * as path from "node:path";
 import { XMLParser } from "fast-xml-parser";
 
@@ -102,6 +102,6 @@ export async function buildDisassembledFiles(
   }
   if (postPurge) {
     const originalFilePath = path.resolve(`${parentPath}/${baseName}.xml`);
-    promise.unlink(originalFilePath);
+    promises.unlink(originalFilePath);
   }
 }
