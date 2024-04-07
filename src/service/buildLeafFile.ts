@@ -14,7 +14,7 @@ export async function buildLeafFile(
   rootElementHeader: string,
 ): Promise<void> {
   let leafFile = `${XML_HEADER}\n`;
-  leafFile += rootElementHeader;
+  leafFile += `${rootElementHeader}\n`;
 
   const sortedLeafContent = leafContent
     .split("\n") // Split by lines
