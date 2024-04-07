@@ -1,3 +1,10 @@
+## [1.2.5](https://github.com/mcarvin8/xml-disassembler/compare/v1.2.4...v1.2.5) (2024-04-07)
+
+### Bug Fixes
+
+- add newlines after root element in leaf files ([c186ba8](https://github.com/mcarvin8/xml-disassembler/commit/c186ba802463c37bb3b174773055bed7f8b7f1e8))
+- allow attributes in nested elements ([6cfbc95](https://github.com/mcarvin8/xml-disassembler/commit/6cfbc95cfe283e0935c2e637577171de59051887))
+
 ## [1.2.4](https://github.com/mcarvin8/xml-disassembler/compare/v1.2.3...v1.2.4) (2024-04-01)
 
 ### Bug Fixes
