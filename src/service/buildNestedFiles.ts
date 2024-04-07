@@ -29,7 +29,7 @@ export async function buildNestedFile(
 
   // Create the output directory if it doesn't exist
   await promises.mkdir(outputDirectory, { recursive: true });
-  const parentKeyHeader = await buildRootElementHeader(element, parentKey);
+  const parentKeyHeader = buildRootElementHeader(element, parentKey);
 
   // Call the buildXMLString to build the XML content string
   elementContent = buildXMLString(element, 2);
