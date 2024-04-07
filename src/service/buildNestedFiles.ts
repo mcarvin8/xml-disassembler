@@ -8,6 +8,7 @@ import { XML_HEADER } from "@src/helpers/constants";
 import { XmlElement } from "@src/helpers/types";
 import { findUniqueIdElement } from "@src/service/findUniqueIdElement";
 import { buildXMLString } from "@src/service/buildXMLString";
+import { buildRootElementHeader } from "./buildRootElementHeader";
 
 export async function buildNestedFile(
   element: XmlElement,
@@ -28,12 +29,13 @@ export async function buildNestedFile(
 
   // Create the output directory if it doesn't exist
   await promises.mkdir(outputDirectory, { recursive: true });
+  const parentKeyHeader = await buildRootElementHeader(element, parentKey);
 
   // Call the buildXMLString to build the XML content string
   elementContent = buildXMLString(element, 2);
   let decomposeFileContents = `${XML_HEADER}\n`;
   decomposeFileContents += `${rootElementHeader}\n`;
-  decomposeFileContents += `${indent}<${parentKey}>\n`;
+  decomposeFileContents += `${indent}${parentKeyHeader}\n`;
   decomposeFileContents += `${elementContent}\n`;
   decomposeFileContents += `${indent}</${parentKey}>\n`;
   decomposeFileContents += `</${rootElementName}>`;
