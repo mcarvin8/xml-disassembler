@@ -1,6 +1,6 @@
 "use strict";
 
-import * as promises from "node:fs/promises";
+import { writeFile } from "node:fs/promises";
 
 import { logger } from "@src/index";
 import { XML_HEADER, INDENT } from "@src/helpers/constants";
@@ -50,7 +50,7 @@ export async function buildReassembledFile(
 
   const closeTag = `</${xmlElement}>`;
 
-  await promises.writeFile(
+  await writeFile(
     filePath,
     `${XML_HEADER}\n${xmlRootElementHeader}${finalXmlContent}${closeTag}`,
   );

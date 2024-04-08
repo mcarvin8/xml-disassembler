@@ -1,7 +1,7 @@
 "use strict";
 
-import * as promises from "node:fs/promises";
-import * as path from "node:path";
+import { mkdir, writeFile } from "node:fs/promises";
+import { join } from "node:path";
 
 import { logger } from "@src/index";
 import { XML_HEADER } from "@src/helpers/constants";
@@ -23,24 +23,24 @@ export async function buildNestedFile(
 
   const fieldName = findUniqueIdElement(element, uniqueIdElements);
 
-  const outputDirectory = path.join(metadataPath, parentKey);
+  const outputDirectory = join(metadataPath, parentKey);
   const outputFileName: string = `${fieldName}.${parentKey}-meta.xml`;
-  const outputPath = path.join(outputDirectory, outputFileName);
+  const outputPath = join(outputDirectory, outputFileName);
 
   // Create the output directory if it doesn't exist
-  await promises.mkdir(outputDirectory, { recursive: true });
+  await mkdir(outputDirectory, { recursive: true });
   const parentKeyHeader = buildRootElementHeader(element, parentKey);
 
   // Call the buildXMLString to build the XML content string
   elementContent = buildXMLString(element, 2);
-  let decomposeFileContents = `${XML_HEADER}\n`;
-  decomposeFileContents += `${rootElementHeader}\n`;
-  decomposeFileContents += `${indent}${parentKeyHeader}\n`;
-  decomposeFileContents += `${elementContent}\n`;
-  decomposeFileContents += `${indent}</${parentKey}>\n`;
-  decomposeFileContents += `</${rootElementName}>`;
+  let nestedFileContents = `${XML_HEADER}\n`;
+  nestedFileContents += `${rootElementHeader}\n`;
+  nestedFileContents += `${indent}${parentKeyHeader}\n`;
+  nestedFileContents += `${elementContent}\n`;
+  nestedFileContents += `${indent}</${parentKey}>\n`;
+  nestedFileContents += `</${rootElementName}>`;
 
   // Write the XML content to the determined output path
-  await promises.writeFile(outputPath, decomposeFileContents);
+  await writeFile(outputPath, nestedFileContents);
   logger.debug(`Created disassembled file: ${outputPath}`);
 }

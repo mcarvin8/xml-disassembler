@@ -1,8 +1,8 @@
 "use strict";
 
-import * as fs from "node:fs";
-import * as promises from "node:fs/promises";
-import * as path from "node:path";
+import { existsSync } from "node:fs";
+import { stat, readdir, rm } from "node:fs/promises";
+import { resolve, dirname, join, basename, extname } from "node:path";
 
 import { logger } from "@src/index";
 import { INDENT } from "@src/helpers/constants";
@@ -21,15 +21,15 @@ export class DisassembleXMLFileHandler {
       prePurge = false,
       postPurge = false,
     } = xmlAttributes;
-    const fileStat = await promises.stat(xmlPath);
+    const fileStat = await stat(xmlPath);
 
     if (fileStat.isFile()) {
-      const filePath = path.resolve(xmlPath);
+      const filePath = resolve(xmlPath);
       if (!filePath.endsWith(".xml")) {
         logger.error(`The file path ${filePath} is not an XML file.`);
         return;
       }
-      const basePath = path.dirname(filePath);
+      const basePath = dirname(filePath);
       await this.processFile({
         xmlPath: basePath,
         filePath,
@@ -38,9 +38,9 @@ export class DisassembleXMLFileHandler {
         postPurge,
       });
     } else if (fileStat.isDirectory()) {
-      const files = await promises.readdir(xmlPath);
+      const files = await readdir(xmlPath);
       for (const file of files) {
-        const filePath = path.join(xmlPath, file);
+        const filePath = join(xmlPath, file);
         if (filePath.endsWith(".xml")) {
           await this.processFile({
             xmlPath,
@@ -65,17 +65,14 @@ export class DisassembleXMLFileHandler {
       xmlAttributes;
 
     logger.debug(`Parsing file to disassemble: ${filePath}`);
-    const fullName = path.basename(filePath, path.extname(filePath));
+    const fullName = basename(filePath, extname(filePath));
     const baseName = fullName.split(".")[0];
 
     let outputPath;
-    outputPath = path.join(xmlPath, baseName);
+    outputPath = join(xmlPath, baseName);
 
-    if (prePurge) {
-      if (fs.existsSync(outputPath)) {
-        await promises.rm(outputPath, { recursive: true });
-      }
-    }
+    if (prePurge && existsSync(outputPath))
+      await rm(outputPath, { recursive: true });
 
     await buildDisassembledFiles(
       filePath,

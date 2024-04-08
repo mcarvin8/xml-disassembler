@@ -1,7 +1,7 @@
 "use strict";
 
-import * as promises from "node:fs/promises";
-import * as path from "node:path";
+import { readdir, stat, rm } from "node:fs/promises";
+import { join, dirname, basename } from "node:path";
 
 import { logger } from "@src/index";
 import { buildReassembledFile } from "@src/service/buildReassembledFiles";
@@ -15,8 +15,7 @@ export class ReassembleXMLFileHandler {
   ): Promise<[string[], [string, string | undefined] | undefined]> {
     const combinedXmlContents: string[] = [];
     let rootResult: [string, string | undefined] | undefined = undefined;
-
-    const files = await promises.readdir(dirPath);
+    const files = await readdir(dirPath);
 
     // Sort files based on the name
     files.sort((fileA, fileB) => {
@@ -26,8 +25,8 @@ export class ReassembleXMLFileHandler {
     });
 
     for (const file of files) {
-      const filePath = path.join(dirPath, file);
-      const fileStat = await promises.stat(filePath);
+      const filePath = join(dirPath, file);
+      const fileStat = await stat(filePath);
       if (fileStat.isFile() && filePath.endsWith(".xml")) {
         const xmlParsed = await parseXML(filePath);
         if (xmlParsed === undefined) continue;
@@ -52,7 +51,7 @@ export class ReassembleXMLFileHandler {
   }): Promise<void> {
     const { xmlPath, fileExtension, postPurge = false } = xmlAttributes;
     let combinedXmlContents: string[] = [];
-    const fileStat = await promises.stat(xmlPath);
+    const fileStat = await stat(xmlPath);
 
     if (!fileStat.isDirectory()) {
       logger.error(
@@ -65,12 +64,12 @@ export class ReassembleXMLFileHandler {
       await this.processFilesInDirectory(xmlPath);
     combinedXmlContents = subCombinedXmlContents;
 
-    const parentDirectory = path.dirname(xmlPath);
-    const subdirectoryBasename = path.basename(xmlPath);
+    const parentDirectory = dirname(xmlPath);
+    const subdirectoryBasename = basename(xmlPath);
     const fileName = fileExtension
       ? `${subdirectoryBasename}.${fileExtension}`
       : `${subdirectoryBasename}.xml`;
-    const filePath = path.join(parentDirectory, fileName);
+    const filePath = join(parentDirectory, fileName);
 
     if (rootResult !== undefined) {
       const [rootElementName, rootElementHeader] = rootResult;
@@ -80,7 +79,7 @@ export class ReassembleXMLFileHandler {
         rootElementName,
         rootElementHeader,
       );
-      if (postPurge) await promises.rm(xmlPath, { recursive: true });
+      if (postPurge) await rm(xmlPath, { recursive: true });
     } else {
       logger.error(
         `No files under ${xmlPath} were parsed successfully. A reassembled XML file was not created.`,

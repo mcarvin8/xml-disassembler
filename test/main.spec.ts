@@ -1,8 +1,14 @@
-import * as promises from "node:fs/promises";
-import * as fs from "node:fs";
-import * as assert from "node:assert";
-import * as path from "node:path";
-import * as fsExtra from "fs-extra";
+import {
+  rename,
+  readdir,
+  unlink,
+  writeFile,
+  rm,
+  readFile,
+} from "node:fs/promises";
+import { strictEqual } from "node:assert";
+import { join, resolve } from "node:path";
+import { copy, remove } from "fs-extra";
 
 import {
   DisassembleXMLFileHandler,
@@ -19,7 +25,7 @@ let reassembleHandler: ReassembleXMLFileHandler;
 
 describe("main function", () => {
   beforeAll(async () => {
-    await fsExtra.copy(baselineDir, mockDir, { overwrite: true });
+    await copy(baselineDir, mockDir, { overwrite: true });
     disassembleHandler = new DisassembleXMLFileHandler();
     reassembleHandler = new ReassembleXMLFileHandler();
   });
@@ -35,7 +41,7 @@ describe("main function", () => {
   });
 
   afterAll(async () => {
-    await fsExtra.remove(mockDir);
+    await remove(mockDir);
   });
 
   it('should disassemble a general XML file (nested and leaf elements) with unique ID elements."', async () => {
@@ -86,7 +92,7 @@ describe("main function", () => {
     });
 
     // rename file manually to confirm file is identical to baseline
-    promises.rename(
+    rename(
       "mock/cdata/VidLand_US.xml",
       "mock/cdata/VidLand_US.marketingappextension-meta.xml",
     );
@@ -171,7 +177,7 @@ describe("main function", () => {
 
     // Delete the original file manaully to ensure false "postPurge" is tested
     // but ensure the file is recreated by the next test
-    promises.unlink("mock/no-namespace/HR_Admin.permissionset-meta.xml");
+    unlink("mock/no-namespace/HR_Admin.permissionset-meta.xml");
 
     expect(logger.error).not.toHaveBeenCalled();
   });
@@ -185,13 +191,13 @@ describe("main function", () => {
   });
   it("should test disassemble error condition (XML file path not provided).", async () => {
     let fakeFile = "mock/not-an-xml.txt";
-    fakeFile = path.resolve(fakeFile);
+    fakeFile = resolve(fakeFile);
     const fakeFileContents = "Testing error condition.";
-    fs.writeFileSync(fakeFile, fakeFileContents);
+    await writeFile(fakeFile, fakeFileContents);
     await disassembleHandler.disassemble({
       xmlPath: fakeFile,
     });
-    fs.unlinkSync(fakeFile);
+    await rm(fakeFile);
     expect(logger.error).toHaveBeenCalled();
   });
   it("should test reassemble error condition (file path provided).", async () => {
@@ -224,26 +230,29 @@ describe("main function", () => {
   });
   // This should always be the final test
   it("should compare the files created in the mock directory against the baselines to confirm no changes.", async () => {
-    compareDirectories(baselineDir, mockDir);
+    await compareDirectories(baselineDir, mockDir);
   });
 });
 
-function compareDirectories(referenceDir: string, mockDir: string): void {
-  const entriesinRef = fs.readdirSync(referenceDir, { withFileTypes: true });
+async function compareDirectories(
+  referenceDir: string,
+  mockDir: string,
+): Promise<void> {
+  const entriesinRef = await readdir(referenceDir, { withFileTypes: true });
 
   // Only compare files that are in the reference directory
   for (const entry of entriesinRef) {
-    const refEntryPath = path.join(referenceDir, entry.name);
-    const mockPath = path.join(mockDir, entry.name);
+    const refEntryPath = join(referenceDir, entry.name);
+    const mockPath = join(mockDir, entry.name);
 
     if (entry.isDirectory()) {
       // If it's a directory, recursively compare its contents
       compareDirectories(refEntryPath, mockPath);
     } else {
       // If it's a file, compare its content
-      const refContent = fs.readFileSync(refEntryPath, "utf-8");
-      const mockContent = fs.readFileSync(mockPath, "utf-8");
-      assert.strictEqual(
+      const refContent = await readFile(refEntryPath, "utf-8");
+      const mockContent = await readFile(mockPath, "utf-8");
+      strictEqual(
         refContent,
         mockContent,
         `File content is different for ${entry.name}`,
