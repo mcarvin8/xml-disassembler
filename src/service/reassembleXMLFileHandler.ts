@@ -2,16 +2,12 @@
 
 import * as promises from "node:fs/promises";
 import * as path from "node:path";
-import { XMLParser } from "fast-xml-parser";
 
 import { logger } from "@src/index";
-import { XML_PARSER_OPTION } from "@src/helpers/types";
 import { buildReassembledFile } from "@src/service/buildReassembledFiles";
-import { buildRootElementHeader } from "@src/service/buildRootElementHeader";
 import { buildXMLString } from "@src/service/buildXMLString";
-import { XmlElement } from "../helpers/types";
-
-const xmlParser = new XMLParser(XML_PARSER_OPTION);
+import { parseXML } from "@src/service/parseXML";
+import { processFilesForRootElement } from "@src/service/processFilesForRootElement";
 
 export class ReassembleXMLFileHandler {
   async processFilesInDirectory(
@@ -33,49 +29,20 @@ export class ReassembleXMLFileHandler {
       const filePath = path.join(dirPath, file);
       const fileStat = await promises.stat(filePath);
       if (fileStat.isFile() && filePath.endsWith(".xml")) {
-        const xmlContent = await promises.readFile(filePath, "utf-8");
-        let xmlParsed: Record<string, XmlElement>;
-        try {
-          xmlParsed = xmlParser.parse(xmlContent, true) as Record<
-            string,
-            XmlElement
-          >;
-        } catch (err) {
-          logger.error(
-            `${filePath} was unable to be parsed and was not added to the reassembled file. Confirm formatting and try again.`,
-          );
-          continue;
-        }
-        const rootResultFromFile =
-          await this.processFilesForRootElement(xmlParsed);
-        if (rootResultFromFile && !rootResult) {
-          rootResult = rootResultFromFile;
-        }
+        const xmlParsed = await parseXML(filePath);
+        if (xmlParsed === undefined) continue;
+        const rootResultFromFile = await processFilesForRootElement(xmlParsed);
+        rootResult = rootResultFromFile;
         const combinedXmlString = buildXMLString(xmlParsed);
         combinedXmlContents.push(combinedXmlString);
       } else if (fileStat.isDirectory()) {
         const [subCombinedXmlContents, subRootResult] =
           await this.processFilesInDirectory(filePath);
         combinedXmlContents.push(...subCombinedXmlContents);
-        if (subRootResult && !rootResult) {
-          rootResult = subRootResult;
-        }
+        rootResult = subRootResult;
       }
     }
-
     return [combinedXmlContents, rootResult];
-  }
-
-  async processFilesForRootElement(
-    xmlParsed: Record<string, XmlElement>,
-  ): Promise<[string, string | undefined]> {
-    const rootElementName = Object.keys(xmlParsed)[1];
-    const rootElement: XmlElement = xmlParsed[rootElementName];
-    const rootElementHeader = buildRootElementHeader(
-      rootElement,
-      rootElementName,
-    );
-    return [rootElementName, rootElementHeader];
   }
 
   async reassemble(xmlAttributes: {

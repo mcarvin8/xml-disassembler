@@ -65,7 +65,6 @@ export class DisassembleXMLFileHandler {
       xmlAttributes;
 
     logger.debug(`Parsing file to disassemble: ${filePath}`);
-    const xmlContent = await promises.readFile(filePath, "utf-8");
     const fullName = path.basename(filePath, path.extname(filePath));
     const baseName = fullName.split(".")[0];
 
@@ -79,13 +78,12 @@ export class DisassembleXMLFileHandler {
     }
 
     await buildDisassembledFiles(
-      xmlContent,
+      filePath,
       outputPath,
       uniqueIdElements,
       fullName,
       INDENT,
       postPurge,
-      xmlPath,
     );
   }
 }

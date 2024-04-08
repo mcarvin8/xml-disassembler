@@ -1,37 +1,27 @@
 "use strict";
 
-import * as promises from "node:fs/promises";
-import * as path from "node:path";
-import { XMLParser } from "fast-xml-parser";
+import { unlink } from "node:fs/promises";
 
 import { logger } from "@src/index";
-import { XmlElement, XML_PARSER_OPTION } from "@src/helpers/types";
+import { XmlElement } from "@src/helpers/types";
 import { processElement } from "@src/service/processElement";
 import { buildRootElementHeader } from "@src/service/buildRootElementHeader";
 import { buildLeafFile } from "@src/service/buildLeafFile";
+import { parseXML } from "@src/service/parseXML";
 
 export async function buildDisassembledFiles(
-  xmlString: string,
+  xmlPath: string,
   metadataPath: string,
   uniqueIdElements: string | undefined,
   baseName: string,
   indent: string,
   postPurge: boolean,
-  parentPath: string,
 ): Promise<void> {
-  const xmlParser = new XMLParser(XML_PARSER_OPTION);
-  let result: Record<string, XmlElement>;
-  try {
-    result = xmlParser.parse(xmlString, true) as Record<string, XmlElement>;
-  } catch (err) {
-    logger.error(
-      `${baseName}.xml was unable to be parsed. Confirm formatting and try again.`,
-    );
-    return;
-  }
-  const rootElementName = Object.keys(result)[1];
+  const parsedXml = await parseXML(xmlPath);
+  if (parsedXml === undefined) return;
+  const rootElementName = Object.keys(parsedXml)[1];
 
-  const rootElement: XmlElement = result[rootElementName];
+  const rootElement: XmlElement = parsedXml[rootElementName];
   const rootElementHeader = buildRootElementHeader(
     rootElement,
     rootElementName,
@@ -85,7 +75,7 @@ export async function buildDisassembledFiles(
 
   if (!hasNestedElements) {
     logger.error(
-      `The XML file ${baseName}.xml only has leaf elements. This file will not be disassembled.`,
+      `The XML file ${xmlPath} only has leaf elements. This file will not be disassembled.`,
     );
     return;
   }
@@ -100,7 +90,6 @@ export async function buildDisassembledFiles(
     );
   }
   if (postPurge) {
-    const originalFilePath = path.resolve(`${parentPath}/${baseName}.xml`);
-    promises.unlink(originalFilePath);
+    unlink(xmlPath);
   }
 }
