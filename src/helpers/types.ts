@@ -25,3 +25,16 @@ export const JSON_PARSER_OPTION = {
 export interface XmlElement {
   [key: string]: string | XmlElement | string[] | XmlElement[];
 }
+
+export interface ProcessElementParams {
+  element: XmlElement;
+  metadataPath: string;
+  uniqueIdElements: string | undefined;
+  rootElementName: string;
+  rootElementHeader: string;
+  key: string;
+  indent: string;
+  leafContent: string;
+  leafCount: number;
+  hasNestedElements: boolean;
+}

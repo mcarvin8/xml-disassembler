@@ -47,7 +47,7 @@ export async function buildDisassembledFiles(
     if (Array.isArray(rootElement[key])) {
       for (const element of rootElement[key] as XmlElement[]) {
         const [updatedLeafContent, updatedLeafCount, updatedHasNestedElements] =
-          await processElement(
+          await processElement({
             element,
             metadataPath,
             uniqueIdElements,
@@ -58,15 +58,15 @@ export async function buildDisassembledFiles(
             leafContent,
             leafCount,
             hasNestedElements,
-          );
+          });
         leafContent = updatedLeafContent;
         leafCount = updatedLeafCount;
         hasNestedElements = updatedHasNestedElements;
       }
     } else {
       const [updatedLeafContent, updatedLeafCount, updatedHasNestedElements] =
-        await processElement(
-          rootElement[key] as XmlElement,
+        await processElement({
+          element: rootElement[key] as XmlElement,
           metadataPath,
           uniqueIdElements,
           rootElementName,
@@ -76,7 +76,7 @@ export async function buildDisassembledFiles(
           leafContent,
           leafCount,
           hasNestedElements,
-        );
+        });
       leafContent = updatedLeafContent;
       leafCount = updatedLeafCount;
       hasNestedElements = updatedHasNestedElements;
