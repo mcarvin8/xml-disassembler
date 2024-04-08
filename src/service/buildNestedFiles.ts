@@ -8,7 +8,7 @@ import { XML_HEADER } from "@src/helpers/constants";
 import { XmlElement } from "@src/helpers/types";
 import { findUniqueIdElement } from "@src/service/findUniqueIdElement";
 import { buildXMLString } from "@src/service/buildXMLString";
-import { buildRootElementHeader } from "./buildRootElementHeader";
+import { buildRootElementHeader } from "@src/service/buildRootElementHeader";
 
 export async function buildNestedFile(
   element: XmlElement,

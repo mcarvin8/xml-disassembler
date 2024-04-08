@@ -6,7 +6,7 @@ import { XMLParser } from "fast-xml-parser";
 
 import { logger } from "@src/index";
 import { XmlElement, XML_PARSER_OPTION } from "@src/helpers/types";
-import { buildNestedFile } from "@src/service/buildNestedFiles";
+import { processElement } from "@src/service/processElement";
 import { buildRootElementHeader } from "@src/service/buildRootElementHeader";
 import { buildLeafFile } from "@src/service/buildLeafFile";
 
@@ -45,10 +45,9 @@ export async function buildDisassembledFiles(
     (key: string) => !key.startsWith("@"),
   )) {
     if (Array.isArray(rootElement[key])) {
-      // Iterate through the elements of the array
       for (const element of rootElement[key] as XmlElement[]) {
-        if (typeof element === "object") {
-          await buildNestedFile(
+        const [updatedLeafContent, updatedLeafCount, updatedHasNestedElements] =
+          await processElement(
             element,
             metadataPath,
             uniqueIdElements,
@@ -56,31 +55,31 @@ export async function buildDisassembledFiles(
             rootElementHeader,
             key,
             indent,
+            leafContent,
+            leafCount,
+            hasNestedElements,
           );
-          hasNestedElements = true;
-        } else {
-          const fieldValue = element;
-          leafContent += `${indent}<${key}>${String(fieldValue)}</${key}>\n`;
-          leafCount++;
-        }
+        leafContent = updatedLeafContent;
+        leafCount = updatedLeafCount;
+        hasNestedElements = updatedHasNestedElements;
       }
-    } else if (typeof rootElement[key] === "object") {
-      await buildNestedFile(
-        rootElement[key] as XmlElement,
-        metadataPath,
-        uniqueIdElements,
-        rootElementName,
-        rootElementHeader,
-        key,
-        indent,
-      );
-      hasNestedElements = true;
     } else {
-      // Process XML elements that do not have children (e.g., leaf elements)
-      const fieldValue = rootElement[key];
-      // Append leaf element to the accumulated XML content
-      leafContent += `${indent}<${key}>${String(fieldValue)}</${key}>\n`;
-      leafCount++;
+      const [updatedLeafContent, updatedLeafCount, updatedHasNestedElements] =
+        await processElement(
+          rootElement[key] as XmlElement,
+          metadataPath,
+          uniqueIdElements,
+          rootElementName,
+          rootElementHeader,
+          key,
+          indent,
+          leafContent,
+          leafCount,
+          hasNestedElements,
+        );
+      leafContent = updatedLeafContent;
+      leafCount = updatedLeafCount;
+      hasNestedElements = updatedHasNestedElements;
     }
   }
 
