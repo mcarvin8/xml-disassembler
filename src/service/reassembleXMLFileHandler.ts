@@ -9,12 +9,9 @@ import { XML_PARSER_OPTION } from "@src/helpers/types";
 import { buildReassembledFile } from "@src/service/buildReassembledFiles";
 import { buildRootElementHeader } from "@src/service/buildRootElementHeader";
 import { buildXMLString } from "@src/service/buildXMLString";
+import { XmlElement } from "../helpers/types";
 
 const xmlParser = new XMLParser(XML_PARSER_OPTION);
-
-interface XmlElement {
-  [key: string]: string | XmlElement | string[] | XmlElement[];
-}
 
 export class ReassembleXMLFileHandler {
   async processFilesInDirectory(
