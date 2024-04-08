@@ -1,3 +1,9 @@
+## [1.2.7](https://github.com/mcarvin8/xml-disassembler/compare/v1.2.6...v1.2.7) (2024-04-08)
+
+### Bug Fixes
+
+- refactor processElement to not exceed arguments limit ([db2bd59](https://github.com/mcarvin8/xml-disassembler/commit/db2bd59f03b127b60ebe7bceaa5bd71fc2424470))
+
 ## [1.2.6](https://github.com/mcarvin8/xml-disassembler/compare/v1.2.5...v1.2.6) (2024-04-08)
 
 ### Bug Fixes
