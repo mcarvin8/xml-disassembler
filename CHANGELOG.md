@@ -1,3 +1,10 @@
+## [1.2.8](https://github.com/mcarvin8/xml-disassembler/compare/v1.2.7...v1.2.8) (2024-04-08)
+
+### Bug Fixes
+
+- define functions from each import over using a wildcard ([1246857](https://github.com/mcarvin8/xml-disassembler/commit/1246857d5774460d74bdecb323f76c230dfe708b))
+- parse XML separately to reduce complexity ([aaefd04](https://github.com/mcarvin8/xml-disassembler/commit/aaefd04f7a33da239b4135d5a224fd7b3db63cd7))
+
 ## [1.2.7](https://github.com/mcarvin8/xml-disassembler/compare/v1.2.6...v1.2.7) (2024-04-08)
 
 ### Bug Fixes
