@@ -1,3 +1,11 @@
+## [1.2.6](https://github.com/mcarvin8/xml-disassembler/compare/v1.2.5...v1.2.6) (2024-04-08)
+
+### Bug Fixes
+
+- import XmlElement type with a relative path ([62d056a](https://github.com/mcarvin8/xml-disassembler/commit/62d056a21dbef3cbe71c115553831b1b4d2a92f7))
+- refactor leaf/nested element check into a function ([90d8b10](https://github.com/mcarvin8/xml-disassembler/commit/90d8b10fbb8bd3ed15d9e99580ab59db821291cc))
+- remove await on non-promise ([39cd843](https://github.com/mcarvin8/xml-disassembler/commit/39cd843a3795a9a8707b8b14e5d999fd2011ff70))
+
 ## [1.2.5](https://github.com/mcarvin8/xml-disassembler/compare/v1.2.4...v1.2.5) (2024-04-07)
 
 ### Bug Fixes
