@@ -8,7 +8,7 @@ import {
 } from "node:fs/promises";
 import { strictEqual } from "node:assert";
 import { join, resolve } from "node:path";
-import { copy, remove } from "fs-extra";
+import { copy } from "fs-extra";
 
 import {
   DisassembleXMLFileHandler,
@@ -41,7 +41,7 @@ describe("main function", () => {
   });
 
   afterAll(async () => {
-    await remove(mockDir);
+    await rm(mockDir, { recursive: true });
   });
 
   it('should disassemble a general XML file (nested and leaf elements) with unique ID elements."', async () => {
@@ -247,7 +247,7 @@ async function compareDirectories(
 
     if (entry.isDirectory()) {
       // If it's a directory, recursively compare its contents
-      compareDirectories(refEntryPath, mockPath);
+      await compareDirectories(refEntryPath, mockPath);
     } else {
       // If it's a file, compare its content
       const refContent = await readFile(refEntryPath, "utf-8");
