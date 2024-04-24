@@ -7,7 +7,7 @@ import { XML_HEADER, INDENT } from "@src/helpers/constants";
 
 export async function buildReassembledFile(
   combinedXmlContents: string[],
-  filePath: string,
+  reassembledPath: string,
   xmlElement: string,
   xmlRootElementHeader: string | undefined,
 ): Promise<void> {
@@ -51,8 +51,8 @@ export async function buildReassembledFile(
   const closeTag = `</${xmlElement}>`;
 
   await writeFile(
-    filePath,
+    reassembledPath,
     `${XML_HEADER}\n${xmlRootElementHeader}${finalXmlContent}${closeTag}`,
   );
-  logger.debug(`Created reassembled file: ${filePath}`);
+  logger.debug(`Created reassembled file: ${reassembledPath}`);
 }

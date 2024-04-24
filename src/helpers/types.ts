@@ -28,7 +28,7 @@ export interface XmlElement {
 
 export interface ProcessElementParams {
   element: XmlElement;
-  metadataPath: string;
+  disassembledPath: string;
   uniqueIdElements: string | undefined;
   rootElementName: string;
   rootElementHeader: string;

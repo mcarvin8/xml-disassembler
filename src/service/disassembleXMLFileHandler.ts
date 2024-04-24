@@ -10,41 +10,43 @@ import { buildDisassembledFiles } from "@src/service/buildDisassembledFiles";
 
 export class DisassembleXMLFileHandler {
   async disassemble(xmlAttributes: {
-    xmlPath: string;
+    filePath: string;
     uniqueIdElements?: string;
     prePurge?: boolean;
     postPurge?: boolean;
   }): Promise<void> {
     const {
-      xmlPath,
+      filePath,
       uniqueIdElements,
       prePurge = false,
       postPurge = false,
     } = xmlAttributes;
-    const fileStat = await stat(xmlPath);
+    const fileStat = await stat(filePath);
 
     if (fileStat.isFile()) {
-      const filePath = resolve(xmlPath);
-      if (!filePath.endsWith(".xml")) {
-        logger.error(`The file path ${filePath} is not an XML file.`);
+      const resolvedPath = resolve(filePath);
+      if (!resolvedPath.endsWith(".xml")) {
+        logger.error(
+          `The file path provided is not an XML file: ${resolvedPath}`,
+        );
         return;
       }
-      const basePath = dirname(filePath);
+      const dirPath = dirname(resolvedPath);
       await this.processFile({
-        xmlPath: basePath,
-        filePath,
+        dirPath,
+        filePath: resolvedPath,
         uniqueIdElements,
         prePurge,
         postPurge,
       });
     } else if (fileStat.isDirectory()) {
-      const files = await readdir(xmlPath);
-      for (const file of files) {
-        const filePath = join(xmlPath, file);
-        if (filePath.endsWith(".xml")) {
+      const subFiles = await readdir(filePath);
+      for (const subFile of subFiles) {
+        const subFilePath = join(filePath, subFile);
+        if (subFilePath.endsWith(".xml")) {
           await this.processFile({
-            xmlPath,
-            filePath,
+            dirPath: filePath,
+            filePath: subFilePath,
             uniqueIdElements,
             prePurge,
             postPurge,
@@ -55,13 +57,13 @@ export class DisassembleXMLFileHandler {
   }
 
   async processFile(xmlAttributes: {
-    xmlPath: string;
+    dirPath: string;
     filePath: string;
     uniqueIdElements?: string;
     prePurge: boolean;
     postPurge: boolean;
   }): Promise<void> {
-    const { xmlPath, filePath, uniqueIdElements, prePurge, postPurge } =
+    const { dirPath, filePath, uniqueIdElements, prePurge, postPurge } =
       xmlAttributes;
 
     logger.debug(`Parsing file to disassemble: ${filePath}`);
@@ -69,7 +71,7 @@ export class DisassembleXMLFileHandler {
     const baseName = fullName.split(".")[0];
 
     let outputPath;
-    outputPath = join(xmlPath, baseName);
+    outputPath = join(dirPath, baseName);
 
     if (prePurge && existsSync(outputPath))
       await rm(outputPath, { recursive: true });

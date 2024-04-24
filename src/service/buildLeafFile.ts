@@ -8,7 +8,7 @@ import { XML_HEADER } from "@src/helpers/constants";
 
 export async function buildLeafFile(
   leafContent: string,
-  metadataPath: string,
+  disassembledPath: string,
   baseName: string,
   rootElementName: string,
   rootElementHeader: string,
@@ -17,8 +17,8 @@ export async function buildLeafFile(
   leafFile += `${rootElementHeader}\n`;
 
   leafFile += leafContent;
-  leafFile += `\n</${rootElementName}>`;
-  const leafOutputPath = join(metadataPath, `${baseName}.xml`);
+  leafFile += `</${rootElementName}>`;
+  const leafOutputPath = join(disassembledPath, `${baseName}.xml`);
   await writeFile(leafOutputPath, leafFile);
 
   logger.debug(`Created disassembled file: ${leafOutputPath}`);

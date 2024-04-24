@@ -8,7 +8,7 @@ export async function processElement(
 ): Promise<[string, number, boolean]> {
   const {
     element,
-    metadataPath,
+    disassembledPath,
     uniqueIdElements,
     rootElementName,
     rootElementHeader,
@@ -22,7 +22,7 @@ export async function processElement(
   if (typeof element === "object") {
     await buildNestedFile(
       element,
-      metadataPath,
+      disassembledPath,
       uniqueIdElements,
       rootElementName,
       rootElementHeader,

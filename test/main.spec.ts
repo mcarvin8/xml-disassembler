@@ -46,7 +46,7 @@ describe("main function", () => {
 
   it('should disassemble a general XML file (nested and leaf elements) with unique ID elements."', async () => {
     await disassembleHandler.disassemble({
-      xmlPath: "mock/general",
+      filePath: "mock/general",
       uniqueIdElements:
         "application,apexClass,name,externalDataSource,flow,object,apexPage,recordType,tab,field",
       postPurge: true,
@@ -56,7 +56,7 @@ describe("main function", () => {
   });
   it('should reassemble a general XML file (nested and leaf elements) with a namespace and alternate file extension."', async () => {
     await reassembleHandler.reassemble({
-      xmlPath: "mock/general/HR_Admin",
+      filePath: "mock/general/HR_Admin",
       fileExtension: "permissionset-meta.xml",
     });
 
@@ -64,7 +64,7 @@ describe("main function", () => {
   });
   it("should disassemble an XML file with attributes in the root element.", async () => {
     await disassembleHandler.disassemble({
-      xmlPath: "mock/attributes",
+      filePath: "mock/attributes",
       postPurge: true,
     });
 
@@ -72,14 +72,14 @@ describe("main function", () => {
   });
   it("should reassemble an XML file with attributes in the root element", async () => {
     await reassembleHandler.reassemble({
-      xmlPath: "mock/attributes/notes",
+      filePath: "mock/attributes/notes",
     });
 
     expect(logger.error).not.toHaveBeenCalled();
   });
   it("should disassemble a XML file with CDATA.", async () => {
     await disassembleHandler.disassemble({
-      xmlPath: "mock/cdata",
+      filePath: "mock/cdata",
       uniqueIdElements: "apiName",
       postPurge: true,
     });
@@ -88,7 +88,7 @@ describe("main function", () => {
   });
   it("should reassemble a XML file with CDATA and use the default file extension.", async () => {
     await reassembleHandler.reassemble({
-      xmlPath: "mock/cdata/VidLand_US",
+      filePath: "mock/cdata/VidLand_US",
     });
 
     // rename file manually to confirm file is identical to baseline
@@ -101,7 +101,7 @@ describe("main function", () => {
   });
   it("should disassemble a XML file with comments and an invalid unique ID element.", async () => {
     await disassembleHandler.disassemble({
-      xmlPath: "mock/comments",
+      filePath: "mock/comments",
       uniqueIdElements: "invalid",
       postPurge: true,
     });
@@ -110,7 +110,7 @@ describe("main function", () => {
   });
   it("should reassemble a XML file with comments.", async () => {
     await reassembleHandler.reassemble({
-      xmlPath: "mock/comments/Numbers-fr",
+      filePath: "mock/comments/Numbers-fr",
       fileExtension: "globalValueSetTranslation-meta.xml",
     });
 
@@ -118,7 +118,7 @@ describe("main function", () => {
   });
   it("should disassemble a XML file with a deeply nested unique ID element.", async () => {
     await disassembleHandler.disassemble({
-      xmlPath: "mock/deeply-nested-unique-id-element",
+      filePath: "mock/deeply-nested-unique-id-element",
       uniqueIdElements:
         "apexClass,name,object,field,layout,actionName,targetReference,assignToReference,choiceText,promptText",
       postPurge: true,
@@ -128,7 +128,7 @@ describe("main function", () => {
   });
   it("should reassemble a XML file with a deeply nested unique ID element.", async () => {
     await reassembleHandler.reassemble({
-      xmlPath: "mock/deeply-nested-unique-id-element/Get_Info",
+      filePath: "mock/deeply-nested-unique-id-element/Get_Info",
       fileExtension: "flow-meta.xml",
     });
 
@@ -136,7 +136,7 @@ describe("main function", () => {
   });
   it("should disassemble a XML file with an array of leaf elements and no defined unique ID element.", async () => {
     await disassembleHandler.disassemble({
-      xmlPath: "mock/array-of-leafs",
+      filePath: "mock/array-of-leafs",
       postPurge: true,
     });
 
@@ -144,7 +144,7 @@ describe("main function", () => {
   });
   it("should reassemble a XML file with an array of leaf elements and no defined unique ID element.", async () => {
     await reassembleHandler.reassemble({
-      xmlPath: "mock/array-of-leafs/Dreamhouse",
+      filePath: "mock/array-of-leafs/Dreamhouse",
       fileExtension: "app-meta.xml",
     });
 
@@ -152,7 +152,7 @@ describe("main function", () => {
   });
   it("should purge the existing disassembled directory before disassembling the file.", async () => {
     await disassembleHandler.disassemble({
-      xmlPath: "mock/array-of-leafs",
+      filePath: "mock/array-of-leafs",
       prePurge: true,
       postPurge: true,
     });
@@ -161,7 +161,7 @@ describe("main function", () => {
   });
   it("should reassemble the files from the previous test (prePurge) and delete the disassemble files afterwards.", async () => {
     await reassembleHandler.reassemble({
-      xmlPath: "mock/array-of-leafs/Dreamhouse",
+      filePath: "mock/array-of-leafs/Dreamhouse",
       fileExtension: "app-meta.xml",
       postPurge: true,
     });
@@ -170,7 +170,7 @@ describe("main function", () => {
   });
   it("should disassemble a XML file with no namespace.", async () => {
     await disassembleHandler.disassemble({
-      xmlPath: "mock/no-namespace/HR_Admin.permissionset-meta.xml",
+      filePath: "mock/no-namespace/HR_Admin.permissionset-meta.xml",
       uniqueIdElements:
         "application,apexClass,name,externalDataSource,flow,object,apexPage,recordType,tab,field",
     });
@@ -183,7 +183,7 @@ describe("main function", () => {
   });
   it("should reassemble a XML file with no namespace.", async () => {
     await reassembleHandler.reassemble({
-      xmlPath: "mock/no-namespace/HR_Admin",
+      filePath: "mock/no-namespace/HR_Admin",
       fileExtension: "permissionset-meta.xml",
     });
 
@@ -195,35 +195,35 @@ describe("main function", () => {
     const fakeFileContents = "Testing error condition.";
     await writeFile(fakeFile, fakeFileContents);
     await disassembleHandler.disassemble({
-      xmlPath: fakeFile,
+      filePath: fakeFile,
     });
     await rm(fakeFile);
     expect(logger.error).toHaveBeenCalled();
   });
   it("should test reassemble error condition (file path provided).", async () => {
     await reassembleHandler.reassemble({
-      xmlPath: "mock/no-namespace/HR_Admin/HR_Admin.permissionset-meta.xml",
+      filePath: "mock/no-namespace/HR_Admin/HR_Admin.permissionset-meta.xml",
     });
 
     expect(logger.error).toHaveBeenCalled();
   });
   it("should test disassemble error condition (no root element in XML).", async () => {
     await disassembleHandler.disassemble({
-      xmlPath: "mock/no-root-element",
+      filePath: "mock/no-root-element",
     });
 
     expect(logger.error).toHaveBeenCalled();
   });
   it("should test reassemble error condition (no root element in XML).", async () => {
     await reassembleHandler.reassemble({
-      xmlPath: "mock/no-root-element/Assessment_Bot",
+      filePath: "mock/no-root-element/Assessment_Bot",
     });
 
     expect(logger.error).toHaveBeenCalled();
   });
   it("should test disassemble error condition (XML file only has leaf elements).", async () => {
     await disassembleHandler.disassemble({
-      xmlPath: "mock/no-nested-elements",
+      filePath: "mock/no-nested-elements",
     });
 
     expect(logger.error).toHaveBeenCalled();

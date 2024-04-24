@@ -100,7 +100,7 @@ Import the `DisassembleXMLFileHandler` class from the package.
 ```typescript
 /* 
 FLAGS
-- xmlPath: Path to 1 XML file or a directory of XML files to disassemble. If the path provided is a directory, only the files in the immediate directory will be disassembled.
+- filePath: Path to 1 XML file or a directory of XML files to disassemble. If the path provided is a directory, only the files in the immediate directory will be disassembled.
 - uniqueIdElements: (Optional) Comma-separated list of unique and required ID elements used to name disassembled files for nested elements. 
                                Defaults to SHA-256 hash if unique ID elements are undefined or not found.
 - prePurge:  (Optional) Boolean value. If set to true, purge pre-existing disassembled directories prior to disassembling the file.
@@ -112,7 +112,7 @@ import { DisassembleXMLFileHandler } from "xml-disassembler";
 
 const handler = new DisassembleXMLFileHandler();
 await handler.disassemble({
-  xmlPath: "test/baselines/general",
+  filePath: "test/baselines/general",
   uniqueIdElements:
     "application,apexClass,name,externalDataSource,flow,object,apexPage,recordType,tab,field",
   prePurge: true,
@@ -122,25 +122,25 @@ await handler.disassemble({
 
 ## Reassembling Files
 
-Reassemble 1 XML directory (`xmlPath`) containing disassembled files back into 1 XML file.
+Reassemble 1 XML directory (`filePath`) containing disassembled files back into 1 XML file.
 
-**NOTE**: You should be reassembling files created by this package's `DisassembleXMLFileHandler` class for intended results. This class will assume all disassembled files in `xmlPath` have the same XML Root Element. The reassembled XML file will be created in the parent directory of `xmlPath` and will overwrite the original file used to create the original disassembled directories, if it still exists and the `fileExtension` flag matches the original file extension.
+**NOTE**: You should be reassembling files created by this package's `DisassembleXMLFileHandler` class for intended results. This class will assume all disassembled files in `filePath` have the same XML Root Element. The reassembled XML file will be created in the parent directory of `filePath` and will overwrite the original file used to create the original disassembled directories, if it still exists and the `fileExtension` flag matches the original file extension.
 
 Import the `ReassembleXMLFileHandler` class from the package.
 
 ```typescript
 /* 
 FLAGS
-- xmlPath: Path to the disassembled XML files to reassemble (must be a directory)
+- filePath: Path to the disassembled XML files to reassemble (must be a directory)
 - fileExtension: (Optional) Desired file extension for the final XML (default: `.xml`)
-- postPurge: (Optional) Boolean value. If set to true, purge the disassembled file directory (xmlPath) after reassembly.
+- postPurge: (Optional) Boolean value. If set to true, purge the disassembled file directory (filePath) after reassembly.
                                Defaults to false.
 */
 import { ReassembleXMLFileHandler } from "xml-disassembler";
 
 const handler = new ReassembleXMLFileHandler();
 await handler.reassemble({
-  xmlPath: "test/baselines/general/HR_Admin",
+  filePath: "test/baselines/general/HR_Admin",
   fileExtension: "permissionset-meta.xml",
   postPurge: true,
 });
@@ -204,7 +204,7 @@ if (debug) {
 
 const disassembleHandler = new DisassembleXMLFileHandler();
 await disassembleHandler.disassemble({
-  xmlPath: "test/baselines/general",
+  filePath: "test/baselines/general",
   uniqueIdElements:
     "application,apexClass,name,externalDataSource,flow,object,apexPage,recordType,tab,field",
   prePurge: true,
@@ -213,7 +213,7 @@ await disassembleHandler.disassemble({
 
 const reassembleHandler = new ReassembleXMLFileHandler();
 await reassembleHandler.reassemble({
-  xmlPath: "test/baselines/general/HR_Admin",
+  filePath: "test/baselines/general/HR_Admin",
   fileExtension: "permissionset-meta.xml",
 });
 ```
@@ -223,7 +223,3 @@ await reassembleHandler.reassemble({
 This project was created from a template provided by [Allan Oricil](https://github.com/AllanOricil). Thank you Allan!
 
 His original [license](https://github.com/AllanOricil/js-template/blob/main/LICENSE) remains in this project.
-
-## Contributing
-
-Any contributions you would like to make are appreciated. Please see [CONTRIBUTING](https://github.com/mcarvin8/xml-disassembler/blob/main/CONTRIBUTING.md).

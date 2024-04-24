@@ -12,7 +12,7 @@ import { buildRootElementHeader } from "@src/service/buildRootElementHeader";
 
 export async function buildNestedFile(
   element: XmlElement,
-  metadataPath: string,
+  disassembledPath: string,
   uniqueIdElements: string | undefined,
   rootElementName: string,
   rootElementHeader: string,
@@ -23,7 +23,7 @@ export async function buildNestedFile(
 
   const fieldName = findUniqueIdElement(element, uniqueIdElements);
 
-  const outputDirectory = join(metadataPath, parentKey);
+  const outputDirectory = join(disassembledPath, parentKey);
   const outputFileName: string = `${fieldName}.${parentKey}-meta.xml`;
   const outputPath = join(outputDirectory, outputFileName);
 

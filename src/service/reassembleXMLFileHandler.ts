@@ -45,44 +45,44 @@ export class ReassembleXMLFileHandler {
   }
 
   async reassemble(xmlAttributes: {
-    xmlPath: string;
+    filePath: string;
     fileExtension?: string;
     postPurge?: boolean;
   }): Promise<void> {
-    const { xmlPath, fileExtension, postPurge = false } = xmlAttributes;
+    const { filePath, fileExtension, postPurge = false } = xmlAttributes;
     let combinedXmlContents: string[] = [];
-    const fileStat = await stat(xmlPath);
+    const fileStat = await stat(filePath);
 
     if (!fileStat.isDirectory()) {
       logger.error(
-        `The provided xmlPath ${xmlPath} to reassemble is not a directory.`,
+        `The provided path to reassemble is not a directory: ${filePath}`,
       );
       return;
     }
-    logger.debug(`Parsing directory to reassemble: ${xmlPath}`);
+    logger.debug(`Parsing directory to reassemble: ${filePath}`);
     const [subCombinedXmlContents, rootResult] =
-      await this.processFilesInDirectory(xmlPath);
+      await this.processFilesInDirectory(filePath);
     combinedXmlContents = subCombinedXmlContents;
 
-    const parentDirectory = dirname(xmlPath);
-    const subdirectoryBasename = basename(xmlPath);
+    const parentDirectory = dirname(filePath);
+    const subdirectoryBasename = basename(filePath);
     const fileName = fileExtension
       ? `${subdirectoryBasename}.${fileExtension}`
       : `${subdirectoryBasename}.xml`;
-    const filePath = join(parentDirectory, fileName);
+    const outputPath = join(parentDirectory, fileName);
 
     if (rootResult !== undefined) {
       const [rootElementName, rootElementHeader] = rootResult;
       await buildReassembledFile(
         combinedXmlContents,
-        filePath,
+        outputPath,
         rootElementName,
         rootElementHeader,
       );
-      if (postPurge) await rm(xmlPath, { recursive: true });
+      if (postPurge) await rm(filePath, { recursive: true });
     } else {
       logger.error(
-        `No files under ${xmlPath} were parsed successfully. A reassembled XML file was not created.`,
+        `No files under ${filePath} were parsed successfully. A reassembled XML file was not created.`,
       );
     }
   }

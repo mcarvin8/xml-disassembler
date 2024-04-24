@@ -10,14 +10,14 @@ import { buildLeafFile } from "@src/service/buildLeafFile";
 import { parseXML } from "@src/service/parseXML";
 
 export async function buildDisassembledFiles(
-  xmlPath: string,
-  metadataPath: string,
+  filePath: string,
+  disassembledPath: string,
   uniqueIdElements: string | undefined,
   baseName: string,
   indent: string,
   postPurge: boolean,
 ): Promise<void> {
-  const parsedXml = await parseXML(xmlPath);
+  const parsedXml = await parseXML(filePath);
   if (parsedXml === undefined) return;
   const rootElementName = Object.keys(parsedXml)[1];
 
@@ -39,7 +39,7 @@ export async function buildDisassembledFiles(
         const [updatedLeafContent, updatedLeafCount, updatedHasNestedElements] =
           await processElement({
             element,
-            metadataPath,
+            disassembledPath,
             uniqueIdElements,
             rootElementName,
             rootElementHeader,
@@ -57,7 +57,7 @@ export async function buildDisassembledFiles(
       const [updatedLeafContent, updatedLeafCount, updatedHasNestedElements] =
         await processElement({
           element: rootElement[key] as XmlElement,
-          metadataPath,
+          disassembledPath,
           uniqueIdElements,
           rootElementName,
           rootElementHeader,
@@ -75,7 +75,7 @@ export async function buildDisassembledFiles(
 
   if (!hasNestedElements) {
     logger.error(
-      `The XML file ${xmlPath} only has leaf elements. This file will not be disassembled.`,
+      `The XML file ${filePath} only has leaf elements. This file will not be disassembled.`,
     );
     return;
   }
@@ -83,13 +83,13 @@ export async function buildDisassembledFiles(
   if (leafCount > 0) {
     await buildLeafFile(
       leafContent,
-      metadataPath,
+      disassembledPath,
       baseName,
       rootElementName,
       rootElementHeader,
     );
   }
   if (postPurge) {
-    unlink(xmlPath);
+    unlink(filePath);
   }
 }
