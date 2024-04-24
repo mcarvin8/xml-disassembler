@@ -1,3 +1,9 @@
+## [1.2.9](https://github.com/mcarvin8/xml-disassembler/compare/v1.2.8...v1.2.9) (2024-04-24)
+
+### Bug Fixes
+
+- remove leaf content sorting due to issues with multi-line leaf tags ([eacc56d](https://github.com/mcarvin8/xml-disassembler/commit/eacc56df49fe1c20ee1846859525d1067986b9d3))
+
 ## [1.2.8](https://github.com/mcarvin8/xml-disassembler/compare/v1.2.7...v1.2.8) (2024-04-08)
 
 ### Bug Fixes
