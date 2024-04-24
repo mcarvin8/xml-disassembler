@@ -31,8 +31,7 @@ export async function processElement(
     );
     return [leafContent, leafCount, true];
   } else {
-    const fieldValue = element;
-    const updatedLeafContent = `${leafContent}${indent}<${key}>${String(fieldValue)}</${key}>\n`;
+    const updatedLeafContent = `${leafContent}${indent}<${key}>${String(element)}</${key}>\n`;
     return [updatedLeafContent, leafCount + 1, hasNestedElements];
   }
 }

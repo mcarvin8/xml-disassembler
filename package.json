@@ -61,5 +61,12 @@
   },
   "bugs": {
     "url": "https://github.com/mcarvin8/xml-disassembler/issues"
-  }
+  },
+  "keywords": [
+    "xml",
+    "transform",
+    "transformers",
+    "disassemble",
+    "disassembly"
+  ]
 }

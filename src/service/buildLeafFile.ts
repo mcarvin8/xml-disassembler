@@ -16,12 +16,7 @@ export async function buildLeafFile(
   let leafFile = `${XML_HEADER}\n`;
   leafFile += `${rootElementHeader}\n`;
 
-  const sortedLeafContent = leafContent
-    .split("\n") // Split by lines
-    .filter((line) => line.trim() !== "") // Remove empty lines
-    .sort((a, b) => a.localeCompare(b)) // Sort alphabetically
-    .join("\n"); // Join back into a string
-  leafFile += sortedLeafContent;
+  leafFile += leafContent;
   leafFile += `\n</${rootElementName}>`;
   const leafOutputPath = join(metadataPath, `${baseName}.xml`);
   await writeFile(leafOutputPath, leafFile);
