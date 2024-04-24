@@ -1,3 +1,9 @@
+## [1.2.10](https://github.com/mcarvin8/xml-disassembler/compare/v1.2.9...v1.2.10) (2024-04-24)
+
+### Bug Fixes
+
+- remove extra space in leaf file, normalize variable names, change `xmlPath` to `filePath` in classes ([61a204c](https://github.com/mcarvin8/xml-disassembler/commit/61a204cac95a831e6543f54acb70451c07b824a6))
+
 ## [1.2.9](https://github.com/mcarvin8/xml-disassembler/compare/v1.2.8...v1.2.9) (2024-04-24)
 
 ### Bug Fixes
