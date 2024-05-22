@@ -1,3 +1,9 @@
+## [1.3.2](https://github.com/mcarvin8/xml-disassembler/compare/v1.3.1...v1.3.2) (2024-05-22)
+
+### Bug Fixes
+
+- fix logger warning for ignore file ([c462893](https://github.com/mcarvin8/xml-disassembler/commit/c4628936be36b8e778c116db79a9e28f2016cd4a))
+
 ## [1.3.1](https://github.com/mcarvin8/xml-disassembler/compare/v1.3.0...v1.3.1) (2024-05-22)
 
 ### Bug Fixes
