@@ -1,3 +1,9 @@
+## [1.3.1](https://github.com/mcarvin8/xml-disassembler/compare/v1.3.0...v1.3.1) (2024-05-22)
+
+### Bug Fixes
+
+- set flag for `ignorePath` ([5b5a217](https://github.com/mcarvin8/xml-disassembler/commit/5b5a217f0f8f93ce6c17945a9c7a42ed0479d5ee))
+
 # [1.3.0](https://github.com/mcarvin8/xml-disassembler/compare/v1.2.10...v1.3.0) (2024-05-22)
 
 ### Features
