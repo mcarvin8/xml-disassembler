@@ -12,32 +12,27 @@ import { buildDisassembledFiles } from "@src/service/buildDisassembledFiles";
 export class DisassembleXMLFileHandler {
   private ign: Ignore = ignore();
 
-  constructor() {
-    this.loadIgnoreFile();
-  }
-
-  private async loadIgnoreFile() {
-    const ignorePath = resolve(".xmldisassemblerignore");
-    if (existsSync(ignorePath)) {
-      const content = await readFile(ignorePath);
-      this.ign.add(content.toString());
-    }
-  }
-
   async disassemble(xmlAttributes: {
     filePath: string;
     uniqueIdElements?: string;
     prePurge?: boolean;
     postPurge?: boolean;
+    ignorePath?: string;
   }): Promise<void> {
     const {
       filePath,
       uniqueIdElements,
       prePurge = false,
       postPurge = false,
+      ignorePath = ".xmldisassemblerignore",
     } = xmlAttributes;
-    const fileStat = await stat(filePath);
+    const resolvedIgnorePath = resolve(ignorePath);
+    if (existsSync(resolvedIgnorePath)) {
+      const content = await readFile(resolvedIgnorePath);
+      this.ign.add(content.toString());
+    }
 
+    const fileStat = await stat(filePath);
     const relativePath = relative(process.cwd(), filePath);
 
     if (fileStat.isFile()) {

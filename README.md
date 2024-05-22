@@ -107,6 +107,7 @@ FLAGS
                                Defaults to false.
 - postPurge: (Optional) Boolean value. If set to true, purge the original XML file after disassembling it.
                                Defaults to false.
+- ignorePath: (Optional) Path to an ignore file containing XML files to ignore during disassembly. See "Ignore File" section.
 */
 import { DisassembleXMLFileHandler } from "xml-disassembler";
 
@@ -117,6 +118,7 @@ await handler.disassemble({
     "application,apexClass,name,externalDataSource,flow,object,apexPage,recordType,tab,field",
   prePurge: true,
   postPurge: true,
+  ignorePath: ".xmldisassemblerignore",
 });
 ```
 
@@ -155,11 +157,11 @@ Refer to the Salesforce plugin, [SFDX Decomposer](https://github.com/mcarvin8/sf
 
 ## Ignore File
 
-If you wish, you can create an ignore file named `.xmldisassemblerignore` to have the disassembler ignore specific XMLs similar to a `.gitignore` file.
+If you wish, you can create an ignore file to have the disassembler ignore specific XMLs similar to a `.gitignore` file.
 
 The disassembler uses the [node-ignore](https://github.com/kaelzhang/node-ignore) package to parse ignore files that follow [.gitignore spec 2.22.1](https://git-scm.com/docs/gitignore).
 
-Ensure your `.xmldisassemblerignore` exists in the same directory you are running the disassembler in. If you are using this package in a git repository, this ignore file should be in the root folder of the repository preferably.
+By default, the XML disassembler will look for an ignore file named `.xmldisassemblerignore` in the current working directory. Set the `ignorePath` flag to override this ignore path.
 
 ## XML Parser
 
