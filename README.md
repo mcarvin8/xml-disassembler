@@ -153,6 +153,14 @@ Refer to the Salesforce plugin, [SFDX Decomposer](https://github.com/mcarvin8/sf
 - [Disassemble Use Case](https://github.com/mcarvin8/sfdx-decomposer-plugin/blob/main/src/service/decomposeFileHandler.ts)
 - [Reassemble Use Case](https://github.com/mcarvin8/sfdx-decomposer-plugin/blob/main/src/service/recomposeFileHandler.ts)
 
+## Ignore File
+
+If you wish, you can create an ignore file named `.xmldisassemblerignore` to have the disassembler ignore specific XMLs similar to a `.gitignore` file.
+
+The disassembler uses the [node-ignore](https://github.com/kaelzhang/node-ignore) package to parse ignore files that follow [.gitignore spec 2.22.1](https://git-scm.com/docs/gitignore).
+
+Ensure your `.xmldisassemblerignore` exists in the same directory you are running the disassembler in. If you are using this package in a git repository, this ignore file should be in the root folder of the repository preferably.
+
 ## XML Parser
 
 The XML parser, which uses the `fast-xml-parser` package, is configured to retain any Character Data (CDATA) values (`<![CDATA[some stuff]]>`) and comments (`<translation><!-- Four --></translation>`) in the original XML file.

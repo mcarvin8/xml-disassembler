@@ -31,9 +31,9 @@ describe("main function", () => {
   });
 
   beforeEach(async () => {
-    jest.spyOn(console, "log");
     jest.spyOn(logger, "debug");
     jest.spyOn(logger, "error");
+    jest.spyOn(logger, "warn");
   });
 
   afterEach(async () => {
@@ -227,6 +227,20 @@ describe("main function", () => {
     });
 
     expect(logger.error).toHaveBeenCalled();
+  });
+  it("should test ignore file warning condition using a folder-path.", async () => {
+    await disassembleHandler.disassemble({
+      filePath: "mock/ignore",
+    });
+
+    expect(logger.warn).toHaveBeenCalled();
+  });
+  it("should test ignore file warning condition using a file-path.", async () => {
+    await disassembleHandler.disassemble({
+      filePath: "mock/ignore/HR_Admin.permissionset-meta.xml",
+    });
+
+    expect(logger.warn).toHaveBeenCalled();
   });
   // This should always be the final test
   it("should compare the files created in the mock directory against the baselines to confirm no changes.", async () => {
