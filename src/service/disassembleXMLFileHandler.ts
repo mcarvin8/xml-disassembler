@@ -44,7 +44,7 @@ export class DisassembleXMLFileHandler {
         return;
       }
       if (this.ign.ignores(relativePath)) {
-        logger.warn(`File ignored by .xmldisassemblerignore: ${resolvedPath}`);
+        logger.warn(`File ignored by ${ignorePath}: ${resolvedPath}`);
         return;
       }
       const dirPath = dirname(resolvedPath);
@@ -72,7 +72,7 @@ export class DisassembleXMLFileHandler {
             postPurge,
           });
         } else if (this.ign.ignores(relativeSubFilePath)) {
-          logger.warn(`File ignored by .xmldisassemblerignore: ${subFilePath}`);
+          logger.warn(`File ignored by ${ignorePath}: ${subFilePath}`);
         }
       }
     }
