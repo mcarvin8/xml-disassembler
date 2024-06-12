@@ -7,7 +7,7 @@ import {
   readFile,
 } from "node:fs/promises";
 import { strictEqual } from "node:assert";
-import { join, resolve } from "node:path";
+import { join, resolve } from "node:path/posix";
 import { copy } from "fs-extra";
 
 import {

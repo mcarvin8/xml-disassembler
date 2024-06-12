@@ -1,7 +1,7 @@
 "use strict";
 
 import { readdir, stat, rm } from "node:fs/promises";
-import { join, dirname, basename } from "node:path";
+import { join, dirname, basename } from "node:path/posix";
 
 import { logger } from "@src/index";
 import { buildReassembledFile } from "@src/service/buildReassembledFiles";

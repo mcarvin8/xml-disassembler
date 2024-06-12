@@ -2,7 +2,7 @@
 
 import { existsSync } from "node:fs";
 import { stat, readdir, rm, readFile } from "node:fs/promises";
-import { resolve, dirname, join, basename, extname, relative } from "node:path";
+import { resolve, dirname, join, basename, extname, relative } from "node:path/posix";
 import ignore, { Ignore } from "ignore";
 
 import { logger } from "@src/index";
