@@ -29,7 +29,7 @@ npm install xml-disassembler
 
 ## Disassembling Files
 
-Disassemble 1 XML file or multiple XML files in the immediate directory, without recursion. Each XML file will be disassembled into their own sub-directories using their base name (everything before the first `.` in the file-name).
+Disassemble 1 XML file or multiple XML files in the immediate directory, without recursion. Each XML file will be disassembled into their own sub-directories using their base name (everything before the first `.` in the file-name). The paths you provide must be **relative** paths.
 
 Example:
 
@@ -100,7 +100,7 @@ Import the `DisassembleXMLFileHandler` class from the package.
 ```typescript
 /* 
 FLAGS
-- filePath: Path to 1 XML file or a directory of XML files to disassemble. If the path provided is a directory, only the files in the immediate directory will be disassembled.
+- filePath: Relative path to 1 XML file or a directory of XML files to disassemble. If the path provided is a directory, only the files in the immediate directory will be disassembled.
 - uniqueIdElements: (Optional) Comma-separated list of unique and required ID elements used to name disassembled files for nested elements. 
                                Defaults to SHA-256 hash if unique ID elements are undefined or not found.
 - prePurge:  (Optional) Boolean value. If set to true, purge pre-existing disassembled directories prior to disassembling the file.
@@ -124,7 +124,7 @@ await handler.disassemble({
 
 ## Reassembling Files
 
-Reassemble 1 XML directory (`filePath`) containing disassembled files back into 1 XML file.
+Reassemble 1 XML directory (`filePath`) containing disassembled files back into 1 XML file. The paths you provide must be **relative** paths.
 
 **NOTE**: You should be reassembling files created by this package's `DisassembleXMLFileHandler` class for intended results. This class will assume all disassembled files in `filePath` have the same XML Root Element. The reassembled XML file will be created in the parent directory of `filePath` and will overwrite the original file used to create the original disassembled directories, if it still exists and the `fileExtension` flag matches the original file extension.
 
@@ -133,7 +133,7 @@ Import the `ReassembleXMLFileHandler` class from the package.
 ```typescript
 /* 
 FLAGS
-- filePath: Path to the disassembled XML files to reassemble (must be a directory)
+- filePath: Relative path to the disassembled XML files to reassemble (must be a directory)
 - fileExtension: (Optional) Desired file extension for the final XML (default: `.xml`)
 - postPurge: (Optional) Boolean value. If set to true, purge the disassembled file directory (filePath) after reassembly.
                                Defaults to false.

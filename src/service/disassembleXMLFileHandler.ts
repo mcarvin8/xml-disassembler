@@ -3,6 +3,7 @@
 import { existsSync } from "node:fs";
 import { stat, readdir, rm, readFile } from "node:fs/promises";
 import { resolve, dirname, join, basename, extname, relative } from "node:path";
+
 import ignore, { Ignore } from "ignore";
 
 import { logger } from "@src/index";
@@ -33,7 +34,7 @@ export class DisassembleXMLFileHandler {
     }
 
     const fileStat = await stat(filePath);
-    const relativePath = relative(process.cwd(), filePath);
+    const relativePath = this.posixPath(relative(process.cwd(), filePath));
 
     if (fileStat.isFile()) {
       const resolvedPath = resolve(filePath);
@@ -59,7 +60,9 @@ export class DisassembleXMLFileHandler {
       const subFiles = await readdir(filePath);
       for (const subFile of subFiles) {
         const subFilePath = join(filePath, subFile);
-        const relativeSubFilePath = relative(process.cwd(), subFilePath);
+        const relativeSubFilePath = this.posixPath(
+          relative(process.cwd(), subFilePath),
+        );
         if (
           subFilePath.endsWith(".xml") &&
           !this.ign.ignores(relativeSubFilePath)
@@ -106,5 +109,10 @@ export class DisassembleXMLFileHandler {
       INDENT,
       postPurge,
     );
+  }
+
+  private posixPath(path: string): string {
+    // Normalize path to POSIX-style (for cross-platform compatibility)
+    return path.replace(/\\+/g, "/");
   }
 }
