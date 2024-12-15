@@ -5,6 +5,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.4](https://github.com/mcarvin8/xml-disassembler/compare/v1.3.3...v1.3.4) (2024-12-15)
+
+
+### Bug Fixes
+
+* changelog formatting and build process ([b39b482](https://github.com/mcarvin8/xml-disassembler/commit/b39b482f953f9a3f1f18f7a3bb6398b9b94952fe))
+
 ## [1.3.3](https://github.com/mcarvin8/xml-disassembler/compare/v1.3.2...v1.3.3) (2024-12-15)
 
 ### Bug Fixes
