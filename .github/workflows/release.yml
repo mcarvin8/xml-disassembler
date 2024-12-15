@@ -45,6 +45,7 @@ jobs:
 
       - name: Test
         run: pnpm test
+        if: ${{ steps.release.outputs.release_created == 'true' }}
 
       - name: Publish to NPM
         run: npm publish --access public --tag latest
