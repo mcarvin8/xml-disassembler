@@ -4,6 +4,13 @@
 
 - fix logger warning for ignore file ([c462893](https://github.com/mcarvin8/xml-disassembler/commit/c4628936be36b8e778c116db79a9e28f2016cd4a))
 
+## [1.3.3](https://github.com/mcarvin8/xml-disassembler/compare/v1.3.2...v1.3.3) (2024-12-15)
+
+
+### Bug Fixes
+
+* normalize paths to unix style ([ef0ec01](https://github.com/mcarvin8/xml-disassembler/commit/ef0ec01f832af5d78ded3845c9dc248740db7ed6))
+
 ## [1.3.1](https://github.com/mcarvin8/xml-disassembler/compare/v1.3.0...v1.3.1) (2024-05-22)
 
 ### Bug Fixes
