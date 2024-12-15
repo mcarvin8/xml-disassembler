@@ -3,9 +3,9 @@ on:
   push:
     branches:
       - main
-      - beta
-
-  workflow_dispatch:
+permissions:
+  contents: write
+  pull-requests: write
 
 jobs:
   release:
@@ -13,30 +13,41 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Release Please
+        id: release
+        uses: googleapis/release-please-action@v4
+        with:
+          release-type: node
+
       - uses: pnpm/action-setup@v2.4.0
         with:
           version: 8
+        if: ${{ steps.release.outputs.release_created == 'true' }}
 
       - name: Checkout
         uses: actions/checkout@v4.1.1
+        if: ${{ steps.release.outputs.release_created == 'true' }}
 
       - name: Setup Node
         uses: actions/setup-node@v4.0.1
         with:
           node-version: 18
           cache: pnpm
+        if: ${{ steps.release.outputs.release_created == 'true' }}
 
       - name: Install Dependencies
         run: pnpm install
+        if: ${{ steps.release.outputs.release_created == 'true' }}
 
       - name: Build
         run: pnpm build
+        if: ${{ steps.release.outputs.release_created == 'true' }}
 
       - name: Test
         run: pnpm test
 
-      - name: Semantic Release
+      - name: Publish to NPM
+        run: npm publish --access public --tag latest
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npx semantic-release
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        if: ${{ steps.release.outputs.release_created == 'true' }}
