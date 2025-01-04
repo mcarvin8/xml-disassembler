@@ -41,7 +41,7 @@
     "prettier": "3.2.4",
     "rollup": "^4.9.6",
     "ts-jest": "^29.1.2",
-    "typescript": "^5.3.3"
+    "typescript": "^5.7.2"
   },
   "dependencies": {
     "fast-xml-parser": "^4.3.4",
