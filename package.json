@@ -44,7 +44,7 @@
     "typescript": "^5.7.2"
   },
   "dependencies": {
-    "fast-xml-parser": "^4.3.4",
+    "fast-xml-parser": "^4.5.1",
     "ignore": "^5.3.1",
     "log4js": "^6.9.1",
     "tslib": "^2.6.2"
