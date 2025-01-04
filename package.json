@@ -29,7 +29,7 @@
   },
   "devDependencies": {
     "@rollup/plugin-terser": "^0.4.4",
-    "@rollup/plugin-typescript": "^11.1.6",
+    "@rollup/plugin-typescript": "^12.1.2",
     "@types/fs-extra": "^11.0.4",
     "@types/jest": "^29.5.14",
     "@types/node": "^22.10.5",
