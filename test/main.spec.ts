@@ -17,8 +17,8 @@ import {
   logger,
   parseXML,
   buildXMLString,
+  XmlElement,
 } from "../src/index";
-import { XmlElement } from "../src/helpers/types";
 
 setLogLevel("debug");
 const baselineDir: string = "test/baselines";

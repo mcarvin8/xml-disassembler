@@ -1,6 +1,6 @@
 "use strict";
 
-import { INDENT } from "@src/helpers/constants";
+import { INDENT } from "./constants";
 
 export const XML_PARSER_OPTION = {
   commentPropName: "!---",
