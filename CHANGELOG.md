@@ -5,6 +5,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.7](https://github.com/mcarvin8/xml-disassembler/compare/v1.3.6...v1.3.7) (2025-01-10)
+
+
+### Bug Fixes
+
+* use relative imports in exported functions ([c43c009](https://github.com/mcarvin8/xml-disassembler/commit/c43c009c67766fb1fcc1b15ad7e9c088551ea202))
+
 ## [1.3.6](https://github.com/mcarvin8/xml-disassembler/compare/v1.3.5...v1.3.6) (2025-01-04)
 
 
