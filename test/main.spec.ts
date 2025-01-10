@@ -15,7 +15,10 @@ import {
   ReassembleXMLFileHandler,
   setLogLevel,
   logger,
+  parseXML,
+  buildXMLString,
 } from "../src/index";
+import { XmlElement } from "../src/helpers/types";
 
 setLogLevel("debug");
 const baselineDir: string = "test/baselines";
@@ -241,6 +244,14 @@ describe("main function", () => {
     });
 
     expect(logger.warn).toHaveBeenCalled();
+  });
+  it("should test parsing and building an XML with the exported functions.", async () => {
+    const result = await parseXML(
+      "mock/ignore/HR_Admin.permissionset-meta.xml",
+    );
+    await buildXMLString(result as XmlElement);
+
+    expect(logger.error).not.toHaveBeenCalled();
   });
   // This should always be the final test
   it("should compare the files created in the mock directory against the baselines to confirm no changes.", async () => {
