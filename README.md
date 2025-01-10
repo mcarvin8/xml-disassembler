@@ -189,8 +189,6 @@ The XML parser, which uses the `fast-xml-parser` package, is configured to retai
 
 By default, the package will not print any debugging statements to the console. Any error or debugging statements will be added to a log file, `disassemble.log`, created in the same directory you are running this package in. This file will be created when running the package in all cases, even if there are no errors.
 
-**NOTE**: The logging package used, `log4js`, requires `fs-extra` to be installed in your project as a dependency (`npm install --save fs-extra`).
-
 The logger's default state is to only log errors to `disassemble.log`. Check this file for ERROR statements that will look like:
 
 ```
