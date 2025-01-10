@@ -2,8 +2,8 @@
 
 import { XMLBuilder } from "fast-xml-parser";
 
-import { INDENT } from "@src/helpers/constants";
-import { XmlElement, JSON_PARSER_OPTION } from "@src/helpers/types";
+import { INDENT } from "../helpers/constants";
+import { XmlElement, JSON_PARSER_OPTION } from "../helpers/types";
 
 export function buildXMLString(
   element: XmlElement,

@@ -3,8 +3,8 @@
 import { readFile } from "node:fs/promises";
 import { XMLParser } from "fast-xml-parser";
 
-import { logger } from "@src/index";
-import { XML_PARSER_OPTION, XmlElement } from "@src/helpers/types";
+import { logger } from "../index";
+import { XML_PARSER_OPTION, XmlElement } from "../helpers/types";
 
 export async function parseXML(
   filePath: string,
