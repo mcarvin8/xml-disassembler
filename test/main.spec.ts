@@ -18,6 +18,8 @@ import {
   parseXML,
   buildXMLString,
   XmlElement,
+  getConcurrencyThreshold,
+  withConcurrencyLimit,
 } from "../src/index";
 
 setLogLevel("debug");
@@ -289,6 +291,36 @@ describe("main function", () => {
   // This should always be the final test
   it("should compare the files created in the mock directory against the baselines to confirm no changes.", async () => {
     await compareDirectories(baselineDir, mockDir);
+  });
+  it("should return a valid concurrency threshold", () => {
+    const threshold = getConcurrencyThreshold();
+    expect(typeof threshold).toBe("number");
+    expect(threshold).toBeGreaterThan(0); // Assuming the threshold must be a positive number.
+  });
+  it("should process tasks with concurrency limit", async () => {
+    const tasks = [
+      () => new Promise((resolve) => setTimeout(() => resolve("Task 1"), 100)),
+      () => new Promise((resolve) => setTimeout(() => resolve("Task 2"), 50)),
+      () => new Promise((resolve) => setTimeout(() => resolve("Task 3"), 10)),
+    ];
+    const results = await withConcurrencyLimit(tasks, 2);
+
+    expect(results).toEqual(["Task 1", "Task 2", "Task 3"]);
+  });
+
+  it("should handle an empty list of tasks", async () => {
+    const results = await withConcurrencyLimit([], 2);
+    expect(results).toEqual([]);
+  });
+
+  it("should throw an error if concurrency limit is invalid", async () => {
+    const tasks = [
+      () => Promise.resolve("Task 1"),
+      () => Promise.resolve("Task 2"),
+    ];
+    await expect(withConcurrencyLimit(tasks, 0)).rejects.toThrow(
+      /Concurrency limit must be greater than 0/,
+    );
   });
 });
 
