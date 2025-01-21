@@ -5,6 +5,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.11](https://github.com/mcarvin8/xml-disassembler/compare/v1.3.10...v1.3.11) (2025-01-21)
+
+
+### Bug Fixes
+
+* revert to 1.3.8 to remove parallel processing ([876ff0c](https://github.com/mcarvin8/xml-disassembler/commit/876ff0cd8c27060a22b26d0efdc34bf155214680))
+
 ## [1.3.10](https://github.com/mcarvin8/xml-disassembler/compare/v1.3.9...v1.3.10) (2025-01-21)
 
 
