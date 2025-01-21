@@ -18,8 +18,6 @@ import {
   parseXML,
   buildXMLString,
   XmlElement,
-  getConcurrencyThreshold,
-  withConcurrencyLimit,
 } from "../src/index";
 
 setLogLevel("debug");
@@ -43,7 +41,6 @@ describe("main function", () => {
 
   afterEach(async () => {
     jest.restoreAllMocks();
-    jest.resetModules();
   });
 
   afterAll(async () => {
@@ -256,71 +253,9 @@ describe("main function", () => {
 
     expect(logger.error).not.toHaveBeenCalled();
   });
-  it("should return the minimum of available parallelism and 6", () => {
-    jest.mock("node:os", () => ({
-      availableParallelism: jest.fn(() => 4), // Mock availableParallelism to return 4
-    }));
-
-    const {
-      getConcurrencyThreshold,
-    } = require("../src/service/getConcurrencyThreshold");
-    expect(getConcurrencyThreshold()).toBe(4);
-  });
-
-  it("should return 6 if availableParallelism returns a higher value", () => {
-    jest.mock("node:os", () => ({
-      availableParallelism: jest.fn(() => 10), // Mock availableParallelism to return 10
-    }));
-
-    const {
-      getConcurrencyThreshold,
-    } = require("../src/service/getConcurrencyThreshold");
-    expect(getConcurrencyThreshold()).toBe(6);
-  });
-
-  it("should return 6 if availableParallelism is undefined", () => {
-    jest.mock("node:os", () => ({
-      availableParallelism: undefined, // Simulate unavailable function
-    }));
-
-    const {
-      getConcurrencyThreshold,
-    } = require("../src/service/getConcurrencyThreshold");
-    expect(getConcurrencyThreshold()).toBe(6);
-  });
   // This should always be the final test
   it("should compare the files created in the mock directory against the baselines to confirm no changes.", async () => {
     await compareDirectories(baselineDir, mockDir);
-  });
-  it("should return a valid concurrency threshold", () => {
-    const threshold = getConcurrencyThreshold();
-    expect(typeof threshold).toBe("number");
-    expect(threshold).toBeGreaterThan(0); // Assuming the threshold must be a positive number.
-  });
-  it("should process tasks with concurrency limit", async () => {
-    const tasks = [
-      () => new Promise((resolve) => setTimeout(() => resolve("Task 1"), 100)),
-      () => new Promise((resolve) => setTimeout(() => resolve("Task 2"), 50)),
-      () => new Promise((resolve) => setTimeout(() => resolve("Task 3"), 10)),
-    ];
-    const results = await withConcurrencyLimit(tasks, 2);
-
-    expect(results).toEqual(["Task 1", "Task 2", "Task 3"]);
-  });
-
-  it("should handle an empty list of tasks", async () => {
-    const results = await withConcurrencyLimit([], 2);
-    expect(results).toEqual([]);
-  });
-
-  it("should throw an error if concurrency limit is invalid", async () => {
-    const tasks = [
-      () => Promise.resolve("Task 1"),
-      () => Promise.resolve("Task 2"),
-    ];
-    await expect(withConcurrencyLimit(tasks, 0)).rejects.toThrow(
-      /Concurrency limit must be greater than 0/,
-    );
   });
 });
 
