@@ -6,6 +6,7 @@ export { parseXML } from "./service/parseXML";
 export { buildXMLString } from "./service/buildXMLString";
 export { XmlElement } from "./helpers/types";
 export { getConcurrencyThreshold } from "./service/getConcurrencyThreshold";
+export { withConcurrencyLimit } from "./service/withConcurrencyLimit";
 
 // Function to update the log level
 export function setLogLevel(level: string) {

@@ -9,6 +9,7 @@ import { buildRootElementHeader } from "@src/service/buildRootElementHeader";
 import { buildLeafFile } from "@src/service/buildLeafFile";
 import { parseXML } from "@src/service/parseXML";
 import { getConcurrencyThreshold } from "./getConcurrencyThreshold";
+import { withConcurrencyLimit } from "./withConcurrencyLimit";
 
 export async function buildDisassembledFiles(
   filePath: string,
@@ -37,19 +38,38 @@ export async function buildDisassembledFiles(
   );
 
   const concurrencyLimit = getConcurrencyThreshold();
-  const activePromises: Promise<void>[] = [];
-  let currentIndex = 0;
 
-  const processChildKey = async (key: string) => {
-    if (Array.isArray(rootElement[key])) {
-      await Promise.all(
-        (rootElement[key] as XmlElement[]).map(async (element) => {
-          const [
-            updatedLeafContent,
-            updatedLeafCount,
-            updatedHasNestedElements,
-          ] = await processElement({
-            element,
+  // Create tasks for processing child keys
+  const tasks: (() => Promise<void>)[] = childKeys.map((key) => {
+    return async () => {
+      if (Array.isArray(rootElement[key])) {
+        await Promise.all(
+          (rootElement[key] as XmlElement[]).map(async (element) => {
+            const [
+              updatedLeafContent,
+              updatedLeafCount,
+              updatedHasNestedElements,
+            ] = await processElement({
+              element,
+              disassembledPath,
+              uniqueIdElements,
+              rootElementName,
+              rootElementHeader,
+              key,
+              indent,
+              leafContent: "",
+              leafCount: 0,
+              hasNestedElements: false,
+            });
+            leafContent += updatedLeafContent;
+            leafCount += updatedLeafCount;
+            hasNestedElements = hasNestedElements || updatedHasNestedElements;
+          }),
+        );
+      } else {
+        const [updatedLeafContent, updatedLeafCount, updatedHasNestedElements] =
+          await processElement({
+            element: rootElement[key] as XmlElement,
             disassembledPath,
             uniqueIdElements,
             rootElementName,
@@ -60,45 +80,15 @@ export async function buildDisassembledFiles(
             leafCount: 0,
             hasNestedElements: false,
           });
-          leafContent += updatedLeafContent;
-          leafCount += updatedLeafCount;
-          hasNestedElements = hasNestedElements || updatedHasNestedElements;
-        }),
-      );
-    } else {
-      const [updatedLeafContent, updatedLeafCount, updatedHasNestedElements] =
-        await processElement({
-          element: rootElement[key] as XmlElement,
-          disassembledPath,
-          uniqueIdElements,
-          rootElementName,
-          rootElementHeader,
-          key,
-          indent,
-          leafContent: "",
-          leafCount: 0,
-          hasNestedElements: false,
-        });
-      leafContent += updatedLeafContent;
-      leafCount += updatedLeafCount;
-      hasNestedElements = hasNestedElements || updatedHasNestedElements;
-    }
-  };
+        leafContent += updatedLeafContent;
+        leafCount += updatedLeafCount;
+        hasNestedElements = hasNestedElements || updatedHasNestedElements;
+      }
+    };
+  });
 
-  while (currentIndex < childKeys.length || activePromises.length > 0) {
-    if (
-      currentIndex < childKeys.length &&
-      activePromises.length < concurrencyLimit
-    ) {
-      const key = childKeys[currentIndex++];
-      const promise = processChildKey(key).finally(() => {
-        activePromises.splice(activePromises.indexOf(promise), 1);
-      });
-      activePromises.push(promise);
-    } else {
-      await Promise.race(activePromises);
-    }
-  }
+  // Execute tasks with concurrency limit
+  await withConcurrencyLimit(tasks, concurrencyLimit);
 
   if (!hasNestedElements) {
     logger.error(
