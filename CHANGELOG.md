@@ -5,6 +5,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.10](https://github.com/mcarvin8/xml-disassembler/compare/v1.3.9...v1.3.10) (2025-01-21)
+
+
+### Bug Fixes
+
+* export get concurrency threshold ([1cb7cae](https://github.com/mcarvin8/xml-disassembler/commit/1cb7cae42db6d7cf6b4cd0169745805808e20658))
+* use concurrency limit function ([a8e53b8](https://github.com/mcarvin8/xml-disassembler/commit/a8e53b88b503a61c7b284f56f87521949aa3d687))
+
 ## [1.3.9](https://github.com/mcarvin8/xml-disassembler/compare/v1.3.8...v1.3.9) (2025-01-21)
 
 
