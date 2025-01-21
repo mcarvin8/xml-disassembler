@@ -9,11 +9,9 @@ import ignore, { Ignore } from "ignore";
 import { logger } from "@src/index";
 import { INDENT } from "@src/helpers/constants";
 import { buildDisassembledFiles } from "@src/service/buildDisassembledFiles";
-import { getConcurrencyThreshold } from "./getConcurrencyThreshold";
-import { withConcurrencyLimit } from "./withConcurrencyLimit";
 
 export class DisassembleXMLFileHandler {
-  private readonly ign: Ignore = ignore();
+  private ign: Ignore = ignore();
 
   async disassemble(xmlAttributes: {
     filePath: string;
@@ -30,7 +28,6 @@ export class DisassembleXMLFileHandler {
       ignorePath = ".xmldisassemblerignore",
     } = xmlAttributes;
     const resolvedIgnorePath = resolve(ignorePath);
-
     if (existsSync(resolvedIgnorePath)) {
       const content = await readFile(resolvedIgnorePath);
       this.ign.add(content.toString());
@@ -61,35 +58,26 @@ export class DisassembleXMLFileHandler {
       });
     } else if (fileStat.isDirectory()) {
       const subFiles = await readdir(filePath);
-      const concurrencyLimit = getConcurrencyThreshold();
-
-      // Create tasks for all subfiles
-      const tasks: (() => Promise<void>)[] = subFiles.map((subFile) => {
+      for (const subFile of subFiles) {
         const subFilePath = join(filePath, subFile);
         const relativeSubFilePath = this.posixPath(
           relative(process.cwd(), subFilePath),
         );
-
-        return async () => {
-          if (
-            subFilePath.endsWith(".xml") &&
-            !this.ign.ignores(relativeSubFilePath)
-          ) {
-            await this.processFile({
-              dirPath: filePath,
-              filePath: subFilePath,
-              uniqueIdElements,
-              prePurge,
-              postPurge,
-            });
-          } else if (this.ign.ignores(relativeSubFilePath)) {
-            logger.warn(`File ignored by ${ignorePath}: ${subFilePath}`);
-          }
-        };
-      });
-
-      // Run tasks with concurrency limit
-      await withConcurrencyLimit(tasks, concurrencyLimit);
+        if (
+          subFilePath.endsWith(".xml") &&
+          !this.ign.ignores(relativeSubFilePath)
+        ) {
+          await this.processFile({
+            dirPath: filePath,
+            filePath: subFilePath,
+            uniqueIdElements,
+            prePurge,
+            postPurge,
+          });
+        } else if (this.ign.ignores(relativeSubFilePath)) {
+          logger.warn(`File ignored by ${ignorePath}: ${subFilePath}`);
+        }
+      }
     }
   }
 
@@ -107,11 +95,11 @@ export class DisassembleXMLFileHandler {
     const fullName = basename(filePath, extname(filePath));
     const baseName = fullName.split(".")[0];
 
-    let outputPath = join(dirPath, baseName);
+    let outputPath;
+    outputPath = join(dirPath, baseName);
 
-    if (prePurge && existsSync(outputPath)) {
+    if (prePurge && existsSync(outputPath))
       await rm(outputPath, { recursive: true });
-    }
 
     await buildDisassembledFiles(
       filePath,
