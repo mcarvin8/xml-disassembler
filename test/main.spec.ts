@@ -41,6 +41,7 @@ describe("main function", () => {
 
   afterEach(async () => {
     jest.restoreAllMocks();
+    jest.resetModules();
   });
 
   afterAll(async () => {
@@ -252,6 +253,38 @@ describe("main function", () => {
     await buildXMLString(result as XmlElement);
 
     expect(logger.error).not.toHaveBeenCalled();
+  });
+  it("should return the minimum of available parallelism and 6", () => {
+    jest.mock("node:os", () => ({
+      availableParallelism: jest.fn(() => 4), // Mock availableParallelism to return 4
+    }));
+
+    const {
+      getConcurrencyThreshold,
+    } = require("../src/service/getConcurrencyThreshold");
+    expect(getConcurrencyThreshold()).toBe(4);
+  });
+
+  it("should return 6 if availableParallelism returns a higher value", () => {
+    jest.mock("node:os", () => ({
+      availableParallelism: jest.fn(() => 10), // Mock availableParallelism to return 10
+    }));
+
+    const {
+      getConcurrencyThreshold,
+    } = require("../src/service/getConcurrencyThreshold");
+    expect(getConcurrencyThreshold()).toBe(6);
+  });
+
+  it("should return 6 if availableParallelism is undefined", () => {
+    jest.mock("node:os", () => ({
+      availableParallelism: undefined, // Simulate unavailable function
+    }));
+
+    const {
+      getConcurrencyThreshold,
+    } = require("../src/service/getConcurrencyThreshold");
+    expect(getConcurrencyThreshold()).toBe(6);
   });
   // This should always be the final test
   it("should compare the files created in the mock directory against the baselines to confirm no changes.", async () => {

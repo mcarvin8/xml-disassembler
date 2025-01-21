@@ -8,6 +8,7 @@ import { processElement } from "@src/service/processElement";
 import { buildRootElementHeader } from "@src/service/buildRootElementHeader";
 import { buildLeafFile } from "@src/service/buildLeafFile";
 import { parseXML } from "@src/service/parseXML";
+import { getConcurrencyThreshold } from "./getConcurrencyThreshold";
 
 export async function buildDisassembledFiles(
   filePath: string,
@@ -19,25 +20,35 @@ export async function buildDisassembledFiles(
 ): Promise<void> {
   const parsedXml = await parseXML(filePath);
   if (parsedXml === undefined) return;
-  const rootElementName = Object.keys(parsedXml)[1];
 
+  const rootElementName = Object.keys(parsedXml)[1];
   const rootElement: XmlElement = parsedXml[rootElementName];
   const rootElementHeader = buildRootElementHeader(
     rootElement,
     rootElementName,
   );
+
   let leafContent = "";
   let leafCount = 0;
   let hasNestedElements: boolean = false;
 
-  // Iterate through child elements to find the field name for each
-  for (const key of Object.keys(rootElement).filter(
+  const childKeys = Object.keys(rootElement).filter(
     (key: string) => !key.startsWith("@"),
-  )) {
+  );
+
+  const concurrencyLimit = getConcurrencyThreshold();
+  const activePromises: Promise<void>[] = [];
+  let currentIndex = 0;
+
+  const processChildKey = async (key: string) => {
     if (Array.isArray(rootElement[key])) {
-      for (const element of rootElement[key] as XmlElement[]) {
-        const [updatedLeafContent, updatedLeafCount, updatedHasNestedElements] =
-          await processElement({
+      await Promise.all(
+        (rootElement[key] as XmlElement[]).map(async (element) => {
+          const [
+            updatedLeafContent,
+            updatedLeafCount,
+            updatedHasNestedElements,
+          ] = await processElement({
             element,
             disassembledPath,
             uniqueIdElements,
@@ -45,14 +56,15 @@ export async function buildDisassembledFiles(
             rootElementHeader,
             key,
             indent,
-            leafContent,
-            leafCount,
-            hasNestedElements,
+            leafContent: "",
+            leafCount: 0,
+            hasNestedElements: false,
           });
-        leafContent = updatedLeafContent;
-        leafCount = updatedLeafCount;
-        hasNestedElements = updatedHasNestedElements;
-      }
+          leafContent += updatedLeafContent;
+          leafCount += updatedLeafCount;
+          hasNestedElements = hasNestedElements || updatedHasNestedElements;
+        }),
+      );
     } else {
       const [updatedLeafContent, updatedLeafCount, updatedHasNestedElements] =
         await processElement({
@@ -63,13 +75,28 @@ export async function buildDisassembledFiles(
           rootElementHeader,
           key,
           indent,
-          leafContent,
-          leafCount,
-          hasNestedElements,
+          leafContent: "",
+          leafCount: 0,
+          hasNestedElements: false,
         });
-      leafContent = updatedLeafContent;
-      leafCount = updatedLeafCount;
-      hasNestedElements = updatedHasNestedElements;
+      leafContent += updatedLeafContent;
+      leafCount += updatedLeafCount;
+      hasNestedElements = hasNestedElements || updatedHasNestedElements;
+    }
+  };
+
+  while (currentIndex < childKeys.length || activePromises.length > 0) {
+    if (
+      currentIndex < childKeys.length &&
+      activePromises.length < concurrencyLimit
+    ) {
+      const key = childKeys[currentIndex++];
+      const promise = processChildKey(key).finally(() => {
+        activePromises.splice(activePromises.indexOf(promise), 1);
+      });
+      activePromises.push(promise);
+    } else {
+      await Promise.race(activePromises);
     }
   }
 
@@ -90,6 +117,6 @@ export async function buildDisassembledFiles(
     );
   }
   if (postPurge) {
-    unlink(filePath);
+    await unlink(filePath);
   }
 }

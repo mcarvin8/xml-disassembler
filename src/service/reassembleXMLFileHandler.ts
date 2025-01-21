@@ -8,13 +8,12 @@ import { buildReassembledFile } from "@src/service/buildReassembledFiles";
 import { buildXMLString } from "@src/service/buildXMLString";
 import { parseXML } from "@src/service/parseXML";
 import { processFilesForRootElement } from "@src/service/processFilesForRootElement";
+import { getConcurrencyThreshold } from "./getConcurrencyThreshold";
 
 export class ReassembleXMLFileHandler {
   async processFilesInDirectory(
     dirPath: string,
   ): Promise<[string[], [string, string | undefined] | undefined]> {
-    const combinedXmlContents: string[] = [];
-    let rootResult: [string, string | undefined] | undefined = undefined;
     const files = await readdir(dirPath);
 
     // Sort files based on the name
@@ -24,24 +23,52 @@ export class ReassembleXMLFileHandler {
       return fullNameA.localeCompare(fullNameB);
     });
 
-    for (const file of files) {
+    const combinedXmlContents: string[] = [];
+    let rootResult: [string, string | undefined] | undefined = undefined;
+
+    const concurrencyLimit = getConcurrencyThreshold();
+    const activePromises: Promise<void>[] = [];
+    let currentIndex = 0;
+
+    // Function to process a single file
+    const processFile = async (file: string, index: number) => {
       const filePath = join(dirPath, file);
       const fileStat = await stat(filePath);
+
       if (fileStat.isFile() && filePath.endsWith(".xml")) {
         const xmlParsed = await parseXML(filePath);
-        if (xmlParsed === undefined) continue;
+        if (xmlParsed === undefined) return;
+
         const rootResultFromFile = await processFilesForRootElement(xmlParsed);
         rootResult = rootResultFromFile;
+
         const combinedXmlString = buildXMLString(xmlParsed);
-        combinedXmlContents.push(combinedXmlString);
+        combinedXmlContents[index] = combinedXmlString;
       } else if (fileStat.isDirectory()) {
         const [subCombinedXmlContents, subRootResult] =
           await this.processFilesInDirectory(filePath);
-        combinedXmlContents.push(...subCombinedXmlContents);
         rootResult = subRootResult;
+        combinedXmlContents[index] = subCombinedXmlContents.join("");
+      }
+    };
+
+    while (currentIndex < files.length || activePromises.length > 0) {
+      if (
+        currentIndex < files.length &&
+        activePromises.length < concurrencyLimit
+      ) {
+        const index = currentIndex++;
+        const file = files[index];
+        const promise = processFile(file, index).finally(() => {
+          activePromises.splice(activePromises.indexOf(promise), 1);
+        });
+        activePromises.push(promise);
+      } else {
+        await Promise.race(activePromises); // Wait for any promise to complete
       }
     }
-    return [combinedXmlContents, rootResult];
+
+    return [combinedXmlContents.filter(Boolean), rootResult];
   }
 
   async reassemble(xmlAttributes: {

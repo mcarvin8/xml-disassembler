@@ -9,9 +9,10 @@ import ignore, { Ignore } from "ignore";
 import { logger } from "@src/index";
 import { INDENT } from "@src/helpers/constants";
 import { buildDisassembledFiles } from "@src/service/buildDisassembledFiles";
+import { getConcurrencyThreshold } from "./getConcurrencyThreshold";
 
 export class DisassembleXMLFileHandler {
-  private ign: Ignore = ignore();
+  private readonly ign: Ignore = ignore();
 
   async disassemble(xmlAttributes: {
     filePath: string;
@@ -58,11 +59,18 @@ export class DisassembleXMLFileHandler {
       });
     } else if (fileStat.isDirectory()) {
       const subFiles = await readdir(filePath);
-      for (const subFile of subFiles) {
+
+      const concurrencyLimit = getConcurrencyThreshold();
+      const activePromises: Promise<void>[] = [];
+      let currentIndex = 0;
+
+      // Function to process a single file
+      const processSubFile = async (subFile: string) => {
         const subFilePath = join(filePath, subFile);
         const relativeSubFilePath = this.posixPath(
           relative(process.cwd(), subFilePath),
         );
+
         if (
           subFilePath.endsWith(".xml") &&
           !this.ign.ignores(relativeSubFilePath)
@@ -76,6 +84,21 @@ export class DisassembleXMLFileHandler {
           });
         } else if (this.ign.ignores(relativeSubFilePath)) {
           logger.warn(`File ignored by ${ignorePath}: ${subFilePath}`);
+        }
+      };
+
+      while (currentIndex < subFiles.length || activePromises.length > 0) {
+        if (
+          currentIndex < subFiles.length &&
+          activePromises.length < concurrencyLimit
+        ) {
+          const subFile = subFiles[currentIndex++];
+          const promise = processSubFile(subFile).finally(() => {
+            activePromises.splice(activePromises.indexOf(promise), 1);
+          });
+          activePromises.push(promise);
+        } else {
+          await Promise.race(activePromises); // Wait for any promise to resolve
         }
       }
     }
@@ -95,11 +118,11 @@ export class DisassembleXMLFileHandler {
     const fullName = basename(filePath, extname(filePath));
     const baseName = fullName.split(".")[0];
 
-    let outputPath;
-    outputPath = join(dirPath, baseName);
+    let outputPath = join(dirPath, baseName);
 
-    if (prePurge && existsSync(outputPath))
+    if (prePurge && existsSync(outputPath)) {
       await rm(outputPath, { recursive: true });
+    }
 
     await buildDisassembledFiles(
       filePath,
