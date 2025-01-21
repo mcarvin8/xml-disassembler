@@ -10,6 +10,7 @@ import { logger } from "@src/index";
 import { INDENT } from "@src/helpers/constants";
 import { buildDisassembledFiles } from "@src/service/buildDisassembledFiles";
 import { getConcurrencyThreshold } from "./getConcurrencyThreshold";
+import { withConcurrencyLimit } from "./withConcurrencyLimit";
 
 export class DisassembleXMLFileHandler {
   private readonly ign: Ignore = ignore();
@@ -29,6 +30,7 @@ export class DisassembleXMLFileHandler {
       ignorePath = ".xmldisassemblerignore",
     } = xmlAttributes;
     const resolvedIgnorePath = resolve(ignorePath);
+
     if (existsSync(resolvedIgnorePath)) {
       const content = await readFile(resolvedIgnorePath);
       this.ign.add(content.toString());
@@ -59,48 +61,35 @@ export class DisassembleXMLFileHandler {
       });
     } else if (fileStat.isDirectory()) {
       const subFiles = await readdir(filePath);
-
       const concurrencyLimit = getConcurrencyThreshold();
-      const activePromises: Promise<void>[] = [];
-      let currentIndex = 0;
 
-      // Function to process a single file
-      const processSubFile = async (subFile: string) => {
+      // Create tasks for all subfiles
+      const tasks: (() => Promise<void>)[] = subFiles.map((subFile) => {
         const subFilePath = join(filePath, subFile);
         const relativeSubFilePath = this.posixPath(
           relative(process.cwd(), subFilePath),
         );
 
-        if (
-          subFilePath.endsWith(".xml") &&
-          !this.ign.ignores(relativeSubFilePath)
-        ) {
-          await this.processFile({
-            dirPath: filePath,
-            filePath: subFilePath,
-            uniqueIdElements,
-            prePurge,
-            postPurge,
-          });
-        } else if (this.ign.ignores(relativeSubFilePath)) {
-          logger.warn(`File ignored by ${ignorePath}: ${subFilePath}`);
-        }
-      };
+        return async () => {
+          if (
+            subFilePath.endsWith(".xml") &&
+            !this.ign.ignores(relativeSubFilePath)
+          ) {
+            await this.processFile({
+              dirPath: filePath,
+              filePath: subFilePath,
+              uniqueIdElements,
+              prePurge,
+              postPurge,
+            });
+          } else if (this.ign.ignores(relativeSubFilePath)) {
+            logger.warn(`File ignored by ${ignorePath}: ${subFilePath}`);
+          }
+        };
+      });
 
-      while (currentIndex < subFiles.length || activePromises.length > 0) {
-        if (
-          currentIndex < subFiles.length &&
-          activePromises.length < concurrencyLimit
-        ) {
-          const subFile = subFiles[currentIndex++];
-          const promise = processSubFile(subFile).finally(() => {
-            activePromises.splice(activePromises.indexOf(promise), 1);
-          });
-          activePromises.push(promise);
-        } else {
-          await Promise.race(activePromises); // Wait for any promise to resolve
-        }
-      }
+      // Run tasks with concurrency limit
+      await withConcurrencyLimit(tasks, concurrencyLimit);
     }
   }
 
