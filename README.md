@@ -18,6 +18,7 @@ A JavaScript package to disassemble XML files into smaller, more manageable file
 - [XML Parser](#xml-parser)
 - [Logging](#logging)
 - [Extensions](#extensions)
+- [Contributing](#contributing)
 - [Template](#template)
 </details>
 
@@ -251,6 +252,9 @@ These 2 extension packages depend on XML disassembler:
 - [XML2JSON Disassembler](https://github.com/mcarvin8/xml2json-disassembler): Disassemble large XML files into smaller JSON files and reassemble the original XML file when needed
 - [XML2YAML Disassembler](https://github.com/mcarvin8/xml2yaml-disassembler): Disassemble large XML files into smaller YAML files and reassemble the original XML file when needed
 
+## Contributing
+
+Contributions are welcome! See [Contributing](https://github.com/mcarvin8/xml-disassembler/blob/main/CONTRIBUTING.md).
 
 ## Template
 
