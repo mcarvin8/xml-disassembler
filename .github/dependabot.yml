@@ -3,8 +3,7 @@ updates:
   - package-ecosystem: 'npm'
     directory: '/'
     schedule:
-      interval: 'monthly'
-      day: 'saturday'
+      interval: 'weekly'
     versioning-strategy: 'increase'
     labels:
       - 'dependencies'
