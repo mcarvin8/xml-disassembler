@@ -247,10 +247,11 @@ await reassembleHandler.reassemble({
 
 ## Extensions
 
-These 2 extension packages depend on XML disassembler:
+These extension packages depend on XML disassembler:
 
 - [XML2JSON Disassembler](https://github.com/mcarvin8/xml2json-disassembler): Disassemble large XML files into smaller JSON files and reassemble the original XML file when needed
 - [XML2YAML Disassembler](https://github.com/mcarvin8/xml2yaml-disassembler): Disassemble large XML files into smaller YAML files and reassemble the original XML file when needed
+- [XML2JSON5 Disassembler](https://github.com/mcarvin8/xml2json5-disassembler): Disassemble large XML files into smaller JSON5 files and reassemble the original XML file when needed
 
 ## Contributing
 
