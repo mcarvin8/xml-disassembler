@@ -169,10 +169,10 @@ await handler.reassemble({
 
 ## Use Case
 
-Refer to the Salesforce plugin, [SFDX Decomposer](https://github.com/mcarvin8/sfdx-decomposer-plugin), to see a use case of this package:
+Refer to the Salesforce plugin, [sf-decomposer](https://github.com/mcarvin8/sf-decomposer), to see a use case of this package:
 
-- [Disassemble Use Case](https://github.com/mcarvin8/sfdx-decomposer-plugin/blob/main/src/service/decomposeFileHandler.ts)
-- [Reassemble Use Case](https://github.com/mcarvin8/sfdx-decomposer-plugin/blob/main/src/service/recomposeFileHandler.ts)
+- [Disassemble Use Case](https://github.com/mcarvin8/sf-decomposer/blob/main/src/service/decomposeFileHandler.ts)
+- [Reassemble Use Case](https://github.com/mcarvin8/sf-decomposer/blob/main/src/service/recomposeFileHandler.ts)
 
 ## Ignore File
 
