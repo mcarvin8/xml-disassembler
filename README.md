@@ -190,7 +190,7 @@ Refer to the Salesforce CLI plugin, [`sf-decomposer`](https://github.com/mcarvin
 
 If you wish, you can create an ignore file to have the disassembler ignore specific XMLs similar to a `.gitignore` file.
 
-The disassembler uses the [node-ignore](https://github.com/kaelzhang/node-ignore) package to parse ignore files that follow [.gitignore spec 2.22.1](https://git-scm.com/docs/gitignore).
+The disassembler uses the [`node-ignore`](https://github.com/kaelzhang/node-ignore) package to parse ignore files that follow [.gitignore spec 2.22.1](https://git-scm.com/docs/gitignore).
 
 By default, `xml-disassembler` will look for an ignore file named `.xmldisassemblerignore` in the current working directory. Set the `ignorePath` flag to override this ignore path.
 
@@ -202,7 +202,9 @@ The XML parser is configured to retain Character Data (CDATA) values (`<![CDATA[
 
 ## Logging
 
-By default, `xml-disassembler` will not print any debugging statements to the console. Any debugging statements will be added to a log file, `disassemble.log`, via `log4js`. `disassemble.log` will be created in the running directory when running `xml-disassembler` in all cases, even if there are no statements logged.
+By default, `xml-disassembler` will not print any debugging statements to the console. Any debugging statements will be added to a log file, `disassemble.log`, via [`log4js`](https://github.com/log4js-node/log4js-node).
+
+`disassemble.log` will be created in the running directory when running `xml-disassembler` in all cases, even if there are no statements logged.
 
 The logger's default state is to only log errors to `disassemble.log`. Check this file for `ERROR` statements such as:
 
