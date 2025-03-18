@@ -181,7 +181,7 @@ await handler.reassemble({
 
 ## Use Case
 
-Refer to the Salesforce plugin, [sf-decomposer](https://github.com/mcarvin8/sf-decomposer), to see a use case of `xml-disassembler` and its [extensions](#extensions):
+Refer to the Salesforce CLI plugin, [`sf-decomposer`](https://github.com/mcarvin8/sf-decomposer), to see a use case of `xml-disassembler` and its [extensions](#extensions):
 
 - [Disassemble Use Case](https://github.com/mcarvin8/sf-decomposer/blob/main/src/service/decomposeFileHandler.ts)
 - [Reassemble Use Case](https://github.com/mcarvin8/sf-decomposer/blob/main/src/service/recomposeFileHandler.ts)
