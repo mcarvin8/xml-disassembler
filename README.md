@@ -89,8 +89,8 @@ Reassemble a directory of disassembled XML files into a single XML file.
 ```typescript
 /* 
 FLAGS
-- filePath:       Relative path to the disassembled XML directory to reassemble
-- fileExtension:  File extension for the reassembld XML 
+- filePath:        Relative path to the disassembled XML directory to reassemble.
+- fileExtension:   File extension for the reassembled XML.
                    (default: `.xml`)
 - postPurge:       Delete the disassembled directory after reassembly.
 */
