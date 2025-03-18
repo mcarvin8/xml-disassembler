@@ -104,14 +104,17 @@ An XML file (`HR_Admin.permissionset-meta.xml`) with the following nested and le
 will be disassembled into a sub-directory named `HR_Admin` as such:
 
 - Each nested element (`<recordTypeVisibilities>`, `<applicationVisibilities>`, `pageAccesses`, etc.) will be disassembled into further sub-directories by the nested element name.
+    - If a unique & required ID element (i.e. `application` in the above element) is provided & found, the disassembled file will be named using it. Otherwise, the disassembled nested element file will be named using the SHA-256 of its contents.
 ```xml
     <applicationVisibilities>
         <application>JobApps__Recruiting</application>
         <visible>true</visible>
     </applicationVisibilities>
 ```
-    - If a unique & required ID element (i.e. `application` in the above element) is provided & found, the disassembled file will be named using it. Otherwise, the disassembled nested element file will be named using the SHA-256 of its contents.
-- Each leaf element (`<description>`, `<label>`, `<userLicense>`) will be disassembled into the same file in the first sub-directory, which will have the same file-name as the original file.
+- Each leaf element will be disassembled into the same file in the first sub-directory, which will have the same file-name as the original file.
+```xml
+    <description>Grants all rights needed for an HR administrator to manage employees.</description>
+```
 
 <img src="https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled.png">
 
