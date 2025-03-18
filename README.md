@@ -103,7 +103,14 @@ An XML file (`HR_Admin.permissionset-meta.xml`) with the following nested and le
 
 will be disassembled into a sub-directory named `HR_Admin` as such:
 
-- Each nested element (`<recordTypeVisibilities>`, `<applicationVisibilities>`, `pageAccesses`, etc.) will be disassembled into further sub-directories by the nested element name. If a unique & required ID element (`application` is the unique ID element for `<applicationVisibilities>`) is found, the disassembled file will be named using it. Otherwise, the disassembled files for nested elements will be named using the SHA-256 of the element contents.
+- Each nested element (`<recordTypeVisibilities>`, `<applicationVisibilities>`, `pageAccesses`, etc.) will be disassembled into further sub-directories by the nested element name.
+```xml
+    <applicationVisibilities>
+        <application>JobApps__Recruiting</application>
+        <visible>true</visible>
+    </applicationVisibilities>
+```
+    - If a unique & required ID element (i.e. `application` in the above element) is provided & found, the disassembled file will be named using it. Otherwise, the disassembled nested element file will be named using the SHA-256 of its contents.
 - Each leaf element (`<description>`, `<label>`, `<userLicense>`) will be disassembled into the same file in the first sub-directory, which will have the same file-name as the original file.
 
 <img src="https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled.png">
@@ -180,7 +187,7 @@ If you wish, you can create an ignore file to have the disassembler ignore speci
 
 The disassembler uses the [node-ignore](https://github.com/kaelzhang/node-ignore) package to parse ignore files that follow [.gitignore spec 2.22.1](https://git-scm.com/docs/gitignore).
 
-By default, the XML disassembler will look for an ignore file named `.xmldisassemblerignore` in the current working directory. Set the `ignorePath` flag to override this ignore path.
+By default, `xml-disassembler` will look for an ignore file named `.xmldisassemblerignore` in the current working directory. Set the `ignorePath` flag to override this ignore path.
 
 ## XML Parser
 
@@ -188,7 +195,7 @@ The XML parser, which uses the `fast-xml-parser` package, is configured to retai
 
 ## Logging
 
-By default, the package will not print any debugging statements to the console. Any error or debugging statements will be added to a log file, `disassemble.log`, created in the same directory you are running this package in. This file will be created when running the package in all cases, even if there are no errors.
+By default, `xml-disassembler` will not print any debugging statements to the console. Any error or debugging statements will be added to a log file, `disassemble.log`, created in the running directory. The log will be created when running `xml-disassembler` in all cases, even if there are no errors.
 
 The logger's default state is to only log errors to `disassemble.log`. Check this file for ERROR statements that will look like:
 
@@ -196,9 +203,9 @@ The logger's default state is to only log errors to `disassemble.log`. Check thi
 [2024-03-30T14:28:37.950] [ERROR] default - The XML file HR_Admin.no-nested-elements.xml only has leaf elements. This file will not be disassembled.
 ```
 
-To add additional debugging statements to the log file, import the `setLogLevel` function from the package and run the function with `debug` to print all debugging statements to a log file.
+To log additional debugging statements, import the `setLogLevel` function from `xml-disassembler` and run the function with `debug` to append all debugging statements to a log file.
 
-When the log level is set to `debug`, the log file will contain statements like this to indicate which files were processed for disassembly and reassembly:
+When the log level is set to `debug`, the log file will contain statements like this to indicate which files were processed by `xml-disassembler`:
 
 ```
 [2024-03-30T14:28:37.926] [DEBUG] default - Parsing directory to reassemble: mock/no-namespace/HR_Admin
