@@ -119,11 +119,11 @@ Disassemble 1 XML file or multiple XML files in the immediate directory, without
 ```
 
 <img src="https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled.png">
-
+<p><em>Disassembled XML files using unique ID elements</em></p>
 <br>
 
 <img src="https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-hashes.png">
-
+<p><em>Disassembled XML files using SHA-256 hashes</em></p>
 <br>
 
 Import the `DisassembleXMLFileHandler` class from the package.
