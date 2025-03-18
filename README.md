@@ -3,6 +3,7 @@
 [![NPM](https://img.shields.io/npm/v/xml-disassembler.svg?label=xml-disassembler)](https://www.npmjs.com/package/xml-disassembler) [![Downloads/week](https://img.shields.io/npm/dw/xml-disassembler.svg)](https://npmjs.org/package/xml-disassembler)
 
 Disassemble XML files into smaller, more manageable files and reassemble them when needed.
+
 This tool simplifies version control, improves diff readability, and streamlines collaboration when dealing with large XML files.
 
 ---
@@ -57,8 +58,6 @@ npm install xml-disassembler
 
 Disassemble 1 XML file or multiple XML files in the immediate directory, without recursion. Each XML file will be disassembled into their own sub-directories using their base name (everything before the first `.` in the file-name). The paths you provide must be **relative** paths.
 
-Import the `DisassembleXMLFileHandler` class from the package.
-
 ```typescript
 /* 
 FLAGS
@@ -88,9 +87,7 @@ await handler.disassemble({
 
 Reassemble 1 XML directory (`filePath`) containing disassembled files back into 1 XML file. The paths you provide must be **relative** paths.
 
-> **NOTE**: You should be reassembling files created by this package's `DisassembleXMLFileHandler` class for intended results. This class will assume all disassembled files in `filePath` have the same XML Root Element. The reassembled XML file will be created in the parent directory of `filePath` and will overwrite the original file used to create the original disassembled directories, if it still exists and the `fileExtension` flag matches the original file extension.
-
-Import the `ReassembleXMLFileHandler` class from the package.
+> **NOTE**: You should be reassembling disassembled files created by this package's disassembler for intended results.
 
 ```typescript
 /* 
@@ -172,7 +169,7 @@ await handler.reassemble({
 
 ## Use Case
 
-Refer to the Salesforce CLI plugin, [`sf-decomposer`](https://github.com/mcarvin8/sf-decomposer), to see a use case of `xml-disassembler` and its [extensions](#extensions):
+See [`sf-decomposer`](https://github.com/mcarvin8/sf-decomposer) for a Salesforce CLI use case:
 
 - [Disassemble Use Case](https://github.com/mcarvin8/sf-decomposer/blob/main/src/service/decomposeFileHandler.ts)
 - [Reassemble Use Case](https://github.com/mcarvin8/sf-decomposer/blob/main/src/service/recomposeFileHandler.ts)
