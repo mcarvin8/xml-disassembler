@@ -37,7 +37,7 @@ Using a custom XML diff algorithm can be beneficial in some cases. However, thes
 
 `xml-disassembler` offers a simpler alternative by breaking down XML files into smaller parts. This approach is more straightforward and easier to understand, making it suitable for a wider range of users. It also allows for more granular control over the review process, as each individual file can be reviewed separately.
 
-While there are trade-offs between using a custom diff algorithm and the XML Disassembler package, the latter provides a practical and accessible solution for managing large XML files.
+While there are trade-offs between using a custom diff algorithm and `xml-disassembler`, the latter provides a practical and accessible solution for managing large XML files.
 
 ## Install
 
