@@ -15,5 +15,3 @@ updates:
       prefix: fix(deps)
       # no release for dev-deps
       prefix-development: chore(dev-deps)
-    allow:
-      - dependency-name: 'fast-xml-parser'
