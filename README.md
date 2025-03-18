@@ -106,7 +106,7 @@ Disassemble 1 XML file or multiple XML files in the immediate directory, without
 
 - The original XML is disassembled in a new directory named `HR_Admin`.
 - Each nested element in the original XML (`<recordTypeVisibilities>`, `<applicationVisibilities>`, `pageAccesses`, etc.) will be disassembled into sub-directories by the nested element name.
-    - If a unique & required ID element (i.e. `application` in the above element) is provided & found, the disassembled file will be named using it. Otherwise, the disassembled nested element file will be named using the SHA-256 of its contents.
+    - If a unique & required ID element (i.e. `<application>` in the below nested element) is provided & found, the disassembled file will be named using it. Otherwise, the disassembled nested element file will be named using the SHA-256 hash of its contents.
 ```xml
     <applicationVisibilities>
         <application>JobApps__Recruiting</application>
