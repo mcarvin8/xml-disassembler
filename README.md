@@ -187,11 +187,13 @@ Refer to the Salesforce CLI plugin, [`sf-decomposer`](https://github.com/mcarvin
 
 ## Ignore File
 
-If you wish, you can create an ignore file to have the disassembler ignore specific XMLs similar to a `.gitignore` file.
+If you wish, you can create an ignore file to have the `DisassembleXMLFileHandler` class ignore specific XMLs similar to a `.gitignore` file.
 
 The disassembler uses the [`node-ignore`](https://github.com/kaelzhang/node-ignore) package to parse ignore files that follow [.gitignore spec 2.22.1](https://git-scm.com/docs/gitignore).
 
-By default, `xml-disassembler` will look for an ignore file named `.xmldisassemblerignore` in the current working directory. Set the `ignorePath` flag to override this ignore path.
+By default, the `DisassembleXMLFileHandler` class will look for an ignore file named `.xmldisassemblerignore` in the running directory. Set the `ignorePath` flag to override this ignore path.
+
+The `ReassembleXMLFileHandler` class does **not** read this ignore file.
 
 ## XML Parser
 
