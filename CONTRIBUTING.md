@@ -29,11 +29,12 @@ pnpm test
 
 ## Extension Packages
 
-The 2 extension packages have been developed from xml-disassembler:
+These extension packages have been developed from `xml-disassembler`:
 
-- [XML2JSON Disassembler](https://github.com/mcarvin8/xml2json-disassembler): Extension package which disassembles large XML files into smaller JSON files and reassembles the original XML file when needed
-- [XML2YAML Disassembler](https://github.com/mcarvin8/xml2yaml-disassembler): Extension package which disassembles large XML files into smaller YAML files and reassembles the original XML file when needed
+- [`xml2json-disassembler`](https://github.com/mcarvin8/xml2json-disassembler): Disassemble large XML files into smaller JSON files and reassemble the original XML file when needed
+- [`xml2yaml-disassembler`](https://github.com/mcarvin8/xml2yaml-disassembler): Disassemble large XML files into smaller YAML files and reassemble the original XML file when needed
+- [`xml2json5-disassembler`](https://github.com/mcarvin8/xml2json5-disassembler): Disassemble large XML files into smaller JSON5 files and reassemble the original XML file when needed
 
-Please fork and raise PRs in these repos for any features or bug fixes specific to XML2JSON or XML2YAML issues. All 3 packages are built with node and pnpm.
+Please fork and raise PRs in these repos for any features or bug fixes specific to XML2JSON, XML2JSON5, or XML2YAML issues. All packages are built with `node` and `pnpm`.
 
-Ensure the 2 extensions are updated to use the latest xml-disassembler.
+Ensure the extensions are updated to use the latest `xml-disassembler`.
