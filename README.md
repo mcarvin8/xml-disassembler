@@ -196,23 +196,23 @@ By default, `xml-disassembler` will look for an ignore file named `.xmldisassemb
 
 ## XML Parser
 
-This package uses [`fast-xml-parser`](https://github.com/NaturalIntelligence/fast-xml-parser) to parse and build XMLs.
+The disassembler uses [`fast-xml-parser`](https://github.com/NaturalIntelligence/fast-xml-parser) to parse and build XMLs.
 
 The XML parser is configured to retain Character Data (CDATA) values (`<![CDATA[some stuff]]>`) and comments (`<translation><!-- Four --></translation>`) in the original XML files.
 
 ## Logging
 
-By default, `xml-disassembler` will not print any debugging statements to the console. Any error or debugging statements will be added to a log file, `disassemble.log`, created in the running directory. The log will be created when running `xml-disassembler` in all cases, even if there are no errors.
+By default, `xml-disassembler` will not print any debugging statements to the console. Any debugging statements will be added to a log file, `disassemble.log`, via `log4js`. `disassemble.log` will be created in the running directory when running `xml-disassembler` in all cases, even if there are no statements logged.
 
-The logger's default state is to only log errors to `disassemble.log`. Check this file for ERROR statements that will look like:
+The logger's default state is to only log errors to `disassemble.log`. Check this file for `ERROR` statements such as:
 
 ```
 [2024-03-30T14:28:37.950] [ERROR] default - The XML file HR_Admin.no-nested-elements.xml only has leaf elements. This file will not be disassembled.
 ```
 
-To log additional debugging statements, import the `setLogLevel` function from `xml-disassembler` and run the function with `debug` to append all debugging statements to a log file.
+To log additional debugging statements, import the `setLogLevel` function from `xml-disassembler` and run the function with `debug` to append all debugging statements to `disassemble.log`.
 
-When the log level is set to `debug`, the log file will contain statements like this to indicate which files were processed by `xml-disassembler`:
+When the log level is set to `debug`, `disassemble.log` will contain statements like this to indicate which files were processed by `xml-disassembler`:
 
 ```
 [2024-03-30T14:28:37.926] [DEBUG] default - Parsing directory to reassemble: mock/no-namespace/HR_Admin
