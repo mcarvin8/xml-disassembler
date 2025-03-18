@@ -56,19 +56,18 @@ npm install xml-disassembler
 
 ## Disassembling Files
 
-Disassemble 1 XML file or multiple XML files in the immediate directory, without recursion. Each XML file will be disassembled into their own sub-directories using their base name (everything before the first `.` in the file-name). The paths you provide must be **relative** paths.
+Disassemble a single XML file or multiple XML files within a directory.
 
 ```typescript
 /* 
 FLAGS
-- filePath: Relative path to 1 XML file or a directory of XML files to disassemble. If the path provided is a directory, only the files in the immediate directory will be disassembled.
-- uniqueIdElements: (Optional) Comma-separated list of unique and required ID elements used to name disassembled files for nested elements. 
-                               Defaults to SHA-256 hash if unique ID elements are undefined or not found.
-- prePurge:  (Optional) Boolean value. If set to true, purge pre-existing disassembled directories prior to disassembling the file.
-                               Defaults to false.
-- postPurge: (Optional) Boolean value. If set to true, purge the original XML file after disassembling it.
-                               Defaults to false.
-- ignorePath: (Optional) Path to an ignore file containing XML files to ignore during disassembly. See "Ignore File" section.
+- filePath:         Relative path to 1 XML file or a directory of XML files to disassemble.
+- uniqueIdElements: Comma-separated list of unique and required ID elements used to name disassembled files for nested elements. 
+                    Defaults to SHA-256 hash if unique ID elements are undefined or not found.
+- prePurge:         Delete pre-existing disassembled directories prior to disassembling the file.
+- postPurge:        Delete the original XML file after disassembling it.
+
+- ignorePath:       Path to an disassembly ignore file.
 */
 import { DisassembleXMLFileHandler } from "xml-disassembler";
 
@@ -85,17 +84,15 @@ await handler.disassemble({
 
 ## Reassembling Files
 
-Reassemble 1 XML directory (`filePath`) containing disassembled files back into 1 XML file. The paths you provide must be **relative** paths.
-
-> **NOTE**: You should be reassembling disassembled files created by this package's disassembler for intended results.
+Reassemble a directory of disassembled XML files into a single XML file.
 
 ```typescript
 /* 
 FLAGS
-- filePath: Relative path to the disassembled XML files to reassemble (must be a directory)
-- fileExtension: (Optional) Desired file extension for the final XML (default: `.xml`)
-- postPurge: (Optional) Boolean value. If set to true, purge the disassembled file directory (filePath) after reassembly.
-                               Defaults to false.
+- filePath:       Relative path to the disassembled XML directory to reassemble
+- fileExtension:  File extension for the reassembld XML 
+                   (default: `.xml`)
+- postPurge:       Delete the disassembled directory after reassembly.
 */
 import { ReassembleXMLFileHandler } from "xml-disassembler";
 
