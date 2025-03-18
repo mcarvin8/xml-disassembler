@@ -12,6 +12,7 @@ Disassemble XML files into smaller, more manageable files and reassemble them wh
 - [Trade-offs](#trade-offs)
 - [Install](#install)
 - [Disassembling Files](#disassembling-files)
+    - [Example](#example)
 - [Reassembling Files](#reassembling-files)
 - [Use Case](#use-case)
 - [Ignore File](#ignore-file)
@@ -50,9 +51,9 @@ npm install xml-disassembler
 
 Disassemble 1 XML file or multiple XML files in the immediate directory, without recursion. Each XML file will be disassembled into their own sub-directories using their base name (everything before the first `.` in the file-name). The paths you provide must be **relative** paths.
 
-Example:
+### Example
 
-An XML file (`HR_Admin.permissionset-meta.xml`) with the following nested and leaf elements
+**Input XML file (`HR_Admin.permissionset-meta.xml`)**
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -101,9 +102,10 @@ An XML file (`HR_Admin.permissionset-meta.xml`) with the following nested and le
 </PermissionSet>
 ```
 
-will be disassembled into a sub-directory named `HR_Admin` as such:
+**Disassembled XML Directory**
 
-- Each nested element (`<recordTypeVisibilities>`, `<applicationVisibilities>`, `pageAccesses`, etc.) will be disassembled into further sub-directories by the nested element name.
+- The original XML is disassembled in a new directory named `HR_Admin`.
+- Each nested element in the original XML (`<recordTypeVisibilities>`, `<applicationVisibilities>`, `pageAccesses`, etc.) will be disassembled into sub-directories by the nested element name.
     - If a unique & required ID element (i.e. `application` in the above element) is provided & found, the disassembled file will be named using it. Otherwise, the disassembled nested element file will be named using the SHA-256 of its contents.
 ```xml
     <applicationVisibilities>
@@ -111,7 +113,7 @@ will be disassembled into a sub-directory named `HR_Admin` as such:
         <visible>true</visible>
     </applicationVisibilities>
 ```
-- Each leaf element will be disassembled into the same file in the first sub-directory, which will have the same file-name as the original file.
+- Each leaf element in the original XML will be disassembled into the same file in the `HR_Admin` root. The leafs file-name will have the same file-name as the original XML.
 ```xml
     <description>Grants all rights needed for an HR administrator to manage employees.</description>
 ```
