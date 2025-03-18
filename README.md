@@ -196,7 +196,9 @@ By default, `xml-disassembler` will look for an ignore file named `.xmldisassemb
 
 ## XML Parser
 
-The XML parser, which uses the `fast-xml-parser` package, is configured to retain any Character Data (CDATA) values (`<![CDATA[some stuff]]>`) and comments (`<translation><!-- Four --></translation>`) in the original XML file.
+This package uses [`fast-xml-parser`](https://github.com/NaturalIntelligence/fast-xml-parser) to parse and build XMLs.
+
+The XML parser is configured to retain Character Data (CDATA) values (`<![CDATA[some stuff]]>`) and comments (`<translation><!-- Four --></translation>`) in the original XML files.
 
 ## Logging
 
