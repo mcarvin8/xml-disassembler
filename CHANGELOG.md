@@ -5,6 +5,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.15](https://github.com/mcarvin8/xml-disassembler/compare/v1.3.14...v1.3.15) (2025-03-18)
+
+
+### Bug Fixes
+
+* **deps:** bump ignore from 5.3.2 to 7.0.3 ([d50e3df](https://github.com/mcarvin8/xml-disassembler/commit/d50e3df0a41589ec4a1b7e7d0b3c499aff8d580c))
+
 ## [1.3.14](https://github.com/mcarvin8/xml-disassembler/compare/v1.3.13...v1.3.14) (2025-03-18)
 
 
