@@ -15,7 +15,7 @@ This tool simplifies version control, improves diff readability, and streamlines
 - **Ignore Files** – Specify XML files to exclude from disassembly.
 - **Logging** – Enable detailed debugging logs.
 - **Integrations** – Works with tools like Salesforce CLI
--- **Extensions** - Extensions allow for JSON, YAML, and JSON5 transformations.
+- **Extensions** - Extensions allow for JSON, YAML, and JSON5 transformations.
 
 <!-- TABLE OF CONTENTS -->
 <details>
@@ -35,7 +35,6 @@ This tool simplifies version control, improves diff readability, and streamlines
 - [Contributing](#contributing)
 - [Template](#template)
 </details>
-
 
 ## Background
 
