@@ -211,9 +211,9 @@ setLogLevel("debug");
 
 These extensions expand on `xml-disassembler`:
 
-- [`xml2json-disassembler`](https://github.com/mcarvin8/xml2json-disassembler): Disassemble large XML files into smaller JSON files and reassemble the original XML file when needed
-- [`xml2yaml-disassembler`](https://github.com/mcarvin8/xml2yaml-disassembler): Disassemble large XML files into smaller YAML files and reassemble the original XML file when needed
-- [`xml2json5-disassembler`](https://github.com/mcarvin8/xml2json5-disassembler): Disassemble large XML files into smaller JSON5 files and reassemble the original XML file when needed
+- [`xml2json-disassembler`](https://github.com/mcarvin8/xml2json-disassembler)
+- [`xml2yaml-disassembler`](https://github.com/mcarvin8/xml2yaml-disassembler)
+- [`xml2json5-disassembler`](https://github.com/mcarvin8/xml2json5-disassembler)
 
 ## Contributing
 
