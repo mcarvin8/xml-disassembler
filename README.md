@@ -58,13 +58,13 @@ Disassemble a single XML file or multiple XML files within a directory.
 ```typescript
 /* 
 FLAGS
-- filePath:         Relative path to 1 XML file or a directory of XML files to disassemble.
-- uniqueIdElements: Comma-separated list of unique and required ID elements used to name disassembled files for nested elements. 
-                    Defaults to SHA-256 hash if unique ID elements are undefined or not found.
-- prePurge:         Delete pre-existing disassembled directories prior to disassembling the file.
-- postPurge:        Delete the original XML file after disassembling it.
+- filePath:         Relative path to the XML file or directory to disassemble.
+- uniqueIdElements: Comma-separated list of UID elements for naming disassembled files (nested elements).
+                    Defaults to SHA-256 hash if UID is undefined or not found.
+- prePurge:         Delete pre-existing disassembled files prior to disassembling the file.
+- postPurge:        Delete the XML file after disassembling it.
 
-- ignorePath:       Path to an disassembly ignore file.
+- ignorePath:       Path to an XML disassembly ignore file.
 */
 import { DisassembleXMLFileHandler } from "xml-disassembler";
 
@@ -88,8 +88,8 @@ Reassemble a directory of disassembled XML files into a single XML file.
 FLAGS
 - filePath:        Relative path to the disassembled XML directory to reassemble.
 - fileExtension:   File extension for the reassembled XML.
-                   (default: `.xml`)
-- postPurge:       Delete the disassembled directory after reassembly.
+                   [default: `.xml`]
+- postPurge:       Delete the disassembled files after reassembly.
 */
 import { ReassembleXMLFileHandler } from "xml-disassembler";
 
