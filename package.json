@@ -32,7 +32,7 @@
     "@rollup/plugin-typescript": "^12.1.2",
     "@types/fs-extra": "^11.0.4",
     "@types/jest": "^29.5.14",
-    "@types/node": "^22.13.13",
+    "@types/node": "^22.13.14",
     "eslint": "^9.23.0",
     "eslint-config-prettier": "^9.1.0",
     "husky": "^9.1.7",
