@@ -8,6 +8,7 @@ import { processElement } from "@src/service/processElement";
 import { buildRootElementHeader } from "@src/service/buildRootElementHeader";
 import { buildLeafFile } from "@src/service/buildLeafFile";
 import { parseXML } from "@src/service/parseXML";
+import { buildXMLDeclaration } from "@src/service/buildXmlDeclaration";
 
 export async function buildDisassembledFiles(
   filePath: string,
@@ -20,7 +21,7 @@ export async function buildDisassembledFiles(
   const parsedXml = await parseXML(filePath);
   if (parsedXml === undefined) return;
   const rootElementName = Object.keys(parsedXml)[1];
-
+  const xmlDeclarationStr = buildXMLDeclaration(parsedXml);
   const rootElement: XmlElement = parsedXml[rootElementName];
   const rootElementHeader = buildRootElementHeader(
     rootElement,
@@ -48,6 +49,7 @@ export async function buildDisassembledFiles(
             leafContent,
             leafCount,
             hasNestedElements,
+            xmlDeclarationStr,
           });
         leafContent = updatedLeafContent;
         leafCount = updatedLeafCount;
@@ -66,6 +68,7 @@ export async function buildDisassembledFiles(
           leafContent,
           leafCount,
           hasNestedElements,
+          xmlDeclarationStr,
         });
       leafContent = updatedLeafContent;
       leafCount = updatedLeafCount;
@@ -87,6 +90,7 @@ export async function buildDisassembledFiles(
       baseName,
       rootElementName,
       rootElementHeader,
+      xmlDeclarationStr,
     );
   }
   if (postPurge) {

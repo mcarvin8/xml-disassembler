@@ -37,4 +37,5 @@ export interface ProcessElementParams {
   leafContent: string;
   leafCount: number;
   hasNestedElements: boolean;
+  xmlDeclarationStr: string;
 }

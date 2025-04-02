@@ -12,9 +12,10 @@ import { processFilesForRootElement } from "@src/service/processFilesForRootElem
 export class ReassembleXMLFileHandler {
   async processFilesInDirectory(
     dirPath: string,
-  ): Promise<[string[], [string, string | undefined] | undefined]> {
+  ): Promise<[string[], [string, string | undefined, string] | undefined]> {
     const combinedXmlContents: string[] = [];
-    let rootResult: [string, string | undefined] | undefined = undefined;
+    let rootResult: [string, string | undefined, string] | undefined =
+      undefined;
     const files = await readdir(dirPath);
 
     // Sort files based on the name
@@ -72,12 +73,14 @@ export class ReassembleXMLFileHandler {
     const outputPath = join(parentDirectory, fileName);
 
     if (rootResult !== undefined) {
-      const [rootElementName, rootElementHeader] = rootResult;
+      const [rootElementName, rootElementHeader, xmlDeclarationStr] =
+        rootResult;
       await buildReassembledFile(
         combinedXmlContents,
         outputPath,
         rootElementName,
         rootElementHeader,
+        xmlDeclarationStr,
       );
       if (postPurge) await rm(filePath, { recursive: true });
     } else {

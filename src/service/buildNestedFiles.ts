@@ -4,7 +4,6 @@ import { mkdir, writeFile } from "node:fs/promises";
 import { join } from "node:path/posix";
 
 import { logger } from "@src/index";
-import { XML_HEADER } from "@src/helpers/constants";
 import { XmlElement } from "@src/helpers/types";
 import { findUniqueIdElement } from "@src/service/findUniqueIdElement";
 import { buildXMLString } from "@src/service/buildXMLString";
@@ -18,6 +17,7 @@ export async function buildNestedFile(
   rootElementHeader: string,
   parentKey: string,
   indent: string,
+  xmlDeclarationStr: string,
 ): Promise<void> {
   let elementContent = "";
 
@@ -33,7 +33,7 @@ export async function buildNestedFile(
 
   // Call the buildXMLString to build the XML content string
   elementContent = buildXMLString(element, 2);
-  let nestedFileContents = `${XML_HEADER}\n`;
+  let nestedFileContents = `${xmlDeclarationStr}\n`;
   nestedFileContents += `${rootElementHeader}\n`;
   nestedFileContents += `${indent}${parentKeyHeader}\n`;
   nestedFileContents += `${elementContent}\n`;
