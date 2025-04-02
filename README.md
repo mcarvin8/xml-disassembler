@@ -12,7 +12,7 @@ This tool simplifies version control, improves diff readability, and streamlines
 
 - **Disassemble XML Files** – Break down XML files into structured directories.
 - **Reassemble XML Files** – Recreate the original XML structure from disassembled parts.
-> **NOTE**: The `xml-disassembler` aims to reassemble the original XML 100% element-wise, however, the element sorting will vary. The reassembler will sort elements based on how they are sorted in the disassembled directory.
+> **NOTE**: The `xml-disassembler` aims to reassemble the original XML 100% element-wise, however, the element sorting will vary. The reassembler will sort elements based on how they are sorted in the disassembled directories.
 - **Unique Identifiers** – Use specific XML elements as file names or fallback to SHA-256 hashes.
 - **Ignore Files** – Specify XML files to exclude from disassembly.
 - **Logging** – Enable detailed debugging logs.
