@@ -10,7 +10,6 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### Features
 
-* dynamically determine xml declaration ([3ed095c](https://github.com/mcarvin8/xml-disassembler/commit/3ed095c57e84e19e3db2417dda040a885b67c19f))
 * dynamically determine xml declaration ([15e8650](https://github.com/mcarvin8/xml-disassembler/commit/15e86503f67d6c4f6253372b15f37c145adc7ebf))
 
 ## [1.3.15](https://github.com/mcarvin8/xml-disassembler/compare/v1.3.14...v1.3.15) (2025-03-18)
