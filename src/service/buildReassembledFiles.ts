@@ -3,22 +3,31 @@
 import { writeFile } from "node:fs/promises";
 
 import { logger } from "@src/index";
-import { XML_HEADER, INDENT } from "@src/helpers/constants";
+import { INDENT } from "@src/helpers/constants";
 
 export async function buildReassembledFile(
   combinedXmlContents: string[],
   reassembledPath: string,
   xmlElement: string,
   xmlRootElementHeader: string | undefined,
+  xmlDeclarationStr: string,
 ): Promise<void> {
   // Combine XML contents into a single string
   let finalXmlContent = combinedXmlContents.join("\n");
 
-  // Remove duplicate XML declarations
-  finalXmlContent = finalXmlContent.replace(
-    /<\?xml version="1.0" encoding="UTF-8"\?>/g,
-    "",
+  // Escape special characters in xmlDeclarationStr for regex
+  const escapedXmlDeclaration = xmlDeclarationStr.replace(
+    /[.*+?^${}()|[\]\\]/g,
+    "\\$&",
   );
+
+  // Remove duplicate XML declarations (entire lines)
+  const xmlDeclarationLineRegex = new RegExp(
+    `^\\s*${escapedXmlDeclaration}\\s*$`,
+    "gm",
+  );
+
+  finalXmlContent = finalXmlContent.replace(xmlDeclarationLineRegex, "");
 
   // Remove duplicate root elements
   finalXmlContent = finalXmlContent.replace(
@@ -52,7 +61,7 @@ export async function buildReassembledFile(
 
   await writeFile(
     reassembledPath,
-    `${XML_HEADER}\n${xmlRootElementHeader}${finalXmlContent}${closeTag}`,
+    `${xmlDeclarationStr}\n${xmlRootElementHeader}${finalXmlContent}${closeTag}`,
   );
   logger.debug(`Created reassembled file: ${reassembledPath}`);
 }

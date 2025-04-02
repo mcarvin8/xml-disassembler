@@ -4,7 +4,6 @@ import { writeFile } from "node:fs/promises";
 import { join } from "node:path/posix";
 
 import { logger } from "@src/index";
-import { XML_HEADER } from "@src/helpers/constants";
 
 export async function buildLeafFile(
   leafContent: string,
@@ -12,8 +11,9 @@ export async function buildLeafFile(
   baseName: string,
   rootElementName: string,
   rootElementHeader: string,
+  xmlDeclarationStr: string,
 ): Promise<void> {
-  let leafFile = `${XML_HEADER}\n`;
+  let leafFile = `${xmlDeclarationStr}\n`;
   leafFile += `${rootElementHeader}\n`;
 
   leafFile += leafContent;

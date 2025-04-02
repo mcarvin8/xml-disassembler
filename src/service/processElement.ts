@@ -17,6 +17,7 @@ export async function processElement(
     leafContent,
     leafCount,
     hasNestedElements,
+    xmlDeclarationStr,
   } = params;
 
   if (typeof element === "object") {
@@ -28,6 +29,7 @@ export async function processElement(
       rootElementHeader,
       key,
       indent,
+      xmlDeclarationStr,
     );
     return [leafContent, leafCount, true];
   } else {
