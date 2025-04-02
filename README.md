@@ -182,6 +182,7 @@ Uses [`fast-xml-parser`](https://github.com/NaturalIntelligence/fast-xml-parser)
 - Character Data (CDATA): `"![CDATA["`
 - Comments: `"!---"`
 - Attributes: `"@__**"`
+- XML Declaration Attributes
 
 ## Logging
 
