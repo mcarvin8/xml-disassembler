@@ -2,14 +2,14 @@
 
 import { createHash } from "node:crypto";
 
-import { XmlElement } from "@src/helpers/types";
+import { XmlElement } from "@src/types/types";
 
-export function findUniqueIdElement(
+export function parseUniqueIdElement(
   element: XmlElement,
   uniqueIdElements?: string | undefined,
 ): string {
   if (uniqueIdElements === undefined) {
-    return getShortHash(element);
+    return createShortHash(element);
   }
   const uniqueIdElementsArray = uniqueIdElements.split(",");
 
@@ -25,7 +25,7 @@ export function findUniqueIdElement(
   // Iterate through child elements to find the field name
   for (const key in element) {
     if (typeof element[key] === "object" && element[key] !== null) {
-      const childFieldName = findUniqueIdElement(
+      const childFieldName = parseUniqueIdElement(
         element[key] as XmlElement,
         uniqueIdElements,
       );
@@ -36,10 +36,10 @@ export function findUniqueIdElement(
   }
 
   // default to short SHA-256 hash if no unique ID elements are found
-  return getShortHash(element);
+  return createShortHash(element);
 }
 
-function getShortHash(element: XmlElement): string {
+function createShortHash(element: XmlElement): string {
   const hash = createHash("sha256");
   hash.update(JSON.stringify(element));
   const fullHash = hash.digest("hex");

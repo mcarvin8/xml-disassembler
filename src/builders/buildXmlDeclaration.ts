@@ -1,7 +1,7 @@
 "use strict";
 
-import { XML_DEFAULT_DECLARATION } from "../helpers/constants";
-import { XmlElement } from "../helpers/types";
+import { XML_DEFAULT_DECLARATION } from "../constants/constants";
+import { XmlElement } from "../types/types";
 
 export function buildXMLDeclaration(
   parsedXml: Record<string, XmlElement>,

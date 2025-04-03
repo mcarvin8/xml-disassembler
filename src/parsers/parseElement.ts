@@ -1,10 +1,10 @@
 "use strict";
 
-import { buildNestedFile } from "@src/service/buildNestedFiles";
-import { ProcessElementParams } from "@src/helpers/types";
+import { buildNestedFile } from "@src/builders/buildNestedFiles";
+import { XmlElementParams } from "@src/types/types";
 
-export async function processElement(
-  params: ProcessElementParams,
+export async function parseElement(
+  params: XmlElementParams,
 ): Promise<[string, number, boolean]> {
   const {
     element,

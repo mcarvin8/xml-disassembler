@@ -3,12 +3,12 @@
 import { unlink } from "node:fs/promises";
 
 import { logger } from "@src/index";
-import { XmlElement } from "@src/helpers/types";
-import { processElement } from "@src/service/processElement";
-import { buildRootElementHeader } from "@src/service/buildRootElementHeader";
-import { buildLeafFile } from "@src/service/buildLeafFile";
-import { parseXML } from "@src/service/parseXML";
-import { buildXMLDeclaration } from "@src/service/buildXmlDeclaration";
+import { XmlElement } from "@src/types/types";
+import { parseElement } from "@src/parsers/parseElement";
+import { buildRootElementHeader } from "@src/builders/buildRootElementHeader";
+import { buildLeafFile } from "@src/builders/buildLeafFile";
+import { parseXML } from "@src/parsers/parseXML";
+import { buildXMLDeclaration } from "@src/builders/buildXmlDeclaration";
 
 export async function buildDisassembledFiles(
   filePath: string,
@@ -38,7 +38,7 @@ export async function buildDisassembledFiles(
     if (Array.isArray(rootElement[key])) {
       for (const element of rootElement[key] as XmlElement[]) {
         const [updatedLeafContent, updatedLeafCount, updatedHasNestedElements] =
-          await processElement({
+          await parseElement({
             element,
             disassembledPath,
             uniqueIdElements,
@@ -57,7 +57,7 @@ export async function buildDisassembledFiles(
       }
     } else {
       const [updatedLeafContent, updatedLeafCount, updatedHasNestedElements] =
-        await processElement({
+        await parseElement({
           element: rootElement[key] as XmlElement,
           disassembledPath,
           uniqueIdElements,

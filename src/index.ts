@@ -1,10 +1,10 @@
 import { getLogger, configure } from "log4js";
 
-export { ReassembleXMLFileHandler } from "./service/reassembleXMLFileHandler";
-export { DisassembleXMLFileHandler } from "./service/disassembleXMLFileHandler";
-export { parseXML } from "./service/parseXML";
-export { buildXMLString } from "./service/buildXMLString";
-export { XmlElement } from "./helpers/types";
+export { ReassembleXMLFileHandler } from "./handlers/reassembleXMLFileHandler";
+export { DisassembleXMLFileHandler } from "./handlers/disassembleXMLFileHandler";
+export { parseXML } from "./parsers/parseXML";
+export { buildXMLString } from "./builders/buildXMLString";
+export { XmlElement } from "./types/types";
 
 // Function to update the log level
 export function setLogLevel(level: string) {

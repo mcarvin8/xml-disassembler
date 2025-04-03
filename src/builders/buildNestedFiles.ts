@@ -4,10 +4,10 @@ import { mkdir, writeFile } from "node:fs/promises";
 import { join } from "node:path/posix";
 
 import { logger } from "@src/index";
-import { XmlElement } from "@src/helpers/types";
-import { findUniqueIdElement } from "@src/service/findUniqueIdElement";
-import { buildXMLString } from "@src/service/buildXMLString";
-import { buildRootElementHeader } from "@src/service/buildRootElementHeader";
+import { XmlElement } from "@src/types/types";
+import { parseUniqueIdElement } from "@src/parsers/parseUniqueIdElements";
+import { buildXMLString } from "@src/builders/buildXMLString";
+import { buildRootElementHeader } from "@src/builders/buildRootElementHeader";
 
 export async function buildNestedFile(
   element: XmlElement,
@@ -21,7 +21,7 @@ export async function buildNestedFile(
 ): Promise<void> {
   let elementContent = "";
 
-  const fieldName = findUniqueIdElement(element, uniqueIdElements);
+  const fieldName = parseUniqueIdElement(element, uniqueIdElements);
 
   const outputDirectory = join(disassembledPath, parentKey);
   const outputFileName: string = `${fieldName}.${parentKey}-meta.xml`;

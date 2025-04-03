@@ -1,10 +1,10 @@
 "use strict";
 
-import { XmlElement } from "@src/helpers/types";
-import { buildRootElementHeader } from "@src/service/buildRootElementHeader";
-import { buildXMLDeclaration } from "@src/service/buildXmlDeclaration";
+import { XmlElement } from "@src/types/types";
+import { buildRootElementHeader } from "@src/builders/buildRootElementHeader";
+import { buildXMLDeclaration } from "@src/builders/buildXmlDeclaration";
 
-export async function processFilesForRootElement(
+export async function parseRootElement(
   xmlParsed: Record<string, XmlElement>,
 ): Promise<[string, string | undefined, string]> {
   const xmlDeclarationStr = buildXMLDeclaration(xmlParsed);

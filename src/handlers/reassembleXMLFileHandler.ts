@@ -4,10 +4,10 @@ import { readdir, stat, rm } from "node:fs/promises";
 import { join, dirname, basename } from "node:path/posix";
 
 import { logger } from "@src/index";
-import { buildReassembledFile } from "@src/service/buildReassembledFiles";
-import { buildXMLString } from "@src/service/buildXMLString";
-import { parseXML } from "@src/service/parseXML";
-import { processFilesForRootElement } from "@src/service/processFilesForRootElement";
+import { buildReassembledFile } from "@src/builders/buildReassembledFiles";
+import { buildXMLString } from "@src/builders/buildXMLString";
+import { parseXML } from "@src/parsers/parseXML";
+import { parseRootElement } from "@src/parsers/parseRootElement";
 
 export class ReassembleXMLFileHandler {
   async processFilesInDirectory(
@@ -31,7 +31,7 @@ export class ReassembleXMLFileHandler {
       if (fileStat.isFile() && filePath.endsWith(".xml")) {
         const xmlParsed = await parseXML(filePath);
         if (xmlParsed === undefined) continue;
-        const rootResultFromFile = await processFilesForRootElement(xmlParsed);
+        const rootResultFromFile = await parseRootElement(xmlParsed);
         rootResult = rootResultFromFile;
         const combinedXmlString = buildXMLString(xmlParsed);
         combinedXmlContents.push(combinedXmlString);

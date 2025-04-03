@@ -1,6 +1,6 @@
 "use strict";
 
-import { XmlElement } from "@src/helpers/types";
+import { XmlElement } from "@src/types/types";
 
 export function buildRootElementHeader(
   rootElement: XmlElement,

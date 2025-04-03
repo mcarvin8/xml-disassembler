@@ -7,8 +7,8 @@ import { resolve, dirname, join, basename, extname, relative } from "node:path";
 import ignore, { Ignore } from "ignore";
 
 import { logger } from "@src/index";
-import { INDENT } from "@src/helpers/constants";
-import { buildDisassembledFiles } from "@src/service/buildDisassembledFiles";
+import { INDENT } from "@src/constants/constants";
+import { buildDisassembledFiles } from "@src/builders/buildDisassembledFiles";
 
 export class DisassembleXMLFileHandler {
   private ign: Ignore = ignore();

@@ -4,7 +4,8 @@ import { readFile } from "node:fs/promises";
 import { XMLParser } from "fast-xml-parser";
 
 import { logger } from "../index";
-import { XML_PARSER_OPTION, XmlElement } from "../helpers/types";
+import { XML_PARSER_OPTION } from "../constants/constants";
+import { XmlElement } from "../types/types";
 
 export async function parseXML(
   filePath: string,

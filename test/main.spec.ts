@@ -21,14 +21,14 @@ import {
 } from "../src/index";
 
 setLogLevel("debug");
-const baselineDir: string = "test/baselines";
+const sampleDir: string = "samples";
 const mockDir: string = "mock";
 let disassembleHandler: DisassembleXMLFileHandler;
 let reassembleHandler: ReassembleXMLFileHandler;
 
 describe("main function", () => {
   beforeAll(async () => {
-    await copy(baselineDir, mockDir, { overwrite: true });
+    await copy(sampleDir, mockDir, { overwrite: true });
     disassembleHandler = new DisassembleXMLFileHandler();
     reassembleHandler = new ReassembleXMLFileHandler();
   });
@@ -255,7 +255,7 @@ describe("main function", () => {
   });
   // This should always be the final test
   it("should compare the files created in the mock directory against the baselines to confirm no changes.", async () => {
-    await compareDirectories(baselineDir, mockDir);
+    await compareDirectories(sampleDir, mockDir);
   });
 });
 
@@ -278,8 +278,8 @@ async function compareDirectories(
       const refContent = await readFile(refEntryPath, "utf-8");
       const mockContent = await readFile(mockPath, "utf-8");
       strictEqual(
-        refContent,
         mockContent,
+        refContent,
         `File content is different for ${entry.name}`,
       );
     }

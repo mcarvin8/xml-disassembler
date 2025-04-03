@@ -3,7 +3,7 @@
 import { writeFile } from "node:fs/promises";
 
 import { logger } from "@src/index";
-import { INDENT } from "@src/helpers/constants";
+import { INDENT } from "@src/constants/constants";
 
 export async function buildReassembledFile(
   combinedXmlContents: string[],
