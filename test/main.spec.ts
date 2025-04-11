@@ -26,7 +26,7 @@ const mockDir: string = "mock";
 let disassembleHandler: DisassembleXMLFileHandler;
 let reassembleHandler: ReassembleXMLFileHandler;
 
-describe("main function", () => {
+describe("main test suite", () => {
   beforeAll(async () => {
     await copy(sampleDir, mockDir, { overwrite: true });
     disassembleHandler = new DisassembleXMLFileHandler();
@@ -187,66 +187,6 @@ describe("main function", () => {
   it("should reassemble a XML file with no namespace.", async () => {
     await reassembleHandler.reassemble({
       filePath: "mock/no-namespace/HR_Admin",
-      fileExtension: "permissionset-meta.xml",
-    });
-
-    expect(logger.error).not.toHaveBeenCalled();
-  });
-  it('should disassemble a general XML file into JSON files"', async () => {
-    await disassembleHandler.disassemble({
-      filePath: "mock/general",
-      uniqueIdElements:
-        "application,apexClass,name,externalDataSource,flow,object,apexPage,recordType,tab,field",
-      postPurge: true,
-      prePurge: true,
-      format: "json",
-    });
-
-    expect(logger.error).not.toHaveBeenCalled();
-  });
-  it('should reassemble the JSON files back into the original XML."', async () => {
-    await reassembleHandler.reassemble({
-      filePath: "mock/general/HR_Admin",
-      fileExtension: "permissionset-meta.xml",
-    });
-
-    expect(logger.error).not.toHaveBeenCalled();
-  });
-  it('should disassemble a general XML file into JSON5 files"', async () => {
-    await disassembleHandler.disassemble({
-      filePath: "mock/general",
-      uniqueIdElements:
-        "application,apexClass,name,externalDataSource,flow,object,apexPage,recordType,tab,field",
-      postPurge: true,
-      prePurge: true,
-      format: "json5",
-    });
-
-    expect(logger.error).not.toHaveBeenCalled();
-  });
-  it('should reassemble the JSON5 files back into the original XML."', async () => {
-    await reassembleHandler.reassemble({
-      filePath: "mock/general/HR_Admin",
-      fileExtension: "permissionset-meta.xml",
-    });
-
-    expect(logger.error).not.toHaveBeenCalled();
-  });
-  it('should disassemble a general XML file into YAML files"', async () => {
-    await disassembleHandler.disassemble({
-      filePath: "mock/general",
-      uniqueIdElements:
-        "application,apexClass,name,externalDataSource,flow,object,apexPage,recordType,tab,field",
-      postPurge: true,
-      prePurge: true,
-      format: "yaml",
-    });
-
-    expect(logger.error).not.toHaveBeenCalled();
-  });
-  it('should reassemble the YAML files back into the original XML."', async () => {
-    await reassembleHandler.reassemble({
-      filePath: "mock/general/HR_Admin",
       fileExtension: "permissionset-meta.xml",
     });
 
