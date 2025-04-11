@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   fast-xml-parser:
-    specifier: ^5.0.9
-    version: 5.1.0
+    specifier: ^5.2.0
+    version: 5.2.0
   ignore:
     specifier: ^7.0.3
     version: 7.0.3
@@ -2325,10 +2325,10 @@ packages:
       }
     dev: true
 
-  /fast-xml-parser@5.1.0:
+  /fast-xml-parser@5.2.0:
     resolution:
       {
-        integrity: sha512-6fCOoEdpD/hU5fUDviXh0HE9aOiW6En0+4jeyY05F9lORwq6kaO4CrW+ke/hBKnr1pCldU8AVFITwFJEnz8O/w==,
+        integrity: sha512-Uw9+Mjt4SBRud1IcaYuW/O0lW8SKKdMl5g7g24HiIuyH5fQSD+AVLybSlJtqLYEbytVFjWQa5DMGcNgeksdRBg==,
       }
     hasBin: true
     dependencies:
