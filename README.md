@@ -32,7 +32,6 @@ This tool simplifies version control, improves diff readability, and streamlines
 - [Ignore File](#ignore-file)
 - [XML Parser](#xml-parser)
 - [Logging](#logging)
-- [Extensions](#extensions)
 - [Contributing](#contributing)
 - [Template](#template)
 </details>
