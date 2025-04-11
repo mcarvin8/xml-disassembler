@@ -5,6 +5,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.5.1](https://github.com/mcarvin8/xml-disassembler/compare/v1.5.0...v1.5.1) (2025-04-11)
+
+
+### Bug Fixes
+
+* upgrade fast-xml-parser ([bae93c6](https://github.com/mcarvin8/xml-disassembler/commit/bae93c671e96bb3df05d04e8a3eac08ef3491a8d))
+
 ## [1.5.0](https://github.com/mcarvin8/xml-disassembler/compare/v1.4.0...v1.5.0) (2025-04-11)
 
 
