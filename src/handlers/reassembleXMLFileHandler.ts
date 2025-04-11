@@ -1,7 +1,9 @@
 "use strict";
 
-import { readdir, stat, rm } from "node:fs/promises";
+import { readFile, readdir, stat, rm } from "node:fs/promises";
 import { join, dirname, basename } from "node:path/posix";
+import { parse as parseYaml } from "yaml";
+import { parse as parseJson5 } from "json5";
 
 import { logger } from "@src/index";
 import { buildReassembledFile } from "@src/builders/buildReassembledFiles";
@@ -28,13 +30,18 @@ export class ReassembleXMLFileHandler {
     for (const file of files) {
       const filePath = join(dirPath, file);
       const fileStat = await stat(filePath);
-      if (fileStat.isFile() && filePath.endsWith(".xml")) {
-        const xmlParsed = await parseXML(filePath);
-        if (xmlParsed === undefined) continue;
-        const rootResultFromFile = await parseRootElement(xmlParsed);
-        rootResult = rootResultFromFile;
-        const combinedXmlString = buildXMLString(xmlParsed);
-        combinedXmlContents.push(combinedXmlString);
+
+      if (fileStat.isFile()) {
+        if (/\.(xml|json|json5|ya?ml)$/.test(file)) {
+          const parsedObject = await this.parseToXmlObject(filePath);
+          if (parsedObject === undefined) continue;
+
+          const rootResultFromFile = await parseRootElement(parsedObject);
+          rootResult = rootResultFromFile;
+
+          const combinedXmlString = buildXMLString(parsedObject);
+          combinedXmlContents.push(combinedXmlString);
+        }
       } else if (fileStat.isDirectory()) {
         const [subCombinedXmlContents, subRootResult] =
           await this.processFilesInDirectory(filePath);
@@ -42,6 +49,7 @@ export class ReassembleXMLFileHandler {
         rootResult = subRootResult;
       }
     }
+
     return [combinedXmlContents, rootResult];
   }
 
@@ -88,5 +96,23 @@ export class ReassembleXMLFileHandler {
         `No files under ${filePath} were parsed successfully. A reassembled XML file was not created.`,
       );
     }
+  }
+  private async parseToXmlObject(filePath: string): Promise<any | undefined> {
+    if (filePath.endsWith(".xml")) {
+      return await parseXML(filePath);
+    }
+
+    const fileContent = await readFile(filePath, "utf-8");
+    let parsed: any;
+
+    if (filePath.endsWith(".yaml") || filePath.endsWith(".yml")) {
+      parsed = parseYaml(fileContent);
+    } else if (filePath.endsWith(".json5")) {
+      parsed = parseJson5(fileContent);
+    } else if (filePath.endsWith(".json")) {
+      parsed = JSON.parse(fileContent);
+    }
+
+    return parsed;
   }
 }

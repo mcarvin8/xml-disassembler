@@ -1,7 +1,7 @@
 {
   "name": "xml-disassembler",
   "version": "1.4.0",
-  "description": "Disassemble XML files into smaller, more manageable files and reassemble them when needed.",
+  "description": "Disassemble XML files into smaller, more manageable files and reassemble the XML when needed.",
   "author": "Matt Carvin",
   "license": "ISC",
   "main": "dist/index.cjs",
@@ -46,8 +46,10 @@
   "dependencies": {
     "fast-xml-parser": "^5.0.9",
     "ignore": "^7.0.3",
+    "json5": "^2.2.3",
     "log4js": "^6.9.1",
-    "tslib": "^2.6.2"
+    "tslib": "^2.6.2",
+    "yaml": "^2.7.1"
   },
   "repository": {
     "type": "git",

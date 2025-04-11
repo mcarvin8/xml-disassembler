@@ -26,7 +26,7 @@ const mockDir: string = "mock";
 let disassembleHandler: DisassembleXMLFileHandler;
 let reassembleHandler: ReassembleXMLFileHandler;
 
-describe("main function", () => {
+describe("main test suite", () => {
   beforeAll(async () => {
     await copy(sampleDir, mockDir, { overwrite: true });
     disassembleHandler = new DisassembleXMLFileHandler();
