@@ -5,6 +5,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.5.0](https://github.com/mcarvin8/xml-disassembler/compare/v1.4.0...v1.5.0) (2025-04-11)
+
+
+### Features
+
+* add multiple disassemble file formats ([09ae868](https://github.com/mcarvin8/xml-disassembler/commit/09ae868ee20eda0c64e9ca721238ccedd2f0b2ff))
+
 ## [1.4.0](https://github.com/mcarvin8/xml-disassembler/compare/v1.3.15...v1.4.0) (2025-04-02)
 
 
