@@ -63,6 +63,12 @@
     "transform",
     "transformers",
     "disassemble",
-    "disassembly"
+    "disassembly",
+    "json",
+    "json5",
+    "yaml",
+    "xml2json",
+    "xml2yaml",
+    "xml2json5"
   ]
 }
