@@ -11,7 +11,7 @@ import { INDENT } from "@src/constants/constants";
 import { buildDisassembledFiles } from "@src/builders/buildDisassembledFiles";
 
 export class DisassembleXMLFileHandler {
-  private ign: Ignore = ignore();
+  private readonly ign: Ignore = ignore();
 
   async disassemble(xmlAttributes: {
     filePath: string;
@@ -19,6 +19,7 @@ export class DisassembleXMLFileHandler {
     prePurge?: boolean;
     postPurge?: boolean;
     ignorePath?: string;
+    format?: string;
   }): Promise<void> {
     const {
       filePath,
@@ -26,6 +27,7 @@ export class DisassembleXMLFileHandler {
       prePurge = false,
       postPurge = false,
       ignorePath = ".xmldisassemblerignore",
+      format = "xml",
     } = xmlAttributes;
     const resolvedIgnorePath = resolve(ignorePath);
     if (existsSync(resolvedIgnorePath)) {
@@ -55,6 +57,7 @@ export class DisassembleXMLFileHandler {
         uniqueIdElements,
         prePurge,
         postPurge,
+        format,
       });
     } else if (fileStat.isDirectory()) {
       const subFiles = await readdir(filePath);
@@ -73,6 +76,7 @@ export class DisassembleXMLFileHandler {
             uniqueIdElements,
             prePurge,
             postPurge,
+            format,
           });
         } else if (this.ign.ignores(relativeSubFilePath)) {
           logger.warn(`File ignored by ${ignorePath}: ${subFilePath}`);
@@ -87,8 +91,9 @@ export class DisassembleXMLFileHandler {
     uniqueIdElements?: string;
     prePurge: boolean;
     postPurge: boolean;
+    format: string;
   }): Promise<void> {
-    const { dirPath, filePath, uniqueIdElements, prePurge, postPurge } =
+    const { dirPath, filePath, uniqueIdElements, prePurge, postPurge, format } =
       xmlAttributes;
 
     logger.debug(`Parsing file to disassemble: ${filePath}`);
@@ -108,6 +113,7 @@ export class DisassembleXMLFileHandler {
       fullName,
       INDENT,
       postPurge,
+      format,
     );
   }
 

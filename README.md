@@ -12,12 +12,12 @@ This tool simplifies version control, improves diff readability, and streamlines
 
 - **Disassemble XML Files** – Break down XML files into structured directories.
 - **Reassemble XML Files** – Recreate the original XML structure from disassembled parts.
-> **NOTE**: The `xml-disassembler` aims to reassemble the original XML 100% element-wise, however, the element sorting will vary. The reassembler will sort elements based on how they are sorted in the disassembled directories.
+  > **NOTE**: The `xml-disassembler` aims to reassemble the original XML 100% element-wise, however, the element sorting will vary. The reassembler will sort elements based on how they are sorted in the disassembled directories.
 - **Unique Identifiers** – Use specific XML elements as file names or fallback to SHA-256 hashes.
 - **Ignore Files** – Specify XML files to exclude from disassembly.
 - **Logging** – Enable detailed debugging logs.
 - **Integrations** – Works with tools like Salesforce CLI
-- **Extensions** - Extensions allow for JSON, YAML, and JSON5 transformations.
+- **Multiple Formats** - The disassembled file format can be XML, JSON, JSON5, or YAML based on preference. The reassembler will reassemble the original XML structure from these formats.
 
 <!-- TABLE OF CONTENTS -->
 <details>
@@ -54,7 +54,7 @@ npm install xml-disassembler
 
 ## Disassembling Files
 
-Disassemble a single XML file or multiple XML files within a directory.
+Disassemble a single XML file or multiple XML files within a directory into smaller files (XML/JSON/JSON5/YAML).
 
 ```typescript
 /* 
@@ -66,6 +66,8 @@ FLAGS
 - postPurge:        Delete the XML file after disassembling it.
 
 - ignorePath:       Path to an XML disassembly ignore file.
+- format:           File format for the disassembled files ("xml", "json", "json5", "yaml")
+                    Defaults to "xml" if the format isn't supported or provided.
 */
 import { DisassembleXMLFileHandler } from "xml-disassembler";
 
@@ -77,12 +79,13 @@ await handler.disassemble({
   prePurge: true,
   postPurge: true,
   ignorePath: ".xmldisassemblerignore",
+  format: "json",
 });
 ```
 
 ## Reassembling Files
 
-Reassemble a directory of disassembled XML files into a single XML file.
+Reassemble a directory of disassembled XML files (XML/JSON/JSON5/YAML) into a single XML file.
 
 ```typescript
 /* 
@@ -171,7 +174,7 @@ See [`sf-decomposer`](https://github.com/mcarvin8/sf-decomposer) for a Salesforc
 
 ## Ignore File
 
-Create an ignore file (`.xmldisassemblerignore` by default) to exclude XMLs from disassembly. 
+Create an ignore file (`.xmldisassemblerignore` by default) to exclude XMLs from disassembly.
 
 - uses [`node-ignore`](https://github.com/kaelzhang/node-ignore) (follows [.gitignore spec 2.22.1](https://git-scm.com/docs/gitignore))
 
@@ -186,7 +189,7 @@ Uses [`fast-xml-parser`](https://github.com/NaturalIntelligence/fast-xml-parser)
 
 ## Logging
 
-Instead of printing to the terminal, the disassembler uses [`log4js`](https://github.com/log4js-node/log4js-node) to create a logging file. Logs are stored in `disassemble.log`. 
+Instead of printing to the terminal, the disassembler uses [`log4js`](https://github.com/log4js-node/log4js-node) to create a logging file. Logs are stored in `disassemble.log`.
 
 By default, only errors are logged.
 
@@ -205,14 +208,6 @@ import {
 
 setLogLevel("debug");
 ```
-
-## Extensions
-
-These extensions expand on `xml-disassembler`:
-
-- [`xml2json-disassembler`](https://github.com/mcarvin8/xml2json-disassembler)
-- [`xml2yaml-disassembler`](https://github.com/mcarvin8/xml2yaml-disassembler)
-- [`xml2json5-disassembler`](https://github.com/mcarvin8/xml2json5-disassembler)
 
 ## Contributing
 

@@ -18,6 +18,7 @@ export async function parseElement(
     leafCount,
     hasNestedElements,
     xmlDeclarationStr,
+    format,
   } = params;
 
   if (typeof element === "object") {
@@ -30,6 +31,7 @@ export async function parseElement(
       key,
       indent,
       xmlDeclarationStr,
+      format,
     );
     return [leafContent, leafCount, true];
   } else {

@@ -17,6 +17,7 @@ export async function buildDisassembledFiles(
   baseName: string,
   indent: string,
   postPurge: boolean,
+  format: string,
 ): Promise<void> {
   const parsedXml = await parseXML(filePath);
   if (parsedXml === undefined) return;
@@ -50,6 +51,7 @@ export async function buildDisassembledFiles(
             leafCount,
             hasNestedElements,
             xmlDeclarationStr,
+            format,
           });
         leafContent = updatedLeafContent;
         leafCount = updatedLeafCount;
@@ -69,6 +71,7 @@ export async function buildDisassembledFiles(
           leafCount,
           hasNestedElements,
           xmlDeclarationStr,
+          format,
         });
       leafContent = updatedLeafContent;
       leafCount = updatedLeafCount;
@@ -91,6 +94,7 @@ export async function buildDisassembledFiles(
       rootElementName,
       rootElementHeader,
       xmlDeclarationStr,
+      format,
     );
   }
   if (postPurge) {

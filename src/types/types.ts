@@ -16,4 +16,5 @@ export type XmlElementParams = {
   leafCount: number;
   hasNestedElements: boolean;
   xmlDeclarationStr: string;
+  format: string;
 };

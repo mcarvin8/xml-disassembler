@@ -1,6 +1,6 @@
 "use strict";
 
-import { mkdir, writeFile } from "node:fs/promises";
+import { mkdir, writeFile, rm } from "node:fs/promises";
 import { join } from "node:path/posix";
 
 import { logger } from "@src/index";
@@ -8,6 +8,7 @@ import { XmlElement } from "@src/types/types";
 import { parseUniqueIdElement } from "@src/parsers/parseUniqueIdElements";
 import { buildXMLString } from "@src/builders/buildXMLString";
 import { buildRootElementHeader } from "@src/builders/buildRootElementHeader";
+import { getTransformer } from "@src/transformers/getTransformer";
 
 export async function buildNestedFile(
   element: XmlElement,
@@ -18,6 +19,7 @@ export async function buildNestedFile(
   parentKey: string,
   indent: string,
   xmlDeclarationStr: string,
+  format: string,
 ): Promise<void> {
   let elementContent = "";
 
@@ -43,4 +45,11 @@ export async function buildNestedFile(
   // Write the XML content to the determined output path
   await writeFile(outputPath, nestedFileContents);
   logger.debug(`Created disassembled file: ${outputPath}`);
+
+  const transformer = getTransformer(format);
+  if (transformer) {
+    await transformer(outputPath);
+    // delete the XML file after transforming it
+    await rm(outputPath);
+  }
 }
