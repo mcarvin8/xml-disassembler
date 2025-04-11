@@ -159,10 +159,10 @@ await handler.reassemble({
 
 | Format   | Unique ID Elements | SHA-256 Hashes |
 |----------|--------------------|----------------|
-| **XML**  | ![XML UID](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled.png)<br><sub>Disassembled XML files using unique ID elements</sub> | ![XML Hash](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-hashes.png)<br><sub>Disassembled XML files using SHA-256 hashes</sub> |
-| **YAML** | ![YAML UID](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-yaml.png)<br><sub>Disassembled YAML files using unique ID elements</sub> | ![YAML Hash](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-hashes-yaml.png)<br><sub>Disassembled YAML files using SHA-256 hashes</sub> |
-| **JSON** | ![JSON UID](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-json.png)<br><sub>Disassembled JSON files using unique ID elements</sub> | ![JSON Hash](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-hashes-json.png)<br><sub>Disassembled JSON files using SHA-256 hashes</sub> |
-| **JSON5**| ![JSON5 UID](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-json5.png)<br><sub>Disassembled JSON5 files using unique ID elements</sub> | ![JSON5 Hash](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-hashes-json5.png)<br><sub>Disassembled JSON5 files using SHA-256 hashes</sub> |
+| **XML**  | ![XML UID](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled.png)<br> | ![XML Hash](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-hashes.png)<br> |
+| **YAML** | ![YAML UID](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-yaml.png)<br> | ![YAML Hash](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-hashes-yaml.png)<br> |
+| **JSON** | ![JSON UID](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-json.png)<br> | ![JSON Hash](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-hashes-json.png)<br> |
+| **JSON5**| ![JSON5 UID](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-json5.png)<br> | ![JSON5 Hash](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-hashes-json5.png)<br> |
 
 
 ## Use Case
