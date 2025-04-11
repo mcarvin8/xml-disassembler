@@ -155,41 +155,15 @@ await handler.reassemble({
 </PermissionSet>
 ```
 
-**Disassembled XML Directory**
+**Disassembled Directory Samples**
 
-<img src="https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled.png">
-<p><em>Disassembled XML files using unique ID elements</em></p>
-<br>
+| Format   | Unique ID Elements | SHA-256 Hashes |
+|----------|--------------------|----------------|
+| **XML**  | ![XML UID](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled.png)<br><sub>Disassembled XML files using unique ID elements</sub> | ![XML Hash](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-hashes.png)<br><sub>Disassembled XML files using SHA-256 hashes</sub> |
+| **YAML** | ![YAML UID](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-yaml.png)<br><sub>Disassembled YAML files using unique ID elements</sub> | ![YAML Hash](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-hashes-yaml.png)<br><sub>Disassembled YAML files using SHA-256 hashes</sub> |
+| **JSON** | ![JSON UID](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-json.png)<br><sub>Disassembled JSON files using unique ID elements</sub> | ![JSON Hash](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-hashes-json.png)<br><sub>Disassembled JSON files using SHA-256 hashes</sub> |
+| **JSON5**| ![JSON5 UID](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-json5.png)<br><sub>Disassembled JSON5 files using unique ID elements</sub> | ![JSON5 Hash](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-hashes-json5.png)<br><sub>Disassembled JSON5 files using SHA-256 hashes</sub> |
 
-<img src="https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-hashes.png">
-<p><em>Disassembled XML files using SHA-256 hashes</em></p>
-
-**Disassembled YAML Directory**
-
-<img src="https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-yaml.png">
-<p><em>Disassembled YAML files using unique ID elements</em></p>
-<br>
-
-<img src="https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-hashes-yaml.png">
-<p><em>Disassembled YAML files using SHA-256 hashes</em></p>
-
-**Disassembled JSON Directory**
-
-<img src="https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-json.png">
-<p><em>Disassembled JSON files using unique ID elements</em></p>
-<br>
-
-<img src="https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-hashes-json.png">
-<p><em>Disassembled JSON files using SHA-256 hashes</em></p>
-
-**Disassembled JSON5 Directory**
-
-<img src="https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-json5.png">
-<p><em>Disassembled JSON5 files using unique ID elements</em></p>
-<br>
-
-<img src="https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-hashes-json5.png">
-<p><em>Disassembled JSON5 files using SHA-256 hashes</em></p>
 
 ## Use Case
 
