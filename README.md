@@ -2,7 +2,7 @@
 
 [![NPM](https://img.shields.io/npm/v/xml-disassembler.svg?label=xml-disassembler)](https://www.npmjs.com/package/xml-disassembler) [![Downloads/week](https://img.shields.io/npm/dw/xml-disassembler.svg)](https://npmjs.org/package/xml-disassembler)
 
-Disassemble XML files into smaller, more manageable files and reassemble them when needed.
+Disassemble XML files into smaller, more manageable files (XML/JSON/JSON5/YAML) and reassemble the XML when needed.
 
 This tool simplifies version control, improves diff readability, and streamlines collaboration when dealing with large XML files.
 
@@ -85,12 +85,12 @@ await handler.disassemble({
 
 ## Reassembling Files
 
-Reassemble a directory of disassembled XML files (XML/JSON/JSON5/YAML) into a single XML file.
+Reassemble a directory of disassembled files (XML/JSON/JSON5/YAML) into a single XML file.
 
 ```typescript
 /* 
 FLAGS
-- filePath:        Relative path to the disassembled XML directory to reassemble.
+- filePath:        Relative path to the disassembled directory to reassemble.
 - fileExtension:   File extension for the reassembled XML.
                    [default: `.xml`]
 - postPurge:       Delete the disassembled files after reassembly.
@@ -164,6 +164,33 @@ await handler.reassemble({
 
 <img src="https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-hashes.png">
 <p><em>Disassembled XML files using SHA-256 hashes</em></p>
+
+**Disassembled YAML Directory**
+
+<img src="https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-yaml.png">
+<p><em>Disassembled YAML files using unique ID elements</em></p>
+<br>
+
+<img src="https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-hashes-yaml.png">
+<p><em>Disassembled YAML files using SHA-256 hashes</em></p>
+
+**Disassembled JSON Directory**
+
+<img src="https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-json.png">
+<p><em>Disassembled JSON files using unique ID elements</em></p>
+<br>
+
+<img src="https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-hashes-json.png">
+<p><em>Disassembled JSON files using SHA-256 hashes</em></p>
+
+**Disassembled JSON5 Directory**
+
+<img src="https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-json5.png">
+<p><em>Disassembled JSON5 files using unique ID elements</em></p>
+<br>
+
+<img src="https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-hashes-json5.png">
+<p><em>Disassembled JSON5 files using SHA-256 hashes</em></p>
 
 ## Use Case
 
