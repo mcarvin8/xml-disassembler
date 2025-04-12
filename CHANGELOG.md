@@ -5,6 +5,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.7.0](https://github.com/mcarvin8/xml-disassembler/compare/v1.6.0...v1.7.0) (2025-04-12)
+
+
+### Features
+
+* add ini as a disassembled format ([de91154](https://github.com/mcarvin8/xml-disassembler/commit/de9115481b3b19e53e5e72339082e63cbd83e337))
+
 ## [1.6.0](https://github.com/mcarvin8/xml-disassembler/compare/v1.5.1...v1.6.0) (2025-04-12)
 
 
