@@ -2,7 +2,7 @@
 
 [![NPM](https://img.shields.io/npm/v/xml-disassembler.svg?label=xml-disassembler)](https://www.npmjs.com/package/xml-disassembler) [![Downloads/week](https://img.shields.io/npm/dw/xml-disassembler.svg)](https://npmjs.org/package/xml-disassembler)
 
-Disassemble XML files into smaller, more manageable files (XML/JSON/JSON5/YAML) and reassemble the XML when needed.
+Disassemble XML files into smaller, more manageable files (XML/JSON/JSON5/TOML/YAML) and reassemble the XML when needed.
 
 This tool simplifies version control, improves diff readability, and streamlines collaboration when dealing with large XML files.
 
@@ -17,7 +17,7 @@ This tool simplifies version control, improves diff readability, and streamlines
 - **Ignore Files** – Specify XML files to exclude from disassembly.
 - **Logging** – Enable detailed debugging logs.
 - **Integrations** – Works with tools like Salesforce CLI
-- **Multiple Formats** - The disassembled file format can be XML, JSON, JSON5, or YAML based on preference. The reassembler will reassemble the original XML structure from these formats.
+- **Multiple Formats** - The disassembled file format can be XML, JSON, JSON5, TOML, or YAML based on preference. The reassembler will reassemble the original XML structure from these formats.
 
 <!-- TABLE OF CONTENTS -->
 <details>
@@ -53,7 +53,7 @@ npm install xml-disassembler
 
 ## Disassembling Files
 
-Disassemble a single XML file or multiple XML files within a directory into smaller files (XML/JSON/JSON5/YAML).
+Disassemble a single XML file or multiple XML files within a directory into smaller files (XML/JSON/JSON5/TOML/YAML).
 
 ```typescript
 /* 
@@ -65,7 +65,7 @@ FLAGS
 - postPurge:        Delete the XML file after disassembling it.
 
 - ignorePath:       Path to an XML disassembly ignore file.
-- format:           File format for the disassembled files ("xml", "json", "json5", "yaml")
+- format:           File format for the disassembled files ("xml", "json", "json5", "toml", "yaml")
                     Defaults to "xml" if the format isn't supported or provided.
 */
 import { DisassembleXMLFileHandler } from "xml-disassembler";
@@ -84,7 +84,7 @@ await handler.disassemble({
 
 ## Reassembling Files
 
-Reassemble a directory of disassembled files (XML/JSON/JSON5/YAML) into a single XML file.
+Reassemble a directory of disassembled files (XML/JSON/JSON5/TOML/YAML) into a single XML file.
 
 ```typescript
 /* 
@@ -157,13 +157,13 @@ await handler.reassemble({
 
 **Disassembled Directory Samples**
 
-| Format   | Unique ID Elements | SHA-256 Hashes |
-|----------|--------------------|----------------|
-| **XML**  | ![XML UID](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled.png)<br> | ![XML Hash](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-hashes.png)<br> |
-| **YAML** | ![YAML UID](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-yaml.png)<br> | ![YAML Hash](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-hashes-yaml.png)<br> |
-| **JSON** | ![JSON UID](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-json.png)<br> | ![JSON Hash](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-hashes-json.png)<br> |
-| **JSON5**| ![JSON5 UID](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-json5.png)<br> | ![JSON5 Hash](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-hashes-json5.png)<br> |
-
+| Format    | Unique ID Elements                                                                                                       | SHA-256 Hashes                                                                                                                   |
+| --------- | ------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------- |
+| **XML**   | ![XML UID](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled.png)<br>         | ![XML Hash](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-hashes.png)<br>         |
+| **YAML**  | ![YAML UID](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-yaml.png)<br>   | ![YAML Hash](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-hashes-yaml.png)<br>   |
+| **JSON**  | ![JSON UID](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-json.png)<br>   | ![JSON Hash](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-hashes-json.png)<br>   |
+| **JSON5** | ![JSON5 UID](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-json5.png)<br> | ![JSON5 Hash](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-hashes-json5.png)<br> |
+| **TOML**  | ![TOML UID](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-toml.png)<br>   | ![TOML Hash](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-hashes-toml.png)<br>   |
 
 ## Use Case
 

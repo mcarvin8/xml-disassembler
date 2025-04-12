@@ -4,6 +4,7 @@ import { readFile, readdir, stat, rm } from "node:fs/promises";
 import { join, dirname, basename } from "node:path/posix";
 import { parse as parseYaml } from "yaml";
 import { parse as parseJson5 } from "json5";
+import { parse as parseToml } from "smol-toml";
 
 import { logger } from "@src/index";
 import { buildReassembledFile } from "@src/builders/buildReassembledFiles";
@@ -32,7 +33,7 @@ export class ReassembleXMLFileHandler {
       const fileStat = await stat(filePath);
 
       if (fileStat.isFile()) {
-        if (/\.(xml|json|json5|ya?ml)$/.test(file)) {
+        if (/\.(xml|json|json5|ya?ml|toml)$/.test(file)) {
           const parsedObject = await this.parseToXmlObject(filePath);
           if (parsedObject === undefined) continue;
 
@@ -111,6 +112,8 @@ export class ReassembleXMLFileHandler {
       parsed = parseJson5(fileContent);
     } else if (filePath.endsWith(".json")) {
       parsed = JSON.parse(fileContent);
+    } else if (filePath.endsWith(".toml")) {
+      parsed = parseToml(fileContent);
     }
 
     return parsed;

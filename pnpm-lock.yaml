@@ -17,6 +17,9 @@ dependencies:
   log4js:
     specifier: ^6.9.1
     version: 6.9.1
+  smol-toml:
+    specifier: ^1.3.1
+    version: 1.3.1
   tslib:
     specifier: ^2.6.2
     version: 2.8.1
@@ -4222,6 +4225,14 @@ packages:
         integrity: sha512-g6T+p7QO8npa+/hNx9ohv1E5pVCmWrVCUzUXJyLdMmftX6ER0oiWY/w9knEonLpnOp6b6FenKnMfR8gqwWdwig==,
       }
     dev: true
+
+  /smol-toml@1.3.1:
+    resolution:
+      {
+        integrity: sha512-tEYNll18pPKHroYSmLLrksq233j021G0giwW7P3D24jC54pQ5W5BXMsQ/Mvw1OJCmEYDgY+lrzT+3nNUtoNfXQ==,
+      }
+    engines: { node: ">= 18" }
+    dev: false
 
   /source-map-support@0.5.13:
     resolution:
