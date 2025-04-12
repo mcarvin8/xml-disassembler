@@ -2,6 +2,7 @@ import {
   transformToYaml,
   transformToJson5,
   transformToJson,
+  transformToToml,
 } from "@src/transformers/transformers";
 
 export function getTransformer(
@@ -14,6 +15,8 @@ export function getTransformer(
       return transformToJson5;
     case "json":
       return transformToJson;
+    case "toml":
+      return transformToToml;
     default:
       return undefined;
   }
