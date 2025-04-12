@@ -5,6 +5,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.6.0](https://github.com/mcarvin8/xml-disassembler/compare/v1.5.1...v1.6.0) (2025-04-12)
+
+
+### Features
+
+* add toml as a disassembled format ([9d0e6b8](https://github.com/mcarvin8/xml-disassembler/commit/9d0e6b8a314720d372ccc3b40152c201f2b37314))
+
 ## [1.5.1](https://github.com/mcarvin8/xml-disassembler/compare/v1.5.0...v1.5.1) (2025-04-11)
 
 
