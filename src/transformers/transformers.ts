@@ -5,6 +5,7 @@ import { parseXML } from "@src/parsers/parseXML";
 import { stringify as stringifyYaml } from "yaml";
 import { stringify as stringifyJson5 } from "json5";
 import { stringify as stringifyToml } from "smol-toml";
+import { stringify as stringifyIni } from "ini";
 
 export async function transformToYaml(xmlPath: string): Promise<void> {
   const parsedXml = await parseXML(xmlPath);
@@ -34,6 +35,14 @@ export async function transformToToml(xmlPath: string): Promise<void> {
   const parsedXml = await parseXML(xmlPath);
   const jsonString = stringifyToml(parsedXml);
   const jsonPath = xmlPath.replace(/\.xml$/, ".toml");
+  await writeFile(jsonPath, jsonString);
+  logger.debug(`${xmlPath} has been transformed into ${jsonPath}`);
+}
+
+export async function transformToIni(xmlPath: string): Promise<void> {
+  const parsedXml = await parseXML(xmlPath);
+  const jsonString = stringifyIni(parsedXml);
+  const jsonPath = xmlPath.replace(/\.xml$/, ".ini");
   await writeFile(jsonPath, jsonString);
   logger.debug(`${xmlPath} has been transformed into ${jsonPath}`);
 }

@@ -3,6 +3,7 @@ import {
   transformToJson5,
   transformToJson,
   transformToToml,
+  transformToIni,
 } from "@src/transformers/transformers";
 
 export function getTransformer(
@@ -17,6 +18,8 @@ export function getTransformer(
       return transformToJson;
     case "toml":
       return transformToToml;
+    case "ini":
+      return transformToIni;
     default:
       return undefined;
   }
