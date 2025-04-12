@@ -74,6 +74,8 @@
     "xml2yaml",
     "xml2json5",
     "toml",
-    "xml2toml"
+    "xml2toml",
+    "ini",
+    "xml2ini"
   ]
 }
