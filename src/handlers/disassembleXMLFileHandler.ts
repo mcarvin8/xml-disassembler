@@ -15,7 +15,6 @@ export class DisassembleXMLFileHandler {
 
   async disassemble(xmlAttributes: {
     filePath: string;
-    uniqueIdElements?: string;
     prePurge?: boolean;
     postPurge?: boolean;
     ignorePath?: string;
@@ -23,7 +22,6 @@ export class DisassembleXMLFileHandler {
   }): Promise<void> {
     const {
       filePath,
-      uniqueIdElements,
       prePurge = false,
       postPurge = false,
       ignorePath = ".xmldisassemblerignore",
@@ -54,7 +52,6 @@ export class DisassembleXMLFileHandler {
       await this.processFile({
         dirPath,
         filePath: resolvedPath,
-        uniqueIdElements,
         prePurge,
         postPurge,
         format,
@@ -73,7 +70,6 @@ export class DisassembleXMLFileHandler {
           await this.processFile({
             dirPath: filePath,
             filePath: subFilePath,
-            uniqueIdElements,
             prePurge,
             postPurge,
             format,
@@ -93,8 +89,7 @@ export class DisassembleXMLFileHandler {
     postPurge: boolean;
     format: string;
   }): Promise<void> {
-    const { dirPath, filePath, uniqueIdElements, prePurge, postPurge, format } =
-      xmlAttributes;
+    const { dirPath, filePath, prePurge, postPurge, format } = xmlAttributes;
 
     logger.debug(`Parsing file to disassemble: ${filePath}`);
     const fullName = basename(filePath, extname(filePath));
@@ -109,7 +104,6 @@ export class DisassembleXMLFileHandler {
     await buildDisassembledFiles(
       filePath,
       outputPath,
-      uniqueIdElements,
       fullName,
       INDENT,
       postPurge,

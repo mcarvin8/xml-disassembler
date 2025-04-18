@@ -50,8 +50,6 @@ describe("main test suite", () => {
   it('should disassemble a general XML file (nested and leaf elements) with unique ID elements."', async () => {
     await disassembleHandler.disassemble({
       filePath: "mock/general",
-      uniqueIdElements:
-        "application,apexClass,name,externalDataSource,flow,object,apexPage,recordType,tab,field",
       postPurge: true,
     });
 
@@ -83,7 +81,6 @@ describe("main test suite", () => {
   it("should disassemble a XML file with CDATA.", async () => {
     await disassembleHandler.disassemble({
       filePath: "mock/cdata",
-      uniqueIdElements: "apiName",
       postPurge: true,
     });
 
@@ -105,7 +102,6 @@ describe("main test suite", () => {
   it("should disassemble a XML file with comments and an invalid unique ID element.", async () => {
     await disassembleHandler.disassemble({
       filePath: "mock/comments",
-      uniqueIdElements: "invalid",
       postPurge: true,
     });
 
@@ -122,8 +118,6 @@ describe("main test suite", () => {
   it("should disassemble a XML file with a deeply nested unique ID element.", async () => {
     await disassembleHandler.disassemble({
       filePath: "mock/deeply-nested-unique-id-element",
-      uniqueIdElements:
-        "apexClass,name,object,field,layout,actionName,targetReference,assignToReference,choiceText,promptText",
       postPurge: true,
     });
 
@@ -174,8 +168,6 @@ describe("main test suite", () => {
   it("should disassemble a XML file with no namespace.", async () => {
     await disassembleHandler.disassemble({
       filePath: "mock/no-namespace/HR_Admin.permissionset-meta.xml",
-      uniqueIdElements:
-        "application,apexClass,name,externalDataSource,flow,object,apexPage,recordType,tab,field",
     });
 
     // Delete the original file manaully to ensure false "postPurge" is tested

@@ -39,8 +39,6 @@ describe("transform test suite", () => {
   it('should disassemble a general XML file into JSON files"', async () => {
     await disassembleHandler.disassemble({
       filePath: "mock2/general",
-      uniqueIdElements:
-        "application,apexClass,name,externalDataSource,flow,object,apexPage,recordType,tab,field",
       postPurge: true,
       prePurge: true,
       format: "json",
@@ -65,8 +63,6 @@ describe("transform test suite", () => {
   it('should disassemble a general XML file into JSON5 files"', async () => {
     await disassembleHandler.disassemble({
       filePath: "mock2/general",
-      uniqueIdElements:
-        "application,apexClass,name,externalDataSource,flow,object,apexPage,recordType,tab,field",
       postPurge: true,
       prePurge: true,
       format: "json5",
@@ -91,8 +87,6 @@ describe("transform test suite", () => {
   it('should disassemble a general XML file into YAML files"', async () => {
     await disassembleHandler.disassemble({
       filePath: "mock2/general",
-      uniqueIdElements:
-        "application,apexClass,name,externalDataSource,flow,object,apexPage,recordType,tab,field",
       postPurge: true,
       prePurge: true,
       format: "yaml",
@@ -116,8 +110,6 @@ describe("transform test suite", () => {
   it('should disassemble a general XML file into TOML files"', async () => {
     await disassembleHandler.disassemble({
       filePath: "mock2/general",
-      uniqueIdElements:
-        "application,apexClass,name,externalDataSource,flow,object,apexPage,recordType,tab,field",
       postPurge: true,
       prePurge: true,
       format: "toml",
@@ -141,8 +133,6 @@ describe("transform test suite", () => {
   it('should disassemble a general XML file into INI files"', async () => {
     await disassembleHandler.disassemble({
       filePath: "mock2/general",
-      uniqueIdElements:
-        "application,apexClass,name,externalDataSource,flow,object,apexPage,recordType,tab,field",
       postPurge: true,
       prePurge: true,
       format: "ini",

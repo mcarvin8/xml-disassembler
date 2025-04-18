@@ -1,41 +1,34 @@
 "use strict";
 
-import { buildNestedFile } from "@src/builders/buildNestedFiles";
-import { XmlElementParams } from "@src/types/types";
+import { XmlElementParams, XmlElement } from "@src/types/types";
 
-export async function parseElement(
-  params: XmlElementParams,
-): Promise<[string, number, boolean]> {
-  const {
-    element,
-    disassembledPath,
-    uniqueIdElements,
-    rootElementName,
-    rootElementHeader,
-    key,
-    indent,
-    leafContent,
-    leafCount,
-    hasNestedElements,
-    xmlDeclarationStr,
-    format,
-  } = params;
+export async function parseElement(params: XmlElementParams): Promise<{
+  leafContent: string;
+  leafCount: number;
+  hasNestedElements: boolean;
+  nestedGroups: Record<string, XmlElement[]>;
+}> {
+  const { element, key, indent, leafContent, leafCount, hasNestedElements } =
+    params;
+
+  const nestedGroups: Record<string, XmlElement[]> = {};
 
   if (typeof element === "object") {
-    await buildNestedFile(
-      element,
-      disassembledPath,
-      uniqueIdElements,
-      rootElementName,
-      rootElementHeader,
-      key,
-      indent,
-      xmlDeclarationStr,
-      format,
-    );
-    return [leafContent, leafCount, true];
+    if (!nestedGroups[key]) nestedGroups[key] = [];
+    nestedGroups[key].push(element);
+    return {
+      leafContent,
+      leafCount,
+      hasNestedElements: true,
+      nestedGroups,
+    };
   } else {
     const updatedLeafContent = `${leafContent}${indent}<${key}>${String(element)}</${key}>\n`;
-    return [updatedLeafContent, leafCount + 1, hasNestedElements];
+    return {
+      leafContent: updatedLeafContent,
+      leafCount: leafCount + 1,
+      hasNestedElements,
+      nestedGroups,
+    };
   }
 }

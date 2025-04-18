@@ -7,7 +7,6 @@ export type XmlElement = {
 export type XmlElementParams = {
   element: XmlElement;
   disassembledPath: string;
-  uniqueIdElements: string | undefined;
   rootElementName: string;
   rootElementHeader: string;
   key: string;
