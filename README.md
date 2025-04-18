@@ -122,9 +122,14 @@ Useful for simplifying diff views and reducing file count in large projects.
 
 **Disassembled Directory Samples for Grouped by Tag**
 
-| Format  | Unique ID Elements                                                                                                    |
-| ------- | --------------------------------------------------------------------------------------------------------------------- |
-| **XML** | ![XML tag](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-tags.png)<br> |
+| Format    | Unique ID Elements                                                                                                            |
+| --------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| **XML**   | ![XML tag](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-tags.png)<br>         |
+| **YAML**  | ![YAML tag](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-tags-yaml.png)<br>   |
+| **JSON**  | ![JSON tag](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-tags-json.png)<br>   |
+| **JSON5** | ![JSON5 tag](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-tags-json5.png)<br> |
+| **TOML**  | ![TOML tag](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-tags-toml.png)<br>   |
+| **INI**   | ![INI tag](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-tags-ini.png)<br>     |
 
 ## Reassembling Files
 
