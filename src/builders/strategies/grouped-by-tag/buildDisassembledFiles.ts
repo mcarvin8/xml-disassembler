@@ -4,10 +4,10 @@ import { unlink } from "node:fs/promises";
 
 import { logger } from "@src/index";
 import { XmlElement } from "@src/types/types";
-import { parseElement } from "@src/parsers/parseElement";
+import { parseElement } from "@src/parsers/strategies/grouped-by-tag/parseElement";
 import { buildRootElementHeader } from "@src/builders/buildRootElementHeader";
 import { buildLeafFile } from "@src/builders/buildLeafFile";
-import { buildGroupedNestedFile } from "@src/builders/buildGroupNestedFile";
+import { buildGroupedNestedFile } from "@src/builders/strategies/grouped-by-tag/buildGroupNestedFile";
 import { parseXML } from "@src/parsers/parseXML";
 import { buildXMLDeclaration } from "@src/builders/buildXmlDeclaration";
 

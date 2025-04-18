@@ -8,13 +8,16 @@ import ignore, { Ignore } from "ignore";
 
 import { logger } from "@src/index";
 import { INDENT } from "@src/constants/constants";
-import { buildDisassembledFiles } from "@src/builders/buildDisassembledFiles";
+import { buildDisassembledFiles as buildDisassembledFilesUID } from "@src/builders/strategies/uid/buildDisassembledFiles";
+import { buildDisassembledFiles as buildDissassembledFilesTag } from "@src/builders/strategies/grouped-by-tag/buildDisassembledFiles";
 
 export class DisassembleXMLFileHandler {
   private readonly ign: Ignore = ignore();
 
   async disassemble(xmlAttributes: {
     filePath: string;
+    uniqueIdElements?: string;
+    strategy?: string;
     prePurge?: boolean;
     postPurge?: boolean;
     ignorePath?: string;
@@ -22,6 +25,8 @@ export class DisassembleXMLFileHandler {
   }): Promise<void> {
     const {
       filePath,
+      uniqueIdElements,
+      strategy = "unique-id",
       prePurge = false,
       postPurge = false,
       ignorePath = ".xmldisassemblerignore",
@@ -51,7 +56,9 @@ export class DisassembleXMLFileHandler {
       const dirPath = dirname(resolvedPath);
       await this.processFile({
         dirPath,
+        strategy,
         filePath: resolvedPath,
+        uniqueIdElements,
         prePurge,
         postPurge,
         format,
@@ -69,6 +76,7 @@ export class DisassembleXMLFileHandler {
         ) {
           await this.processFile({
             dirPath: filePath,
+            strategy,
             filePath: subFilePath,
             prePurge,
             postPurge,
@@ -83,13 +91,22 @@ export class DisassembleXMLFileHandler {
 
   async processFile(xmlAttributes: {
     dirPath: string;
+    strategy: string;
     filePath: string;
     uniqueIdElements?: string;
     prePurge: boolean;
     postPurge: boolean;
     format: string;
   }): Promise<void> {
-    const { dirPath, filePath, prePurge, postPurge, format } = xmlAttributes;
+    const {
+      dirPath,
+      strategy,
+      filePath,
+      uniqueIdElements,
+      prePurge,
+      postPurge,
+      format,
+    } = xmlAttributes;
 
     logger.debug(`Parsing file to disassemble: ${filePath}`);
     const fullName = basename(filePath, extname(filePath));
@@ -101,14 +118,26 @@ export class DisassembleXMLFileHandler {
     if (prePurge && existsSync(outputPath))
       await rm(outputPath, { recursive: true });
 
-    await buildDisassembledFiles(
-      filePath,
-      outputPath,
-      fullName,
-      INDENT,
-      postPurge,
-      format,
-    );
+    if (strategy === "grouped-by-tag") {
+      await buildDissassembledFilesTag(
+        filePath,
+        outputPath,
+        fullName,
+        INDENT,
+        postPurge,
+        format,
+      );
+    } else {
+      await buildDisassembledFilesUID(
+        filePath,
+        outputPath,
+        uniqueIdElements,
+        fullName,
+        INDENT,
+        postPurge,
+        format,
+      );
+    }
   }
 
   private posixPath(path: string): string {
