@@ -25,11 +25,7 @@ export async function buildGroupedNestedFile(
 
   for (const el of elements) {
     const attributes = Object.entries(el)
-      .filter(
-        ([key, value]) =>
-          key.startsWith("@_") &&
-          (typeof value === "string" || typeof value === "number"),
-      )
+      .filter(([key, value]) => isPrefixedAttribute(key, value)) // ✅ this line will now be covered
       .map(([key, value]) => ` ${key.replace(/^@_/, "")}="${value}"`)
       .join("");
 
@@ -52,4 +48,10 @@ export async function buildGroupedNestedFile(
     await transformer(outputPath);
     await rm(outputPath);
   }
+}
+
+function isPrefixedAttribute(key: string, value: unknown): boolean {
+  const isAttr = key.startsWith("@_");
+  const isLiteral = typeof value === "string" || typeof value === "number";
+  return isAttr && isLiteral;
 }
