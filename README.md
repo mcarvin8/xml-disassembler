@@ -26,8 +26,8 @@ This tool simplifies version control, improves diff readability, and streamlines
 - [Background](#background)
 - [Install](#install)
 - [Disassembling Files](#disassembling-files)
+- [Disassembly Strategies](#disassembly-strategies)
 - [Reassembling Files](#reassembling-files)
-- [Example](#example)
 - [Use Case](#use-case)
 - [Ignore File](#ignore-file)
 - [XML Parser](#xml-parser)
@@ -67,6 +67,8 @@ FLAGS
 - ignorePath:       Path to an XML disassembly ignore file.
 - format:           File format for the disassembled files ("xml", "ini", "json", "json5", "toml", "yaml")
                     Defaults to "xml" if the format isn't supported or provided.
+- strategy:         Disassemble strategy ("unique-id" or "grouped-by-tag")
+                    Defaults to "unique-id" if strategy isn't supported or provided.
 */
 import { DisassembleXMLFileHandler } from "xml-disassembler";
 
@@ -79,8 +81,44 @@ await handler.disassemble({
   postPurge: true,
   ignorePath: ".xmldisassemblerignore",
   format: "json",
+  strategy: "unique-id",
 });
 ```
+
+## Disassembly Strategies
+
+`xml-disassembler` supports two disassembly strategies to suit different use cases for nested elements. You can choose a strategy by setting the strategy option when calling disassemble().
+
+🔹 unique-id (default)
+
+> This is the strategy all prevoius versions of the `xml-disassembler` follows.
+
+Disassembles each nested element into its own file.
+
+File names are generated using one or more unique identifier elements (uniqueIdElements) or fallback to a SHA-256 hash.
+
+Leaf elements remain grouped in a file named after the original XML.
+
+Best for maximum diff granularity and precision in version control.
+
+**Disassembled Directory Samples for Unique IDs**
+
+| Format    | Unique ID Elements                                                                                                       | SHA-256 Hashes                                                                                                                   |
+| --------- | ------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------- |
+| **XML**   | ![XML UID](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled.png)<br>         | ![XML Hash](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-hashes.png)<br>         |
+| **YAML**  | ![YAML UID](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-yaml.png)<br>   | ![YAML Hash](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-hashes-yaml.png)<br>   |
+| **JSON**  | ![JSON UID](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-json.png)<br>   | ![JSON Hash](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-hashes-json.png)<br>   |
+| **JSON5** | ![JSON5 UID](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-json5.png)<br> | ![JSON5 Hash](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-hashes-json5.png)<br> |
+| **TOML**  | ![TOML UID](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-toml.png)<br>   | ![TOML Hash](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-hashes-toml.png)<br>   |
+| **INI**   | ![INI UID](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-ini.png)<br>     | ![INI Hash](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-hashes-ini.png)<br>     |
+
+🔸 grouped-by-tag
+
+Groups all nested elements by tag name into a single file (e.g., all <fieldPermissions> into fieldPermissions.xml).
+
+Leaf elements remain grouped in a file named after the original XML.
+
+Useful for simplifying diff views and reducing file count in large projects.
 
 ## Reassembling Files
 
@@ -103,68 +141,6 @@ await handler.reassemble({
   postPurge: true,
 });
 ```
-
-## Example
-
-**Input XML file (`HR_Admin.permissionset-meta.xml`)**
-
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
-    <applicationVisibilities>
-        <application>JobApps__Recruiting</application>
-        <visible>true</visible>
-    </applicationVisibilities>
-    <classAccesses>
-        <apexClass>Send_Email_Confirmation</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Job_Request__c.Salary__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <description>Grants all rights needed for an HR administrator to manage employees.</description>
-    <label>HR Administration</label>
-    <userLicense>Salesforce</userLicense>
-    <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowDelete>true</allowDelete>
-        <allowEdit>true</allowEdit>
-        <allowRead>true</allowRead>
-        <viewAllRecords>true</viewAllRecords>
-        <modifyAllRecords>true</modifyAllRecords>
-        <object>Job_Request__c</object>
-    </objectPermissions>
-    <pageAccesses>
-        <apexPage>Job_Request_Web_Form</apexPage>
-        <enabled>true</enabled>
-    </pageAccesses>
-    <recordTypeVisibilities>
-        <recordType>Recruiting.DevManager</recordType>
-        <visible>true</visible>
-    </recordTypeVisibilities>
-    <tabSettings>
-        <tab>Job_Request__c</tab>
-        <visibility>Available</visibility>
-    </tabSettings>
-    <userPermissions>
-        <enabled>true</enabled>
-        <name>APIEnabled</name>
-    </userPermissions>
-</PermissionSet>
-```
-
-**Disassembled Directory Samples**
-
-| Format    | Unique ID Elements                                                                                                       | SHA-256 Hashes                                                                                                                   |
-| --------- | ------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------- |
-| **XML**   | ![XML UID](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled.png)<br>         | ![XML Hash](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-hashes.png)<br>         |
-| **YAML**  | ![YAML UID](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-yaml.png)<br>   | ![YAML Hash](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-hashes-yaml.png)<br>   |
-| **JSON**  | ![JSON UID](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-json.png)<br>   | ![JSON Hash](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-hashes-json.png)<br>   |
-| **JSON5** | ![JSON5 UID](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-json5.png)<br> | ![JSON5 Hash](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-hashes-json5.png)<br> |
-| **TOML**  | ![TOML UID](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-toml.png)<br>   | ![TOML Hash](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-hashes-toml.png)<br>   |
-| **INI**   | ![INI UID](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-ini.png)<br>     | ![INI Hash](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-hashes-ini.png)<br>     |
 
 ## Use Case
 
