@@ -19,15 +19,29 @@ export async function buildGroupedNestedFile(
   format: string,
 ): Promise<void> {
   const outputPath = join(disassembledPath, `${tag}.xml`);
-  // Create the output directory if it doesn't exist
   await mkdir(disassembledPath, { recursive: true });
 
   let content = `${xmlDeclarationStr}\n${rootElementHeader}\n`;
+
   for (const el of elements) {
-    content += `${indent}<${tag}>\n`;
-    content += buildXMLString(el, 2); // uses indent level 2
+    const attributes = Object.entries(el)
+      .filter(
+        ([key, value]) =>
+          key.startsWith("@_") &&
+          (typeof value === "string" || typeof value === "number"),
+      )
+      .map(([key, value]) => ` ${key.replace(/^@_/, "")}="${value}"`)
+      .join("");
+
+    const elementWithoutAttrs: XmlElement = Object.fromEntries(
+      Object.entries(el).filter(([key]) => !key.startsWith("@_")),
+    );
+
+    content += `${indent}<${tag}${attributes}>\n`;
+    content += buildXMLString(elementWithoutAttrs, 2);
     content += `\n${indent}</${tag}>\n`;
   }
+
   content += `</${rootElementName}>`;
 
   await writeFile(outputPath, content);
