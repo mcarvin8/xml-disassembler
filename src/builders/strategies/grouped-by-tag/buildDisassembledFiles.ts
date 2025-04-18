@@ -4,16 +4,16 @@ import { unlink } from "node:fs/promises";
 
 import { logger } from "@src/index";
 import { XmlElement } from "@src/types/types";
-import { parseElement } from "@src/parsers/parseElement";
+import { parseElement } from "@src/parsers/strategies/grouped-by-tag/parseElement";
 import { buildRootElementHeader } from "@src/builders/buildRootElementHeader";
 import { buildLeafFile } from "@src/builders/buildLeafFile";
+import { buildGroupedNestedFile } from "@src/builders/strategies/grouped-by-tag/buildGroupNestedFile";
 import { parseXML } from "@src/parsers/parseXML";
 import { buildXMLDeclaration } from "@src/builders/buildXmlDeclaration";
 
 export async function buildDisassembledFiles(
   filePath: string,
   disassembledPath: string,
-  uniqueIdElements: string | undefined,
   baseName: string,
   indent: string,
   postPurge: boolean,
@@ -21,6 +21,7 @@ export async function buildDisassembledFiles(
 ): Promise<void> {
   const parsedXml = await parseXML(filePath);
   if (parsedXml === undefined) return;
+
   const rootElementName = Object.keys(parsedXml)[1];
   const xmlDeclarationStr = buildXMLDeclaration(parsedXml);
   const rootElement: XmlElement = parsedXml[rootElementName];
@@ -28,54 +29,42 @@ export async function buildDisassembledFiles(
     rootElement,
     rootElementName,
   );
+
   let leafContent = "";
   let leafCount = 0;
-  let hasNestedElements: boolean = false;
+  let hasNestedElements = false;
+  const nestedGroups: Record<string, XmlElement[]> = {};
 
-  // Iterate through child elements to find the field name for each
   for (const key of Object.keys(rootElement).filter(
     (key: string) => !key.startsWith("@"),
   )) {
-    if (Array.isArray(rootElement[key])) {
-      for (const element of rootElement[key] as XmlElement[]) {
-        const [updatedLeafContent, updatedLeafCount, updatedHasNestedElements] =
-          await parseElement({
-            element,
-            disassembledPath,
-            uniqueIdElements,
-            rootElementName,
-            rootElementHeader,
-            key,
-            indent,
-            leafContent,
-            leafCount,
-            hasNestedElements,
-            xmlDeclarationStr,
-            format,
-          });
-        leafContent = updatedLeafContent;
-        leafCount = updatedLeafCount;
-        hasNestedElements = updatedHasNestedElements;
+    const elements = Array.isArray(rootElement[key])
+      ? (rootElement[key] as XmlElement[])
+      : [rootElement[key] as XmlElement];
+
+    for (const element of elements) {
+      const result = await parseElement({
+        element,
+        disassembledPath,
+        rootElementName,
+        rootElementHeader,
+        key,
+        indent,
+        leafContent,
+        leafCount,
+        hasNestedElements,
+        xmlDeclarationStr,
+        format,
+      });
+
+      leafContent = result.leafContent;
+      leafCount = result.leafCount;
+      hasNestedElements = result.hasNestedElements;
+
+      for (const tag in result.nestedGroups) {
+        if (!nestedGroups[tag]) nestedGroups[tag] = [];
+        nestedGroups[tag].push(...result.nestedGroups[tag]);
       }
-    } else {
-      const [updatedLeafContent, updatedLeafCount, updatedHasNestedElements] =
-        await parseElement({
-          element: rootElement[key] as XmlElement,
-          disassembledPath,
-          uniqueIdElements,
-          rootElementName,
-          rootElementHeader,
-          key,
-          indent,
-          leafContent,
-          leafCount,
-          hasNestedElements,
-          xmlDeclarationStr,
-          format,
-        });
-      leafContent = updatedLeafContent;
-      leafCount = updatedLeafCount;
-      hasNestedElements = updatedHasNestedElements;
     }
   }
 
@@ -84,6 +73,19 @@ export async function buildDisassembledFiles(
       `The XML file ${filePath} only has leaf elements. This file will not be disassembled.`,
     );
     return;
+  }
+
+  for (const tag in nestedGroups) {
+    await buildGroupedNestedFile(
+      tag,
+      nestedGroups[tag],
+      disassembledPath,
+      rootElementName,
+      rootElementHeader,
+      xmlDeclarationStr,
+      indent,
+      format,
+    );
   }
 
   if (leafCount > 0) {
@@ -97,7 +99,8 @@ export async function buildDisassembledFiles(
       format,
     );
   }
+
   if (postPurge) {
-    unlink(filePath);
+    await unlink(filePath);
   }
 }

@@ -1,6 +1,6 @@
 "use strict";
 
-import { buildNestedFile } from "@src/builders/buildNestedFiles";
+import { buildNestedFile } from "@src/builders/strategies/uid/buildNestedFiles";
 import { XmlElementParams } from "@src/types/types";
 
 export async function parseElement(

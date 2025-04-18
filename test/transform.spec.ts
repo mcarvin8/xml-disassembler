@@ -39,8 +39,6 @@ describe("transform test suite", () => {
   it('should disassemble a general XML file into JSON files"', async () => {
     await disassembleHandler.disassemble({
       filePath: "mock2/general",
-      uniqueIdElements:
-        "application,apexClass,name,externalDataSource,flow,object,apexPage,recordType,tab,field",
       postPurge: true,
       prePurge: true,
       format: "json",
@@ -65,8 +63,6 @@ describe("transform test suite", () => {
   it('should disassemble a general XML file into JSON5 files"', async () => {
     await disassembleHandler.disassemble({
       filePath: "mock2/general",
-      uniqueIdElements:
-        "application,apexClass,name,externalDataSource,flow,object,apexPage,recordType,tab,field",
       postPurge: true,
       prePurge: true,
       format: "json5",
@@ -91,8 +87,6 @@ describe("transform test suite", () => {
   it('should disassemble a general XML file into YAML files"', async () => {
     await disassembleHandler.disassemble({
       filePath: "mock2/general",
-      uniqueIdElements:
-        "application,apexClass,name,externalDataSource,flow,object,apexPage,recordType,tab,field",
       postPurge: true,
       prePurge: true,
       format: "yaml",
@@ -116,8 +110,6 @@ describe("transform test suite", () => {
   it('should disassemble a general XML file into TOML files"', async () => {
     await disassembleHandler.disassemble({
       filePath: "mock2/general",
-      uniqueIdElements:
-        "application,apexClass,name,externalDataSource,flow,object,apexPage,recordType,tab,field",
       postPurge: true,
       prePurge: true,
       format: "toml",
@@ -141,8 +133,6 @@ describe("transform test suite", () => {
   it('should disassemble a general XML file into INI files"', async () => {
     await disassembleHandler.disassemble({
       filePath: "mock2/general",
-      uniqueIdElements:
-        "application,apexClass,name,externalDataSource,flow,object,apexPage,recordType,tab,field",
       postPurge: true,
       prePurge: true,
       format: "ini",
@@ -158,6 +148,31 @@ describe("transform test suite", () => {
     expect(logger.error).not.toHaveBeenCalled();
   });
   it("should compare the reassembled XML from INI files against the baseline.", async () => {
+    await compareFiles(
+      "samples/general/HR_Admin.permissionset-meta.xml",
+      "mock2/general/HR_Admin.permissionset-meta.xml",
+    );
+  });
+  it('should disassemble a general XML file into JSON files with the group tag strategy"', async () => {
+    await disassembleHandler.disassemble({
+      filePath: "mock2/general",
+      strategy: "grouped-by-tag",
+      postPurge: true,
+      prePurge: true,
+      format: "json",
+    });
+
+    expect(logger.error).not.toHaveBeenCalled();
+  });
+  it('should reassemble the JSON files with the group tag strategy back into the original XML."', async () => {
+    await reassembleHandler.reassemble({
+      filePath: "mock2/general/HR_Admin",
+      fileExtension: "permissionset-meta.xml",
+    });
+
+    expect(logger.error).not.toHaveBeenCalled();
+  });
+  it("should compare the reassembled XML from JSON files with the group tag strategy against the baseline.", async () => {
     await compareFiles(
       "samples/general/HR_Admin.permissionset-meta.xml",
       "mock2/general/HR_Admin.permissionset-meta.xml",

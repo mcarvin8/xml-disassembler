@@ -5,7 +5,7 @@ import { join } from "node:path/posix";
 
 import { logger } from "@src/index";
 import { XmlElement } from "@src/types/types";
-import { parseUniqueIdElement } from "@src/parsers/parseUniqueIdElements";
+import { parseUniqueIdElement } from "@src/parsers/strategies/uid/parseUniqueIdElements";
 import { buildXMLString } from "@src/builders/buildXMLString";
 import { buildRootElementHeader } from "@src/builders/buildRootElementHeader";
 import { getTransformer } from "@src/transformers/getTransformer";
