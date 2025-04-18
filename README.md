@@ -91,9 +91,9 @@ await handler.disassemble({
 
 🔹 unique-id (default)
 
-> This is the strategy all prevoius versions of the `xml-disassembler` follows.
+> This is the strategy all previous versions of the `xml-disassembler` follow.
 
-Disassembles each nested element into its own file.
+Disassembles each nested element into its own file under sub-directories.
 
 File names are generated using one or more unique identifier elements (uniqueIdElements) or fallback to a SHA-256 hash.
 
@@ -114,11 +114,17 @@ Best for maximum diff granularity and precision in version control.
 
 🔸 grouped-by-tag
 
-Groups all nested elements by tag name into a single file (e.g., all <fieldPermissions> into fieldPermissions.xml).
+Groups all nested elements by tag name into a single file (e.g., all `<fieldPermissions>` into `fieldPermissions.xml`).
 
 Leaf elements remain grouped in a file named after the original XML.
 
 Useful for simplifying diff views and reducing file count in large projects.
+
+**Disassembled Directory Samples for Grouped by Tag**
+
+| Format  | Unique ID Elements                                                                                                    |
+| ------- | --------------------------------------------------------------------------------------------------------------------- |
+| **XML** | ![XML tag](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-tags.png)<br> |
 
 ## Reassembling Files
 
