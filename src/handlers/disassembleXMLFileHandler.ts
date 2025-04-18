@@ -78,6 +78,7 @@ export class DisassembleXMLFileHandler {
             dirPath: filePath,
             strategy,
             filePath: subFilePath,
+            uniqueIdElements,
             prePurge,
             postPurge,
             format,
