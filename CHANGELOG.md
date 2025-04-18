@@ -5,6 +5,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.8.0](https://github.com/mcarvin8/xml-disassembler/compare/v1.7.0...v1.8.0) (2025-04-18)
+
+
+### Features
+
+* add new disassemble strategy ([9f65e31](https://github.com/mcarvin8/xml-disassembler/commit/9f65e319dcd78f4bcb5505f941bbe1358c557740))
+
 ## [1.7.0](https://github.com/mcarvin8/xml-disassembler/compare/v1.6.0...v1.7.0) (2025-04-12)
 
 
