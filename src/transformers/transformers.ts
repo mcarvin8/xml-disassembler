@@ -1,11 +1,11 @@
 import { writeFile } from "node:fs/promises";
-
-import { logger } from "@src/index";
-import { parseXML } from "@src/parsers/parseXML";
-import { stringify as stringifyYaml } from "yaml";
 import { stringify as stringifyJson5 } from "json5";
 import { stringify as stringifyToml } from "smol-toml";
 import { stringify as stringifyIni } from "ini";
+import { stringify as stringifyYaml } from "yaml";
+
+import { logger } from "../index";
+import { parseXML } from "../parsers/parseXML";
 
 export async function transformToYaml(xmlPath: string): Promise<void> {
   const parsedXml = await parseXML(xmlPath);

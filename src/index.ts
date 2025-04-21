@@ -5,6 +5,13 @@ export { DisassembleXMLFileHandler } from "./handlers/disassembleXMLFileHandler"
 export { parseXML } from "./parsers/parseXML";
 export { buildXMLString } from "./builders/buildXMLString";
 export { XmlElement } from "./types/types";
+export {
+  transformToYaml,
+  transformToIni,
+  transformToJson,
+  transformToJson5,
+  transformToToml,
+} from "./transformers/transformers";
 
 // Function to update the log level
 export function setLogLevel(level: string) {
