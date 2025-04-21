@@ -5,6 +5,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.9.0](https://github.com/mcarvin8/xml-disassembler/compare/v1.8.0...v1.9.0) (2025-04-21)
+
+
+### Features
+
+* export the transformers ([46ad06b](https://github.com/mcarvin8/xml-disassembler/commit/46ad06b2b7b4e96c4b69f5b23db72198973de5d5))
+
 ## [1.8.0](https://github.com/mcarvin8/xml-disassembler/compare/v1.7.0...v1.8.0) (2025-04-18)
 
 
