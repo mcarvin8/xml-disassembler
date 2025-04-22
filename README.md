@@ -13,7 +13,7 @@ This tool simplifies version control, improves diff readability, and streamlines
 - **Disassemble XML Files** – Break down XML files into structured directories.
 - **Reassemble XML Files** – Recreate the original XML structure from disassembled parts.
   > **NOTE**: The `xml-disassembler` aims to reassemble the original XML 100% element-wise, however, the element sorting will vary. The reassembler will sort elements based on how they are sorted in the disassembled directories. "toml" format sorting varies compared to the other formats.
-- **Unique Identifiers** – Use specific XML elements as file names or fallback to SHA-256 hashes.
+- **Multiple Disassembly Strategies** – Provides 2 strategies to disassemble an XML file.
 - **Ignore Files** – Specify XML files to exclude from disassembly.
 - **Logging** – Enable detailed debugging logs.
 - **Integrations** – Works with tools like Salesforce CLI
@@ -27,6 +27,8 @@ This tool simplifies version control, improves diff readability, and streamlines
 - [Install](#install)
 - [Disassembling Files](#disassembling-files)
 - [Disassembly Strategies](#disassembly-strategies)
+  - [unique-id (default)](#unique-id-default)
+  - [grouped-by-tag](#grouped-by-tag)
 - [Reassembling Files](#reassembling-files)
 - [Use Case](#use-case)
 - [Ignore File](#ignore-file)
@@ -89,7 +91,7 @@ await handler.disassemble({
 
 `xml-disassembler` supports two disassembly strategies to suit different use cases for nested elements. You can choose a strategy by setting the strategy option when calling disassemble().
 
-🔹 unique-id (default)
+### unique-id (default)
 
 > This is the strategy all previous versions of the `xml-disassembler` follow.
 
@@ -112,7 +114,7 @@ Best for maximum diff granularity and precision in version control.
 | **TOML**  | ![TOML UID](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-toml.png)<br>   | ![TOML Hash](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-hashes-toml.png)<br>   |
 | **INI**   | ![INI UID](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-ini.png)<br>     | ![INI Hash](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-hashes-ini.png)<br>     |
 
-🔸 grouped-by-tag
+### grouped-by-tag
 
 Groups all nested elements by tag name into a single file (e.g., all `<fieldPermissions>` into `fieldPermissions.xml`).
 
