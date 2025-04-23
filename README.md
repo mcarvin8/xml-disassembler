@@ -105,7 +105,7 @@ Best for maximum diff granularity and precision in version control.
 
 **Disassembled Directory Samples for Unique IDs**
 
-| Format    | Sample Directory                                                                                                       | SHA-256 Hashes                                                                                                                   |
+| Format    | Sample Directory - UIDs                                                                                                       | Sample Directory - SHA-256 Hashes                                                                                                                   |
 | --------- | ------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------- |
 | **XML**   | ![XML UID](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled.png)<br>         | ![XML Hash](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-hashes.png)<br>         |
 | **YAML**  | ![YAML UID](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-yaml.png)<br>   | ![YAML Hash](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-hashes-yaml.png)<br>   |
