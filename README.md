@@ -157,10 +157,7 @@ await handler.reassemble({
 
 ## Use Case
 
-See [`sf-decomposer`](https://github.com/mcarvin8/sf-decomposer) for a Salesforce CLI use case:
-
-- [Disassemble Use Case](https://github.com/mcarvin8/sf-decomposer/blob/main/src/service/decomposeFileHandler.ts)
-- [Reassemble Use Case](https://github.com/mcarvin8/sf-decomposer/blob/main/src/service/recomposeFileHandler.ts)
+See [`sf-decomposer`](https://github.com/mcarvin8/sf-decomposer) for a Salesforce CLI use case.
 
 ## Ignore File
 
