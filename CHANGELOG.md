@@ -5,6 +5,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.9.1](https://github.com/mcarvin8/xml-disassembler/compare/v1.9.0...v1.9.1) (2025-05-06)
+
+
+### Bug Fixes
+
+* **deps:** bump ignore from 7.0.3 to 7.0.4 ([95cf6d1](https://github.com/mcarvin8/xml-disassembler/commit/95cf6d10212bd8105b27285574cdb1c190c42e75))
+* **deps:** bump smol-toml from 1.3.1 to 1.3.4 ([0e40592](https://github.com/mcarvin8/xml-disassembler/commit/0e40592ff81d99378d60708345d467c9002d26e3))
+
 ## [1.9.0](https://github.com/mcarvin8/xml-disassembler/compare/v1.8.0...v1.9.0) (2025-04-21)
 
 
