@@ -34,7 +34,7 @@ export async function buildNestedFile(
   const parentKeyHeader = buildRootElementHeader(element, parentKey);
 
   // Call the buildXMLString to build the XML content string
-  elementContent = buildXMLString(element, 2);
+  elementContent = buildXMLString(element);
   let nestedFileContents = `${xmlDeclarationStr}\n`;
   nestedFileContents += `${rootElementHeader}\n`;
   nestedFileContents += `${indent}${parentKeyHeader}\n`;
