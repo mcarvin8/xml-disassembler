@@ -42,10 +42,8 @@ export async function buildNestedFile(
   nestedFileContents += `${indent}</${parentKey}>\n`;
   nestedFileContents += `</${rootElementName}>`;
 
-  // Write the XML content to the determined output path
-  await writeFile(outputPath, nestedFileContents);
   // reparse and rebuild XML for proper formatting
-  const parsedXml = await parseXML(outputPath);
+  const parsedXml = await parseXML(nestedFileContents, true);
   const reparsedXml = buildXMLString(parsedXml as XmlElement);
   await writeFile(outputPath, reparsedXml);
 

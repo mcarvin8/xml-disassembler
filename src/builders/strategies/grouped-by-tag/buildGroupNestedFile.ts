@@ -40,9 +40,7 @@ export async function buildGroupedNestedFile(
 
   content += `</${rootElementName}>`;
 
-  await writeFile(outputPath, content);
-  // reparse and rebuild XML for proper formatting
-  const parsedXml = await parseXML(outputPath);
+  const parsedXml = await parseXML(content, true);
   const reparsedXml = buildXMLString(parsedXml as XmlElement);
   await writeFile(outputPath, reparsedXml);
   logger.debug(`Created grouped nested file: ${outputPath}`);
