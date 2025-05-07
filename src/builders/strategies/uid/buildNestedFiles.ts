@@ -3,7 +3,7 @@
 import { mkdir, writeFile, rm } from "node:fs/promises";
 import { join } from "node:path/posix";
 
-import { logger } from "@src/index";
+import { logger, parseXML } from "@src/index";
 import { XmlElement } from "@src/types/types";
 import { parseUniqueIdElement } from "@src/parsers/strategies/uid/parseUniqueIdElements";
 import { buildXMLString } from "@src/builders/buildXMLString";
@@ -44,6 +44,11 @@ export async function buildNestedFile(
 
   // Write the XML content to the determined output path
   await writeFile(outputPath, nestedFileContents);
+  // reparse and rebuild XML for proper formatting
+  const parsedXml = await parseXML(outputPath);
+  const reparsedXml = buildXMLString(parsedXml as XmlElement);
+  await writeFile(outputPath, reparsedXml);
+
   logger.debug(`Created disassembled file: ${outputPath}`);
 
   const transformer = getTransformer(format);
