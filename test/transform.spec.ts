@@ -36,7 +36,7 @@ describe("transform test suite", () => {
     await rm(mockDir, { recursive: true });
   });
 
-  it('should disassemble a general XML file into JSON files"', async () => {
+  it("should disassemble a general XML file into JSON files", async () => {
     await disassembleHandler.disassemble({
       filePath: "mock2/general",
       postPurge: true,
@@ -46,7 +46,7 @@ describe("transform test suite", () => {
 
     expect(logger.error).not.toHaveBeenCalled();
   });
-  it('should reassemble the JSON files back into the original XML."', async () => {
+  it("should reassemble the JSON files back into the original XML.", async () => {
     await reassembleHandler.reassemble({
       filePath: "mock2/general/HR_Admin",
       fileExtension: "permissionset-meta.xml",
@@ -60,7 +60,7 @@ describe("transform test suite", () => {
       "mock2/general/HR_Admin.permissionset-meta.xml",
     );
   });
-  it('should disassemble a general XML file into JSON5 files"', async () => {
+  it("should disassemble a general XML file into JSON5 files", async () => {
     await disassembleHandler.disassemble({
       filePath: "mock2/general",
       postPurge: true,
@@ -70,7 +70,7 @@ describe("transform test suite", () => {
 
     expect(logger.error).not.toHaveBeenCalled();
   });
-  it('should reassemble the JSON5 files back into the original XML."', async () => {
+  it("should reassemble the JSON5 files back into the original XML.", async () => {
     await reassembleHandler.reassemble({
       filePath: "mock2/general/HR_Admin",
       fileExtension: "permissionset-meta.xml",
@@ -84,7 +84,7 @@ describe("transform test suite", () => {
       "mock2/general/HR_Admin.permissionset-meta.xml",
     );
   });
-  it('should disassemble a general XML file into YAML files"', async () => {
+  it("should disassemble a general XML file into YAML files", async () => {
     await disassembleHandler.disassemble({
       filePath: "mock2/general",
       postPurge: true,
@@ -93,7 +93,7 @@ describe("transform test suite", () => {
     });
     expect(logger.error).not.toHaveBeenCalled();
   });
-  it('should reassemble the YAML files back into the original XML."', async () => {
+  it("should reassemble the YAML files back into the original XML.", async () => {
     await reassembleHandler.reassemble({
       filePath: "mock2/general/HR_Admin",
       fileExtension: "permissionset-meta.xml",
@@ -107,7 +107,7 @@ describe("transform test suite", () => {
       "mock2/general/HR_Admin.permissionset-meta.xml",
     );
   });
-  it('should disassemble a general XML file into TOML files"', async () => {
+  it("should disassemble a general XML file into TOML files", async () => {
     await disassembleHandler.disassemble({
       filePath: "mock2/general",
       postPurge: true,
@@ -116,7 +116,7 @@ describe("transform test suite", () => {
     });
     expect(logger.error).not.toHaveBeenCalled();
   });
-  it('should reassemble the TOML files back into the original XML."', async () => {
+  it("should reassemble the TOML files back into the original XML.", async () => {
     await reassembleHandler.reassemble({
       filePath: "mock2/general/HR_Admin",
       fileExtension: "permissionset-meta.xml",
@@ -130,7 +130,7 @@ describe("transform test suite", () => {
       "mock2/general/HR_Admin.permissionset-meta.xml",
     );
   });
-  it('should disassemble a general XML file into INI files"', async () => {
+  it("should disassemble a general XML file into INI files", async () => {
     await disassembleHandler.disassemble({
       filePath: "mock2/general",
       postPurge: true,
@@ -139,7 +139,7 @@ describe("transform test suite", () => {
     });
     expect(logger.error).not.toHaveBeenCalled();
   });
-  it('should reassemble the INI files back into the original XML."', async () => {
+  it("should reassemble the INI files back into the original XML.", async () => {
     await reassembleHandler.reassemble({
       filePath: "mock2/general/HR_Admin",
       fileExtension: "permissionset-meta.xml",
@@ -153,7 +153,7 @@ describe("transform test suite", () => {
       "mock2/general/HR_Admin.permissionset-meta.xml",
     );
   });
-  it('should disassemble a general XML file into JSON files with the group tag strategy"', async () => {
+  it("should disassemble a general XML file into JSON files with the group tag strategy", async () => {
     await disassembleHandler.disassemble({
       filePath: "mock2/general",
       strategy: "grouped-by-tag",
@@ -164,7 +164,7 @@ describe("transform test suite", () => {
 
     expect(logger.error).not.toHaveBeenCalled();
   });
-  it('should reassemble the JSON files with the group tag strategy back into the original XML."', async () => {
+  it("should reassemble the JSON files with the group tag strategy back into the original XML.", async () => {
     await reassembleHandler.reassemble({
       filePath: "mock2/general/HR_Admin",
       fileExtension: "permissionset-meta.xml",

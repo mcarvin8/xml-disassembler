@@ -57,7 +57,7 @@ describe("unique-id strategy test suite", () => {
 
     expect(logger.error).not.toHaveBeenCalled();
   });
-  it('should reassemble a general XML file (nested and leaf elements) with a namespace and alternate file extension."', async () => {
+  it("should reassemble a general XML file (nested and leaf elements) with a namespace and alternate file extension.", async () => {
     await reassembleHandler.reassemble({
       filePath: "mock/general/HR_Admin",
       fileExtension: "permissionset-meta.xml",

@@ -47,7 +47,7 @@ describe("grouped by tag strategy test suite", () => {
     await rm(mockDir, { recursive: true });
   });
 
-  it('should disassemble a general XML file (nested and leaf elements) with unique ID elements."', async () => {
+  it("should disassemble a general XML file (nested and leaf elements) with unique ID elements.", async () => {
     await disassembleHandler.disassemble({
       filePath: "mock-tag/general",
       strategy: "grouped-by-tag",
@@ -56,7 +56,7 @@ describe("grouped by tag strategy test suite", () => {
 
     expect(logger.error).not.toHaveBeenCalled();
   });
-  it('should reassemble a general XML file (nested and leaf elements) with a namespace and alternate file extension."', async () => {
+  it("should reassemble a general XML file (nested and leaf elements) with a namespace and alternate file extension.", async () => {
     await reassembleHandler.reassemble({
       filePath: "mock-tag/general/HR_Admin",
       fileExtension: "permissionset-meta.xml",
