@@ -5,6 +5,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.9.3](https://github.com/mcarvin8/xml-disassembler/compare/v1.9.2...v1.9.3) (2025-05-07)
+
+
+### Bug Fixes
+
+* indenting on disassembled nested files ([5aae642](https://github.com/mcarvin8/xml-disassembler/commit/5aae642aec0fe26dbae6d40984264c8d1654c787))
+
 ## [1.9.2](https://github.com/mcarvin8/xml-disassembler/compare/v1.9.1...v1.9.2) (2025-05-07)
 
 
