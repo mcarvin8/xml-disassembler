@@ -23,7 +23,7 @@ const testFile: string = "test/Just_Shop.loyaltyProgramSetup-meta.xml";
 let disassembleHandler: DisassembleXMLFileHandler;
 let reassembleHandler: ReassembleXMLFileHandler;
 
-describe("main test suite", () => {
+describe("multi-level disassembly test suite", () => {
   beforeAll(async () => {
     disassembleHandler = new DisassembleXMLFileHandler();
     reassembleHandler = new ReassembleXMLFileHandler();
@@ -39,7 +39,7 @@ describe("main test suite", () => {
     jest.restoreAllMocks();
   });
 
-  it('should disassemble a general XML file (nested and leaf elements) with unique ID elements."', async () => {
+  it("should disassemble a XML file multiple times by level", async () => {
     await disassembleHandler.disassemble({
       filePath: testFile,
       uniqueIdElements: "fullName,name,processName",
@@ -76,7 +76,7 @@ describe("main test suite", () => {
     }
     expect(logger.error).not.toHaveBeenCalled();
   });
-  it("should reassemble the multi-level XML file", async () => {
+  it("should reassemble the XML file over multiple levels.", async () => {
     await reassembleLoyaltyProgramSetup("test/Just_Shop", reassembleHandler);
     expect(logger.error).not.toHaveBeenCalled();
   });
