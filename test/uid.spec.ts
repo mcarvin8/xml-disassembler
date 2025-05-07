@@ -26,7 +26,7 @@ const mockDir: string = "mock";
 let disassembleHandler: DisassembleXMLFileHandler;
 let reassembleHandler: ReassembleXMLFileHandler;
 
-describe("main test suite", () => {
+describe("unique-id strategy test suite", () => {
   beforeAll(async () => {
     await copy(sampleDir, mockDir, { overwrite: true });
     disassembleHandler = new DisassembleXMLFileHandler();
@@ -47,7 +47,7 @@ describe("main test suite", () => {
     await rm(mockDir, { recursive: true });
   });
 
-  it('should disassemble a general XML file (nested and leaf elements) with unique ID elements."', async () => {
+  it("should disassemble a general XML file (nested and leaf elements) with unique ID elements.", async () => {
     await disassembleHandler.disassemble({
       filePath: "mock/general",
       uniqueIdElements:
