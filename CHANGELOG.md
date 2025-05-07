@@ -5,6 +5,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.10.0](https://github.com/mcarvin8/xml-disassembler/compare/v1.9.3...v1.10.0) (2025-05-07)
+
+
+### Features
+
+* update parseXML to accept a string or file ([a4ec983](https://github.com/mcarvin8/xml-disassembler/commit/a4ec9830a68915588c41ce15e87b8ef744cfd0ca))
+
 ## [1.9.3](https://github.com/mcarvin8/xml-disassembler/compare/v1.9.2...v1.9.3) (2025-05-07)
 
 
