@@ -3,7 +3,7 @@
 import { mkdir, writeFile, rm } from "node:fs/promises";
 import { join } from "node:path/posix";
 
-import { logger } from "@src/index";
+import { logger, parseXML } from "@src/index";
 import { XmlElement } from "@src/types/types";
 import { buildXMLString } from "@src/builders/buildXMLString";
 import { getTransformer } from "@src/transformers/getTransformer";
@@ -41,6 +41,10 @@ export async function buildGroupedNestedFile(
   content += `</${rootElementName}>`;
 
   await writeFile(outputPath, content);
+  // reparse and rebuild XML for proper formatting
+  const parsedXml = await parseXML(outputPath);
+  const reparsedXml = buildXMLString(parsedXml as XmlElement);
+  await writeFile(outputPath, reparsedXml);
   logger.debug(`Created grouped nested file: ${outputPath}`);
 
   const transformer = getTransformer(format);
