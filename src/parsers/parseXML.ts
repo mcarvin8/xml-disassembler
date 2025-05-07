@@ -8,22 +8,42 @@ import { XML_PARSER_OPTION } from "../constants/constants";
 import { XmlElement } from "../types/types";
 import { stripWhitespaceTextNodes } from "./stripWhitespace";
 
+/**
+ * Parses an XML file from a path or a raw XML string.
+ *
+ * @param input - Either the file path of the XML file or the XML string itself.
+ * @param isRawXml - Set to true if `input` is an XML string, otherwise it is treated as a file path.
+ */
 export async function parseXML(
-  filePath: string,
+  input: string,
+  isRawXml: boolean = false,
 ): Promise<Record<string, XmlElement> | undefined> {
   const xmlParser = new XMLParser(XML_PARSER_OPTION);
-  const xmlContent = await readFile(filePath, "utf-8");
-  let xmlParsed: Record<string, XmlElement>;
+
+  let xmlContent: string;
+  if (isRawXml) {
+    xmlContent = input;
+  } else {
+    try {
+      xmlContent = await readFile(input, "utf-8");
+    } catch (readError) {
+      logger.error(
+        `${input} could not be read. Check if the file exists and is accessible.`,
+      );
+      return undefined;
+    }
+  }
 
   try {
-    xmlParsed = xmlParser.parse(xmlContent, true) as Record<string, XmlElement>;
-
-    // ✅ Remove meaningless whitespace-only #text nodes
+    const xmlParsed = xmlParser.parse(xmlContent, true) as Record<
+      string,
+      XmlElement
+    >;
     const cleaned = stripWhitespaceTextNodes(xmlParsed);
     return cleaned;
   } catch (err) {
     logger.error(
-      `${filePath} was unabled to be parsed and will not be processed. Confirm formatting and try again.`,
+      `${isRawXml ? "Provided XML string" : input} could not be parsed. Confirm formatting and try again.`,
     );
     return undefined;
   }
