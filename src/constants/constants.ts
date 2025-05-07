@@ -8,7 +8,7 @@ export const XML_PARSER_OPTION = {
   parseTagValue: false,
   parseNodeValue: false,
   parseAttributeValue: false,
-  trimValues: true,
+  trimValues: false,
   processEntities: false,
   cdataPropName: "![CDATA[",
 };

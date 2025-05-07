@@ -34,7 +34,7 @@ export async function buildGroupedNestedFile(
     );
 
     content += `${indent}<${tag}${attributes}>\n`;
-    content += buildXMLString(elementWithoutAttrs, 2);
+    content += buildXMLString(elementWithoutAttrs);
     content += `\n${indent}</${tag}>\n`;
   }
 
