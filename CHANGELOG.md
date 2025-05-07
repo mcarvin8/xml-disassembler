@@ -5,6 +5,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.9.2](https://github.com/mcarvin8/xml-disassembler/compare/v1.9.1...v1.9.2) (2025-05-07)
+
+
+### Bug Fixes
+
+* remove extra indenting ([f30b7b6](https://github.com/mcarvin8/xml-disassembler/commit/f30b7b6c8b2a70f97634542e245f8030f4ea5dd8))
+* update xml parser options ([c0420c0](https://github.com/mcarvin8/xml-disassembler/commit/c0420c0335a33f4914d1cfad4e8372d54bc627ab))
+
 ## [1.9.1](https://github.com/mcarvin8/xml-disassembler/compare/v1.9.0...v1.9.1) (2025-05-06)
 
 
