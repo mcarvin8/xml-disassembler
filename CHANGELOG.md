@@ -5,6 +5,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.10.2](https://github.com/mcarvin8/xml-disassembler/compare/v1.10.1...v1.10.2) (2025-05-09)
+
+
+### Bug Fixes
+
+* build nested files using xmlelement type ([877ff02](https://github.com/mcarvin8/xml-disassembler/commit/877ff02572aaaf5fbcad148f972ab92410e1fb10))
+
 ## [1.10.1](https://github.com/mcarvin8/xml-disassembler/compare/v1.10.0...v1.10.1) (2025-05-07)
 
 
