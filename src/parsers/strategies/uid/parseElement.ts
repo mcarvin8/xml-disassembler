@@ -1,11 +1,11 @@
 "use strict";
 
 import { buildNestedFile } from "@src/builders/strategies/uid/buildNestedFiles";
-import { XmlElementParams } from "@src/types/types";
+import { XmlElement, XmlElementParams } from "@src/types/types";
 
 export async function parseElement(
   params: XmlElementParams,
-): Promise<[string, number, boolean]> {
+): Promise<[XmlElement, number, boolean]> {
   const {
     element,
     disassembledPath,
@@ -13,15 +13,14 @@ export async function parseElement(
     rootElementName,
     rootAttributes,
     key,
-    indent,
-    leafContent,
     leafCount,
     hasNestedElements,
     xmlDeclarationStr,
     format,
   } = params;
 
-  if (typeof element === "object") {
+  // Nested element → write it to its own file
+  if (typeof element === "object" && element !== null) {
     await buildNestedFile(
       element,
       disassembledPath,
@@ -32,9 +31,13 @@ export async function parseElement(
       xmlDeclarationStr,
       format,
     );
-    return [leafContent, leafCount, true];
-  } else {
-    const updatedLeafContent = `${leafContent}${indent}<${key}>${String(element)}</${key}>\n`;
-    return [updatedLeafContent, leafCount + 1, hasNestedElements];
+    return [{}, leafCount, true];
   }
+
+  // Leaf value → wrap in XmlElement
+  const leafContent: XmlElement = {
+    [key]: element,
+  };
+
+  return [leafContent, leafCount + 1, hasNestedElements];
 }

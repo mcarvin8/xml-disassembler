@@ -1,22 +1,32 @@
 "use strict";
 
 import { unlink } from "node:fs/promises";
-
 import { logger } from "@src/index";
 import { XmlElement } from "@src/types/types";
 import { parseElement } from "@src/parsers/strategies/grouped-by-tag/parseElement";
-import { buildRootElementHeader } from "@src/builders/buildRootElementHeader";
 import { buildLeafFile } from "@src/builders/buildLeafFile";
 import { buildGroupedNestedFile } from "@src/builders/strategies/grouped-by-tag/buildGroupNestedFile";
 import { parseXML } from "@src/parsers/parseXML";
 import { buildXMLDeclaration } from "@src/builders/buildXmlDeclaration";
 import { extractRootAttributes } from "@src/builders/extractRootAttributes";
 
+function orderXmlElementKeys(
+  content: XmlElement,
+  keyOrder: string[],
+): XmlElement {
+  const ordered: XmlElement = {};
+  for (const key of keyOrder) {
+    if (content[key] !== undefined) {
+      ordered[key] = content[key];
+    }
+  }
+  return ordered;
+}
+
 export async function buildDisassembledFiles(
   filePath: string,
   disassembledPath: string,
   baseName: string,
-  indent: string,
   postPurge: boolean,
   format: string,
 ): Promise<void> {
@@ -26,20 +36,17 @@ export async function buildDisassembledFiles(
   const rootElementName = Object.keys(parsedXml)[1];
   const xmlDeclarationStr = buildXMLDeclaration(parsedXml);
   const rootElement: XmlElement = parsedXml[rootElementName];
-  const rootElementHeader = buildRootElementHeader(
-    rootElement,
-    rootElementName,
-  );
   const rootAttributes = extractRootAttributes(rootElement);
 
-  let leafContent = "";
+  let leafContent: XmlElement = {};
   let leafCount = 0;
   let hasNestedElements = false;
   const nestedGroups: Record<string, XmlElement[]> = {};
+  const keyOrder = Object.keys(parsedXml[rootElementName]).filter(
+    (k) => !k.startsWith("@"),
+  );
 
-  for (const key of Object.keys(rootElement).filter(
-    (key: string) => !key.startsWith("@"),
-  )) {
+  for (const key of keyOrder) {
     const elements = Array.isArray(rootElement[key])
       ? (rootElement[key] as XmlElement[])
       : [rootElement[key] as XmlElement];
@@ -51,7 +58,6 @@ export async function buildDisassembledFiles(
         rootElementName,
         rootAttributes,
         key,
-        indent,
         leafContent,
         leafCount,
         hasNestedElements,
@@ -59,18 +65,35 @@ export async function buildDisassembledFiles(
         format,
       });
 
-      leafContent = result.leafContent;
+      if (Object.keys(result.leafContent).length > 0) {
+        const newContent = result.leafContent[key];
+        if (newContent !== undefined) {
+          const existing = leafContent[key];
+          const existingArray = Array.isArray(existing)
+            ? (existing as XmlElement[])
+            : existing !== undefined
+              ? [existing as XmlElement]
+              : [];
+
+          const incomingArray = Array.isArray(newContent)
+            ? (newContent as XmlElement[])
+            : [newContent as XmlElement];
+
+          leafContent[key] = [...existingArray, ...incomingArray];
+        }
+      }
+
       leafCount = result.leafCount;
       hasNestedElements = result.hasNestedElements;
 
       for (const tag in result.nestedGroups) {
         if (!nestedGroups[tag]) nestedGroups[tag] = [];
-        nestedGroups[tag].push(...result.nestedGroups[tag]);
+        nestedGroups[tag].push(...(result.nestedGroups[tag] ?? []));
       }
     }
   }
 
-  if (!hasNestedElements) {
+  if (!hasNestedElements && leafCount > 0) {
     logger.error(
       `The XML file ${filePath} only has leaf elements. This file will not be disassembled.`,
     );
@@ -90,12 +113,13 @@ export async function buildDisassembledFiles(
   }
 
   if (leafCount > 0) {
+    const orderedLeafContent = orderXmlElementKeys(leafContent, keyOrder);
     await buildLeafFile(
-      leafContent,
+      orderedLeafContent,
       disassembledPath,
       baseName,
       rootElementName,
-      rootElementHeader,
+      rootAttributes,
       xmlDeclarationStr,
       format,
     );

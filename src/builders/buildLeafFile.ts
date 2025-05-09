@@ -1,34 +1,40 @@
 "use strict";
 
-import { writeFile, rm } from "node:fs/promises";
+import { mkdir, writeFile, rm } from "node:fs/promises";
 import { join } from "node:path/posix";
 
 import { logger } from "@src/index";
+import { XmlElement } from "@src/types/types";
+import { buildXMLString } from "@src/builders/buildXMLString";
 import { getTransformer } from "@src/transformers/getTransformer";
 
 export async function buildLeafFile(
-  leafContent: string,
+  leafContent: XmlElement,
   disassembledPath: string,
   baseName: string,
   rootElementName: string,
-  rootElementHeader: string,
+  rootAttributes: XmlElement,
   xmlDeclarationStr: string,
   format: string,
 ): Promise<void> {
-  let leafFile = `${xmlDeclarationStr}\n`;
-  leafFile += `${rootElementHeader}\n`;
-
-  leafFile += leafContent;
-  leafFile += `</${rootElementName}>`;
   const leafOutputPath = join(disassembledPath, `${baseName}.xml`);
-  await writeFile(leafOutputPath, leafFile);
+  await mkdir(disassembledPath, { recursive: true });
+
+  const wrappedXml: XmlElement = {
+    [rootElementName]: {
+      ...rootAttributes,
+      ...leafContent,
+    },
+  };
+
+  const serialized = `${xmlDeclarationStr}\n${buildXMLString(wrappedXml)}`;
+  await writeFile(leafOutputPath, serialized);
 
   logger.debug(`Created disassembled file: ${leafOutputPath}`);
 
   const transformer = getTransformer(format);
   if (transformer) {
     await transformer(leafOutputPath);
-    // delete the XML file after transforming it
     await rm(leafOutputPath);
   }
 }

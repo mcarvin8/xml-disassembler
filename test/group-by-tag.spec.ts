@@ -15,9 +15,6 @@ import {
   ReassembleXMLFileHandler,
   setLogLevel,
   logger,
-  parseXML,
-  buildXMLString,
-  XmlElement,
 } from "../src/index";
 
 setLogLevel("debug");
@@ -261,8 +258,8 @@ async function compareDirectories(
       const refContent = await readFile(refEntryPath, "utf-8");
       const mockContent = await readFile(mockPath, "utf-8");
       strictEqual(
-        mockContent,
         refContent,
+        mockContent,
         `File content is different for ${entry.name}`,
       );
     }
