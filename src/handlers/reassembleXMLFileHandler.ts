@@ -49,7 +49,7 @@ export class ReassembleXMLFileHandler {
 
     const parsedElements: XmlElement[] = [];
     for (const file of files) {
-      const filePath = join(fileAttributes.filePath, file);
+      const filePath = join(xmlAttributes.filePath, file);
       const stats = await stat(filePath);
 
       if (stats.isDirectory()) continue;
