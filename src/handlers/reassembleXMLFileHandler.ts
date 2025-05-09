@@ -30,40 +30,46 @@ export class ReassembleXMLFileHandler {
 
     logger.debug(`Parsing directory to reassemble: ${filePath}`);
 
-    const referenceFile = await this.findFirstContentFile(filePath);
-    if (!referenceFile) {
-      logger.error(`No suitable files found under ${filePath} to infer root structure.`);
+    const files = (await readdir(filePath)).sort();
+    if (files.length === 0) {
+      logger.error(`No files found in directory: ${filePath}`);
       return;
     }
 
-    const parsedReference = await this.parseToXmlObject(referenceFile);
-    if (!parsedReference) {
-      logger.error(`${referenceFile} could not be parsed. Confirm formatting and try again.`);
+    const primaryFilePath = join(filePath, files[0]);
+    const primaryParsed = await this.parseToXmlObject(primaryFilePath);
+    if (!primaryParsed) {
+      logger.error(`${primaryFilePath} could not be parsed. Confirm formatting and try again.`);
       return;
     }
 
-    const rootKey = Object.keys(parsedReference)[0];
-    const rootElement = parsedReference[rootKey] as XmlElement;
-    const rootAttributes = extractRootAttributes(rootElement);
-    const xmlDeclarationStr = buildXMLDeclaration(parsedReference);
+    const rootKey = Object.keys(primaryParsed)[0];
+    const xmlDeclarationStr = buildXMLDeclaration(primaryParsed);
+    const rootAttributes = extractRootAttributes(primaryParsed[rootKey]);
 
-    const mergedRoot: XmlElement = {};
-    const files = await readdir(filePath);
-    files.sort((a, b) => a.localeCompare(b));
-
+    const parsedElements: XmlElement[] = [];
     for (const file of files) {
-      const fullPath = join(filePath, file);
-      const fileStat = await stat(fullPath);
+      const filePath = join(fileAttributes.filePath, file);
+      const stats = await stat(filePath);
 
-      if (fileStat.isDirectory()) continue;
+      if (stats.isDirectory()) continue;
       if (!/\.(xml|json|json5|ya?ml|toml|ini)$/.test(file)) continue;
 
-      const parsed = await this.parseToXmlObject(fullPath);
-      if (!parsed) continue;
+      const parsed = await this.parseToXmlObject(filePath);
+      if (!parsed || !parsed[rootKey]) continue;
 
-      const childElement = parsed[rootKey] as XmlElement;
-      const stripped = this.stripAttributes(childElement);
-      this.mergeIntoRoot(mergedRoot, stripped);
+      const stripped = this.stripAttributes(parsed[rootKey]);
+      parsedElements.push(stripped);
+    }
+
+    if (parsedElements.length === 0) {
+      logger.error(`No valid files parsed under ${filePath}`);
+      return;
+    }
+
+    const mergedRoot: XmlElement = {};
+    for (const el of parsedElements) {
+      this.mergeIntoRoot(mergedRoot, el);
     }
 
     const wrapped: XmlElement = {
@@ -74,62 +80,37 @@ export class ReassembleXMLFileHandler {
     };
 
     const finalXml = `${xmlDeclarationStr}\n${buildXMLString(wrapped)}`;
-
-    const parentDirectory = dirname(filePath);
-    const subdirectoryBasename = basename(filePath);
-    const fileName = fileExtension
-      ? `${subdirectoryBasename}.${fileExtension}`
-      : `${subdirectoryBasename}.xml`;
-    const outputPath = join(parentDirectory, fileName);
+    const outputName = fileExtension ? `${basename(filePath)}.${fileExtension}` : `${basename(filePath)}.xml`;
+    const outputPath = join(dirname(filePath), outputName);
 
     await writeFile(outputPath, finalXml);
     logger.debug(`Created reassembled file: ${outputPath}`);
 
-    if (postPurge) {
-      await rm(filePath, { recursive: true });
-    }
-  }
-
-  private async findFirstContentFile(dirPath: string): Promise<string | null> {
-    const files = await readdir(dirPath);
-    for (const file of files) {
-      const fullPath = join(dirPath, file);
-      const stats = await stat(fullPath);
-      if (stats.isFile() && /\.(xml|json|json5|ya?ml|toml|ini)$/.test(file)) {
-        return fullPath;
-      }
-    }
-    return null;
+    if (postPurge) await rm(filePath, { recursive: true });
   }
 
   private async parseToXmlObject(filePath: string): Promise<Record<string, XmlElement> | undefined> {
     if (filePath.endsWith(".xml")) {
       const parsed = await parseXML(filePath);
-      if (parsed && typeof parsed === "object" && "?xml" in parsed) {
-        delete parsed["?xml"];
-      }
+      if (parsed && parsed["?xml"]) delete parsed["?xml"];
       return parsed;
     }
 
     const content = await readFile(filePath, "utf-8");
     let parsed: any;
 
-    if (filePath.endsWith(".yaml") || filePath.endsWith(".yml")) {
-      parsed = parseYaml(content);
-    } else if (filePath.endsWith(".json5")) {
-      parsed = parseJson5(content);
-    } else if (filePath.endsWith(".json")) {
-      parsed = JSON.parse(content);
-    } else if (filePath.endsWith(".toml")) {
-      parsed = parseToml(content);
-    } else if (filePath.endsWith(".ini")) {
-      parsed = parseIni(content);
-    }
+    if (filePath.endsWith(".yaml") || filePath.endsWith(".yml")) parsed = parseYaml(content);
+    else if (filePath.endsWith(".json5")) parsed = parseJson5(content);
+    else if (filePath.endsWith(".json")) parsed = JSON.parse(content);
+    else if (filePath.endsWith(".toml")) parsed = parseToml(content);
+    else if (filePath.endsWith(".ini")) parsed = parseIni(content);
 
-    if (!parsed) return undefined;
+    return parsed ? this.wrapAsXml(parsed, filePath) : undefined;
+  }
 
+  private wrapAsXml(obj: any, filePath: string): Record<string, XmlElement> {
     const baseName = basename(filePath).split(".")[0];
-    const normalized = this.normalizeToXmlElement(parsed);
+    const normalized = this.normalizeToXmlElement(obj);
     return { [baseName]: normalized };
   }
 
@@ -194,9 +175,7 @@ export class ReassembleXMLFileHandler {
   private stripAttributes(element: XmlElement): XmlElement {
     const clone = { ...element };
     for (const key of Object.keys(clone)) {
-      if (key.startsWith("@_")) {
-        delete clone[key];
-      }
+      if (key.startsWith("@_")) delete clone[key];
     }
     return clone;
   }
