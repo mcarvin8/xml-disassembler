@@ -5,6 +5,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.10.3](https://github.com/mcarvin8/xml-disassembler/compare/v1.10.2...v1.10.3) (2025-05-09)
+
+
+### Bug Fixes
+
+* use xmlelement when building leaf files ([92195c3](https://github.com/mcarvin8/xml-disassembler/commit/92195c3e0c1f2719dc0ca41eeefe78edee8662dd))
+
 ## [1.10.2](https://github.com/mcarvin8/xml-disassembler/compare/v1.10.1...v1.10.2) (2025-05-09)
 
 
