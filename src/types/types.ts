@@ -9,7 +9,7 @@ export type XmlElementParams = {
   disassembledPath: string;
   uniqueIdElements?: string;
   rootElementName: string;
-  rootElementHeader: string;
+  rootAttributes: XmlElement;
   key: string;
   indent: string;
   leafContent: string;

@@ -10,6 +10,7 @@ import { buildLeafFile } from "@src/builders/buildLeafFile";
 import { buildGroupedNestedFile } from "@src/builders/strategies/grouped-by-tag/buildGroupNestedFile";
 import { parseXML } from "@src/parsers/parseXML";
 import { buildXMLDeclaration } from "@src/builders/buildXmlDeclaration";
+import { extractRootAttributes } from "@src/builders/extractRootAttributes";
 
 export async function buildDisassembledFiles(
   filePath: string,
@@ -29,6 +30,7 @@ export async function buildDisassembledFiles(
     rootElement,
     rootElementName,
   );
+  const rootAttributes = extractRootAttributes(rootElement);
 
   let leafContent = "";
   let leafCount = 0;
@@ -47,7 +49,7 @@ export async function buildDisassembledFiles(
         element,
         disassembledPath,
         rootElementName,
-        rootElementHeader,
+        rootAttributes,
         key,
         indent,
         leafContent,
@@ -81,9 +83,8 @@ export async function buildDisassembledFiles(
       nestedGroups[tag],
       disassembledPath,
       rootElementName,
-      rootElementHeader,
+      rootAttributes,
       xmlDeclarationStr,
-      indent,
       format,
     );
   }
