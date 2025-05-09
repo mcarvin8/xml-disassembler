@@ -11,8 +11,7 @@ export type XmlElementParams = {
   rootElementName: string;
   rootAttributes: XmlElement;
   key: string;
-  indent: string;
-  leafContent: string;
+  leafContent: XmlElement;
   leafCount: number;
   hasNestedElements: boolean;
   xmlDeclarationStr: string;

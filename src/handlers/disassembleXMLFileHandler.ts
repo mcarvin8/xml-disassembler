@@ -7,7 +7,6 @@ import { resolve, dirname, join, basename, extname, relative } from "node:path";
 import ignore, { Ignore } from "ignore";
 
 import { logger } from "@src/index";
-import { INDENT } from "@src/constants/constants";
 import { buildDisassembledFiles as buildDisassembledFilesUID } from "@src/builders/strategies/uid/buildDisassembledFiles";
 import { buildDisassembledFiles as buildDissassembledFilesTag } from "@src/builders/strategies/grouped-by-tag/buildDisassembledFiles";
 
@@ -124,7 +123,6 @@ export class DisassembleXMLFileHandler {
         filePath,
         outputPath,
         fullName,
-        INDENT,
         postPurge,
         format,
       );
@@ -134,7 +132,6 @@ export class DisassembleXMLFileHandler {
         outputPath,
         uniqueIdElements,
         fullName,
-        INDENT,
         postPurge,
         format,
       );
