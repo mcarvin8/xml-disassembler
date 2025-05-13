@@ -83,9 +83,13 @@ describe("multi-level disassembly test suite", () => {
     await reassembleLoyaltyProgramSetup("test/Just_Shop", reassembleHandler);
     expect(logger.error).not.toHaveBeenCalled();
   });
-  it('confirm the XML is the same as the baseline.', async () => {
-    const testContent = await readFile(testFile, 'utf-8');
-    strictEqual(testContent, baselineContent, 'Mismatch between baseline and test file');
+  it("confirm the XML is the same as the baseline.", async () => {
+    const testContent = await readFile(testFile, "utf-8");
+    strictEqual(
+      testContent,
+      baselineContent,
+      "Mismatch between baseline and test file",
+    );
   });
 });
 
