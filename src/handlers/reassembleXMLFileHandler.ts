@@ -10,6 +10,7 @@ import { parse as parseIni } from "ini";
 import { logger } from "@src/index";
 import { parseXML } from "@src/parsers/parseXML";
 import { buildXMLString } from "@src/index";
+import { XmlElement } from "@src/types/types";
 
 export class ReassembleXMLFileHandler {
   async processFilesInDirectory(dirPath: string): Promise<any[]> {
