@@ -17,8 +17,3 @@ export type XmlElementParams = {
   xmlDeclarationStr: string;
   format: string;
 };
-
-export type MergedResult = {
-  xml: XmlElement;
-  declaration: Record<string, string> | undefined;
-};

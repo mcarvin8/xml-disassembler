@@ -10,8 +10,7 @@ import { parse as parseIni } from "ini";
 import { logger } from "@src/index";
 import { parseXML } from "@src/parsers/parseXML";
 import { buildXMLString } from "@src/index";
-import { XmlElement, MergedResult } from "@src/types/types";
-import { XML_DEFAULT_DECLARATION } from "@src/constants/constants";
+import { XmlElement } from "@src/types/types";
 
 export class ReassembleXMLFileHandler {
   async processFilesInDirectory(dirPath: string): Promise<any[]> {
@@ -69,10 +68,9 @@ export class ReassembleXMLFileHandler {
       return;
     }
 
-    const { xml: mergedXml, declaration } = mergeXmlElements(parsedXmlObjects);
-    const xmlDeclarationStr = createXmlDeclaration(declaration);
+    const mergedXml = mergeXmlElements(parsedXmlObjects);
     const xmlContent = buildXMLString(mergedXml);
-    const finalXml = xmlDeclarationStr + xmlContent;
+    const finalXml = xmlContent;
 
     const parentDirectory = dirname(filePath);
     const subdirectoryBasename = basename(filePath);
@@ -112,11 +110,10 @@ export class ReassembleXMLFileHandler {
   }
 }
 
-function mergeXmlElements(elements: XmlElement[]): MergedResult {
+function mergeXmlElements(elements: XmlElement[]): XmlElement {
   if (elements.length === 0) throw new Error("No elements to merge.");
 
   const first = elements[0];
-  const declaration = first["?xml"] as Record<string, string> | undefined;
   const rootKey = Object.keys(first).find((k) => k !== "?xml");
 
   if (!rootKey) {
@@ -145,21 +142,10 @@ function mergeXmlElements(elements: XmlElement[]): MergedResult {
     }
   }
 
-  return {
-    xml: { [rootKey]: mergedContent },
-    declaration,
-  };
-}
+  const declaration = first["?xml"];
+  const finalMerged: XmlElement = declaration
+    ? { "?xml": declaration, [rootKey]: mergedContent }
+    : { [rootKey]: mergedContent };
 
-function createXmlDeclaration(declaration?: Record<string, string>): string {
-  let declarationStr = `${XML_DEFAULT_DECLARATION}\n`;
-  if (declaration) {
-    // Construct the XML declaration dynamically
-    const attributes = Object.entries(declaration)
-      .map(([key, value]) => `${key.replace("@_", "")}="${value}"`)
-      .join(" ");
-    declarationStr = `<?xml ${attributes}?>\n`;
-  }
-
-  return declarationStr;
+  return finalMerged;
 }
