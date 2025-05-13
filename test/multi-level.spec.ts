@@ -17,8 +17,6 @@ import {
   ReassembleXMLFileHandler,
 } from "../src/index";
 
-import { XML_DEFAULT_DECLARATION } from "../src/constants/constants";
-
 setLogLevel("debug");
 const testFile: string = "test/Just_Shop.loyaltyProgramSetup-meta.xml";
 let baselineContent: string;
@@ -104,14 +102,19 @@ async function stripRootAndDisassemble(
   if (!contents) return;
 
   // Remove the root and build XML with just the inner nodes (programProcesses)
-  const stripped: XmlElement = {};
+  const stripped: XmlElement = {
+    "?xml": {
+      "@_version": "1.0",
+      "@_encoding": "UTF-8",
+    },
+  };
 
   for (const [key, value] of Object.entries(contents)) {
     stripped[key] = value;
   }
 
   const newXml = buildXMLString(stripped);
-  await writeFile(fullPath, `${XML_DEFAULT_DECLARATION}\n${newXml}`, "utf-8");
+  await writeFile(fullPath, newXml, "utf-8");
 
   await handler.disassemble({
     filePath: fullPath,
@@ -216,6 +219,10 @@ export async function wrapAllFilesWithLoyaltyRoot(
     }
 
     const wrapped: XmlElement = {
+      "?xml": {
+        "@_version": "1.0",
+        "@_encoding": "UTF-8",
+      },
       LoyaltyProgramSetup: {
         "@_xmlns": "http://soap.sforce.com/2006/04/metadata",
         ...parsed,
@@ -224,10 +231,6 @@ export async function wrapAllFilesWithLoyaltyRoot(
 
     const xmlString = buildXMLString(wrapped);
     const cleanXmlString = stripXmlDeclarationFromString(xmlString);
-    await writeFile(
-      xmlPath,
-      `${XML_DEFAULT_DECLARATION}\n${cleanXmlString}`,
-      "utf-8",
-    );
+    await writeFile(xmlPath, cleanXmlString, "utf-8");
   }
 }
