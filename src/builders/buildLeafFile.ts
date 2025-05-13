@@ -14,20 +14,21 @@ export async function buildLeafFile(
   baseName: string,
   rootElementName: string,
   rootAttributes: XmlElement,
-  xmlDeclarationStr: string,
+  xmlDeclaration: Record<string, string>,
   format: string,
 ): Promise<void> {
   const leafOutputPath = join(disassembledPath, `${baseName}.xml`);
   await mkdir(disassembledPath, { recursive: true });
 
   const wrappedXml: XmlElement = {
+    "?xml": xmlDeclaration,
     [rootElementName]: {
       ...rootAttributes,
       ...leafContent,
     },
   };
 
-  const serialized = `${xmlDeclarationStr}\n${buildXMLString(wrappedXml)}`;
+  const serialized = `${buildXMLString(wrappedXml)}`;
   await writeFile(leafOutputPath, serialized);
 
   logger.debug(`Created disassembled file: ${leafOutputPath}`);

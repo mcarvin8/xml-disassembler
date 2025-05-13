@@ -7,7 +7,6 @@ import { XmlElement } from "@src/types/types";
 import { parseElement } from "@src/parsers/strategies/uid/parseElement";
 import { buildLeafFile } from "@src/builders/buildLeafFile";
 import { parseXML } from "@src/parsers/parseXML";
-import { buildXMLDeclaration } from "@src/builders/buildXmlDeclaration";
 import { extractRootAttributes } from "@src/builders/extractRootAttributes";
 
 export async function buildDisassembledFiles(
@@ -21,8 +20,22 @@ export async function buildDisassembledFiles(
   const parsedXml = await parseXML(filePath);
   if (parsedXml === undefined) return;
 
-  const rootElementName = Object.keys(parsedXml)[1];
-  const xmlDeclarationStr = buildXMLDeclaration(parsedXml);
+  // Ensure XML declaration is attached directly to the XmlElement
+  const rawDeclaration = parsedXml["?xml"];
+  const xmlDeclaration: Record<string, string> =
+    typeof rawDeclaration === "object" && rawDeclaration !== null
+      ? (rawDeclaration as Record<string, string>)
+      : {
+          "@_version": "1.0",
+          "@_encoding": "UTF-8",
+        };
+
+  const rootElementName = Object.keys(parsedXml).find((k) => k !== "?xml");
+  if (!rootElementName) {
+    logger.error(`Failed to identify root element in ${filePath}`);
+    return;
+  }
+
   const rootElement: XmlElement = parsedXml[rootElementName];
   const rootAttributes = extractRootAttributes(rootElement);
 
@@ -49,7 +62,7 @@ export async function buildDisassembledFiles(
           leafContent,
           leafCount,
           hasNestedElements,
-          xmlDeclarationStr,
+          xmlDeclaration,
           format,
         });
 
@@ -89,7 +102,7 @@ export async function buildDisassembledFiles(
       baseName,
       rootElementName,
       rootAttributes,
-      xmlDeclarationStr,
+      xmlDeclaration,
       format,
     );
   }

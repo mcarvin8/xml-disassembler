@@ -14,7 +14,7 @@ export async function buildGroupedNestedFile(
   disassembledPath: string,
   rootElementName: string,
   rootAttributes: XmlElement,
-  xmlDeclarationStr: string,
+  xmlDeclaration: Record<string, string>,
   format: string,
 ): Promise<void> {
   const outputPath = join(disassembledPath, `${tag}.xml`);
@@ -22,13 +22,14 @@ export async function buildGroupedNestedFile(
 
   // Each element is already a valid XmlElement structure
   const rootElement: XmlElement = {
+    "?xml": xmlDeclaration,
     [rootElementName]: {
       ...rootAttributes,
       [tag]: elements,
     },
   };
 
-  const serialized = `${xmlDeclarationStr}\n${buildXMLString(rootElement)}`;
+  const serialized = `${buildXMLString(rootElement)}`;
   await writeFile(outputPath, serialized);
   logger.debug(`Created grouped nested file: ${outputPath}`);
 

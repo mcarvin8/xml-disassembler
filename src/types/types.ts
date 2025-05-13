@@ -14,6 +14,6 @@ export type XmlElementParams = {
   leafContent: XmlElement;
   leafCount: number;
   hasNestedElements: boolean;
-  xmlDeclarationStr: string;
+  xmlDeclaration: Record<string, string>;
   format: string;
 };

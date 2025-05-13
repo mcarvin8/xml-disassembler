@@ -7,7 +7,6 @@ import { parseElement } from "@src/parsers/strategies/grouped-by-tag/parseElemen
 import { buildLeafFile } from "@src/builders/buildLeafFile";
 import { buildGroupedNestedFile } from "@src/builders/strategies/grouped-by-tag/buildGroupNestedFile";
 import { parseXML } from "@src/parsers/parseXML";
-import { buildXMLDeclaration } from "@src/builders/buildXmlDeclaration";
 import { extractRootAttributes } from "@src/builders/extractRootAttributes";
 
 function orderXmlElementKeys(
@@ -33,8 +32,22 @@ export async function buildDisassembledFiles(
   const parsedXml = await parseXML(filePath);
   if (parsedXml === undefined) return;
 
-  const rootElementName = Object.keys(parsedXml)[1];
-  const xmlDeclarationStr = buildXMLDeclaration(parsedXml);
+  // Ensure XML declaration is attached directly to the XmlElement
+  const rawDeclaration = parsedXml["?xml"];
+  const xmlDeclaration: Record<string, string> =
+    typeof rawDeclaration === "object" && rawDeclaration !== null
+      ? (rawDeclaration as Record<string, string>)
+      : {
+          "@_version": "1.0",
+          "@_encoding": "UTF-8",
+        };
+
+  const rootElementName = Object.keys(parsedXml).find((k) => k !== "?xml");
+  if (!rootElementName) {
+    logger.error(`Failed to identify root element in ${filePath}`);
+    return;
+  }
+
   const rootElement: XmlElement = parsedXml[rootElementName];
   const rootAttributes = extractRootAttributes(rootElement);
 
@@ -42,9 +55,7 @@ export async function buildDisassembledFiles(
   let leafCount = 0;
   let hasNestedElements = false;
   const nestedGroups: Record<string, XmlElement[]> = {};
-  const keyOrder = Object.keys(parsedXml[rootElementName]).filter(
-    (k) => !k.startsWith("@"),
-  );
+  const keyOrder = Object.keys(rootElement).filter((k) => !k.startsWith("@"));
 
   for (const key of keyOrder) {
     const elements = Array.isArray(rootElement[key])
@@ -61,7 +72,7 @@ export async function buildDisassembledFiles(
         leafContent,
         leafCount,
         hasNestedElements,
-        xmlDeclarationStr,
+        xmlDeclaration,
         format,
       });
 
@@ -107,7 +118,7 @@ export async function buildDisassembledFiles(
       disassembledPath,
       rootElementName,
       rootAttributes,
-      xmlDeclarationStr,
+      xmlDeclaration,
       format,
     );
   }
@@ -120,7 +131,7 @@ export async function buildDisassembledFiles(
       baseName,
       rootElementName,
       rootAttributes,
-      xmlDeclarationStr,
+      xmlDeclaration,
       format,
     );
   }
