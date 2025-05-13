@@ -1,6 +1,7 @@
 import { existsSync } from "node:fs";
 import { join, dirname } from "node:path";
-import { readdir, writeFile, rm, stat } from "node:fs/promises";
+import { strictEqual } from "node:assert";
+import { readdir, writeFile, readFile, rm, stat } from "node:fs/promises";
 import {
   DisassembleXMLFileHandler,
   setLogLevel,
@@ -20,6 +21,7 @@ import { XML_DEFAULT_DECLARATION } from "../src/constants/constants";
 
 setLogLevel("debug");
 const testFile: string = "test/Just_Shop.loyaltyProgramSetup-meta.xml";
+const baselineContent = await readFile(testFile, 'utf-8');
 let disassembleHandler: DisassembleXMLFileHandler;
 let reassembleHandler: ReassembleXMLFileHandler;
 
@@ -79,6 +81,10 @@ describe("multi-level disassembly test suite", () => {
   it("should reassemble the XML file over multiple levels.", async () => {
     await reassembleLoyaltyProgramSetup("test/Just_Shop", reassembleHandler);
     expect(logger.error).not.toHaveBeenCalled();
+  });
+  it('confirm the XML is the same as the baseline.', async () => {
+    const testContent = await readFile(testFile, 'utf-8');
+    strictEqual(testContent, baselineContent, 'Mismatch between baseline and test file');
   });
 });
 
