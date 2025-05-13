@@ -153,7 +153,7 @@ function mergeXmlElements(elements: XmlElement[]): MergedResult {
 }
 
 function createXmlDeclaration(declaration?: Record<string, string>): string {
-  let declarationStr = XML_DEFAULT_DECLARATION;
+  let declarationStr = `${XML_DEFAULT_DECLARATION}\n`;
   if (declaration) {
     // Construct the XML declaration dynamically
     const attributes = Object.entries(declaration)
