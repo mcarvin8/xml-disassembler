@@ -21,7 +21,7 @@ import { XML_DEFAULT_DECLARATION } from "../src/constants/constants";
 
 setLogLevel("debug");
 const testFile: string = "test/Just_Shop.loyaltyProgramSetup-meta.xml";
-const baselineContent = await readFile(testFile, 'utf-8');
+let baselineContent: string;
 let disassembleHandler: DisassembleXMLFileHandler;
 let reassembleHandler: ReassembleXMLFileHandler;
 
@@ -29,6 +29,7 @@ describe("multi-level disassembly test suite", () => {
   beforeAll(async () => {
     disassembleHandler = new DisassembleXMLFileHandler();
     reassembleHandler = new ReassembleXMLFileHandler();
+    baselineContent = await readFile(testFile, "utf-8");
   });
 
   beforeEach(async () => {
