@@ -11,6 +11,7 @@ import { logger } from "@src/index";
 import { parseXML } from "@src/parsers/parseXML";
 import { buildXMLString } from "@src/index";
 import { XmlElement } from "@src/types/types";
+import { XML_DEFAULT_DECLARATION } from "@src/constants/constants";
 
 type MergedResult = {
   xml: XmlElement;
@@ -152,15 +153,14 @@ function mergeXmlElements(elements: XmlElement[]): MergedResult {
 }
 
 function createXmlDeclaration(declaration?: Record<string, string>): string {
-  const version = declaration?.['@_version'] || '1.0';
-  const encoding = declaration?.['@_encoding'] || 'UTF-8';
-  const standalone = declaration?.['@_standalone'];
-
-  let declarationStr = `<?xml version="${version}" encoding="${encoding}"`;
-  if (standalone) {
-    declarationStr += ` standalone="${standalone}"`;
+  let declarationStr = XML_DEFAULT_DECLARATION;
+  if (declaration) {
+    // Construct the XML declaration dynamically
+    const attributes = Object.entries(declaration)
+      .map(([key, value]) => `${key.replace("@_", "")}="${value}"`)
+      .join(" ");
+    declarationStr = `<?xml ${attributes}?>`;
   }
-  declarationStr += '?>\n';
 
   return declarationStr;
 }
