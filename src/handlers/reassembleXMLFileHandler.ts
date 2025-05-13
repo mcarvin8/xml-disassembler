@@ -69,7 +69,6 @@ export class ReassembleXMLFileHandler {
       return;
     }
 
-    const mergedXml = mergeXmlElements(parsedXmlObjects);
     const { xml: mergedXml, declaration } = mergeXmlElements(parsedXmlObjects);
     const xmlDeclarationStr = createXmlDeclaration(declaration);
     const xmlContent = buildXMLString(mergedXml);
