@@ -5,6 +5,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.10.6](https://github.com/mcarvin8/xml-disassembler/compare/v1.10.5...v1.10.6) (2025-05-13)
+
+
+### Bug Fixes
+
+* correctly classify single nested elements on grouped by tag strategy ([579360b](https://github.com/mcarvin8/xml-disassembler/commit/579360b2609784312fd53b84b37844386833ee17))
+
 ## [1.10.5](https://github.com/mcarvin8/xml-disassembler/compare/v1.10.4...v1.10.5) (2025-05-13)
 
 
