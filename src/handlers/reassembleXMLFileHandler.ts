@@ -154,5 +154,13 @@ function mergeXmlElements(elements: XmlElement[]): MergedResult {
 function createXmlDeclaration(declaration?: Record<string, string>): string {
   const version = declaration?.['@_version'] || '1.0';
   const encoding = declaration?.['@_encoding'] || 'UTF-8';
-  return `<?xml version="${version}" encoding="${encoding}"?>\n`;
+  const standalone = declaration?.['@_standalone'];
+
+  let declarationStr = `<?xml version="${version}" encoding="${encoding}"`;
+  if (standalone) {
+    declarationStr += ` standalone="${standalone}"`;
+  }
+  declarationStr += '?>\n';
+
+  return declarationStr;
 }
