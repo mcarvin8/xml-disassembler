@@ -10,13 +10,8 @@ import { parse as parseIni } from "ini";
 import { logger } from "@src/index";
 import { parseXML } from "@src/parsers/parseXML";
 import { buildXMLString } from "@src/index";
-import { XmlElement } from "@src/types/types";
+import { XmlElement, MergedResult } from "@src/types/types";
 import { XML_DEFAULT_DECLARATION } from "@src/constants/constants";
-
-type MergedResult = {
-  xml: XmlElement;
-  declaration: Record<string, string> | undefined;
-};
 
 export class ReassembleXMLFileHandler {
   async processFilesInDirectory(dirPath: string): Promise<any[]> {
@@ -58,7 +53,9 @@ export class ReassembleXMLFileHandler {
     const fileStat = await stat(filePath);
 
     if (!fileStat.isDirectory()) {
-      logger.error(`The provided path to reassemble is not a directory: ${filePath}`);
+      logger.error(
+        `The provided path to reassemble is not a directory: ${filePath}`,
+      );
       return;
     }
 
@@ -66,7 +63,9 @@ export class ReassembleXMLFileHandler {
     const parsedXmlObjects = await this.processFilesInDirectory(filePath);
 
     if (!parsedXmlObjects.length) {
-      logger.error(`No files under ${filePath} were parsed successfully. A reassembled XML file was not created.`);
+      logger.error(
+        `No files under ${filePath} were parsed successfully. A reassembled XML file was not created.`,
+      );
       return;
     }
 
@@ -117,8 +116,8 @@ function mergeXmlElements(elements: XmlElement[]): MergedResult {
   if (elements.length === 0) throw new Error("No elements to merge.");
 
   const first = elements[0];
-  const declaration = first['?xml'] as Record<string, string> | undefined;
-  const rootKey = Object.keys(first).find((k) => k !== '?xml');
+  const declaration = first["?xml"] as Record<string, string> | undefined;
+  const rootKey = Object.keys(first).find((k) => k !== "?xml");
 
   if (!rootKey) {
     throw new Error("No root element found in the provided XML elements.");
