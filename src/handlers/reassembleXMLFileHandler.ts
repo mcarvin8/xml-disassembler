@@ -12,6 +12,11 @@ import { parseXML } from "@src/parsers/parseXML";
 import { buildXMLString } from "@src/index";
 import { XmlElement } from "@src/types/types";
 
+type MergedResult = {
+  xml: XmlElement;
+  declaration: Record<string, string> | undefined;
+};
+
 export class ReassembleXMLFileHandler {
   async processFilesInDirectory(dirPath: string): Promise<any[]> {
     const parsedXmlObjects: any[] = [];
@@ -65,7 +70,10 @@ export class ReassembleXMLFileHandler {
     }
 
     const mergedXml = mergeXmlElements(parsedXmlObjects);
-    const finalXmlString = buildXMLString(mergedXml);
+    const { xml: mergedXml, declaration } = mergeXmlElements(parsedXmlObjects);
+    const xmlDeclarationStr = createXmlDeclaration(declaration);
+    const xmlContent = buildXMLString(mergedXml);
+    const finalXml = xmlDeclarationStr + xmlContent;
 
     const parentDirectory = dirname(filePath);
     const subdirectoryBasename = basename(filePath);
@@ -74,7 +82,7 @@ export class ReassembleXMLFileHandler {
       : `${subdirectoryBasename}.xml`;
     const outputPath = join(parentDirectory, fileName);
 
-    await writeFile(outputPath, finalXmlString, "utf-8");
+    await writeFile(outputPath, finalXml, "utf-8");
 
     if (postPurge) {
       await rm(filePath, { recursive: true });
@@ -105,10 +113,17 @@ export class ReassembleXMLFileHandler {
   }
 }
 
-function mergeXmlElements(elements: XmlElement[]): XmlElement {
-  if (elements.length === 0) throw new Error('No elements to merge.');
+function mergeXmlElements(elements: XmlElement[]): MergedResult {
+  if (elements.length === 0) throw new Error("No elements to merge.");
 
-  const rootKey = Object.keys(elements[0])[1];
+  const first = elements[0];
+  const declaration = first['?xml'] as Record<string, string> | undefined;
+  const rootKey = Object.keys(first).find((k) => k !== '?xml');
+
+  if (!rootKey) {
+    throw new Error("No root element found in the provided XML elements.");
+  }
+
   const mergedContent: Record<string, any> = {};
 
   for (const element of elements) {
@@ -119,7 +134,7 @@ function mergeXmlElements(elements: XmlElement[]): XmlElement {
         mergedContent[childKey] = mergedContent[childKey]
           ? mergedContent[childKey].concat(value)
           : [...value];
-      } else if (typeof value === 'object') {
+      } else if (typeof value === "object") {
         mergedContent[childKey] = mergedContent[childKey]
           ? ([] as any[]).concat(mergedContent[childKey], value)
           : [value];
@@ -131,5 +146,14 @@ function mergeXmlElements(elements: XmlElement[]): XmlElement {
     }
   }
 
-  return { [rootKey]: mergedContent };
+  return {
+    xml: { [rootKey]: mergedContent },
+    declaration,
+  };
+}
+
+function createXmlDeclaration(declaration?: Record<string, string>): string {
+  const version = declaration?.['@_version'] || '1.0';
+  const encoding = declaration?.['@_encoding'] || 'UTF-8';
+  return `<?xml version="${version}" encoding="${encoding}"?>\n`;
 }
