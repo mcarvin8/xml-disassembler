@@ -15,7 +15,7 @@ export async function parseElement(
     key,
     leafCount,
     hasNestedElements,
-    xmlDeclarationStr,
+    xmlDeclaration,
     format,
   } = params;
 
@@ -28,7 +28,7 @@ export async function parseElement(
       rootElementName,
       rootAttributes,
       key,
-      xmlDeclarationStr,
+      xmlDeclaration,
       format,
     );
     return [{}, leafCount, true];

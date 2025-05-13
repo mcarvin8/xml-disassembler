@@ -16,7 +16,7 @@ export async function buildNestedFile(
   rootElementName: string,
   rootAttributes: XmlElement,
   parentKey: string,
-  xmlDeclarationStr: string,
+  xmlDeclaration: Record<string, string>,
   format: string,
 ): Promise<void> {
   const fieldName = parseUniqueIdElement(element, uniqueIdElements);
@@ -29,13 +29,14 @@ export async function buildNestedFile(
 
   // ✅ Wrap the nested element under parentKey with root attributes
   const finalXml: XmlElement = {
+    "?xml": xmlDeclaration,
     [rootElementName]: {
       ...rootAttributes,
       [parentKey]: element,
     },
   };
 
-  const serialized = `${xmlDeclarationStr}\n${buildXMLString(finalXml)}`;
+  const serialized = `${buildXMLString(finalXml)}`;
   await writeFile(outputPath, serialized);
 
   logger.debug(`Created disassembled file: ${outputPath}`);
