@@ -5,6 +5,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.10.5](https://github.com/mcarvin8/xml-disassembler/compare/v1.10.4...v1.10.5) (2025-05-13)
+
+
+### Bug Fixes
+
+* add declaration to types ([1831ebe](https://github.com/mcarvin8/xml-disassembler/commit/1831ebe865760af0319afceb888b4270cc05a6c8))
+* pull reassemble declaration from merged results ([b6227ea](https://github.com/mcarvin8/xml-disassembler/commit/b6227eabe79a371578c240eee79ebad32c8adc60))
+
 ## [1.10.4](https://github.com/mcarvin8/xml-disassembler/compare/v1.10.3...v1.10.4) (2025-05-13)
 
 
