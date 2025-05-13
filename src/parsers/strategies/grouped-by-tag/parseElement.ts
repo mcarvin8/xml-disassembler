@@ -14,9 +14,7 @@ export async function parseElement(params: XmlElementParams): Promise<{
 
   const isArray = Array.isArray(element);
   const isObjectWithMultipleFields =
-    typeof element === "object" &&
-    element !== null &&
-    Object.keys(element).length > 1;
+    typeof element === "object" && element !== null;
 
   // Consider it nested if it's an array or a structured object
   const isNested = isArray || isObjectWithMultipleFields;
