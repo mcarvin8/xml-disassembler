@@ -5,6 +5,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.10.4](https://github.com/mcarvin8/xml-disassembler/compare/v1.10.3...v1.10.4) (2025-05-13)
+
+
+### Bug Fixes
+
+* reassemble using xmlelement type ([8ffddd3](https://github.com/mcarvin8/xml-disassembler/commit/8ffddd3df45bff5abe7f8690c993f72f0c988441))
+
 ## [1.10.3](https://github.com/mcarvin8/xml-disassembler/compare/v1.10.2...v1.10.3) (2025-05-09)
 
 
