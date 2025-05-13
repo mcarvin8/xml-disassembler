@@ -159,7 +159,7 @@ function createXmlDeclaration(declaration?: Record<string, string>): string {
     const attributes = Object.entries(declaration)
       .map(([key, value]) => `${key.replace("@_", "")}="${value}"`)
       .join(" ");
-    declarationStr = `<?xml ${attributes}?>`;
+    declarationStr = `<?xml ${attributes}?>\n`;
   }
 
   return declarationStr;
