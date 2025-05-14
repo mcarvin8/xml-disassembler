@@ -1,18 +1,13 @@
 import { existsSync } from "node:fs";
-import { join, dirname } from "node:path";
+import { join } from "node:path";
 import { strictEqual } from "node:assert";
-import { readdir, writeFile, readFile, rm, stat } from "node:fs/promises";
+import { readdir, writeFile, readFile, stat } from "node:fs/promises";
 import {
   DisassembleXMLFileHandler,
   setLogLevel,
   logger,
   XmlElement,
   parseXML,
-  transformToIni,
-  transformToJson,
-  transformToJson5,
-  transformToToml,
-  transformToYaml,
   buildXMLString,
   ReassembleXMLFileHandler,
 } from "../src/index";
@@ -62,11 +57,6 @@ describe("multi-level disassembly test suite", () => {
           // Add conditional handling for loyalty program-related nested files
           if (entry.name.includes("programProcesses-meta")) {
             await stripRootAndDisassemble(fullPath, disassembleHandler, "xml");
-          } else if (
-            dirname(fullPath) !== filePath &&
-            fullPath.endsWith(".xml")
-          ) {
-            await transformAndCleanup(fullPath, "xml");
           }
         }
       }
@@ -124,32 +114,6 @@ async function stripRootAndDisassemble(
     postPurge: true,
     uniqueIdElements: "parameterName,ruleName",
   });
-}
-
-async function transformAndCleanup(
-  filePath: string,
-  format: string,
-): Promise<void> {
-  switch (format) {
-    case "json":
-      await transformToJson(filePath);
-      break;
-    case "yaml":
-      await transformToYaml(filePath);
-      break;
-    case "json5":
-      await transformToJson5(filePath);
-      break;
-    case "ini":
-      await transformToIni(filePath);
-      break;
-    case "toml":
-      await transformToToml(filePath);
-      break;
-    default:
-      return; // Skip if 'xml' or unknown
-  }
-  await rm(filePath, { force: true });
 }
 
 async function reassembleLoyaltyProgramSetup(

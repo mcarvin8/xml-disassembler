@@ -5,10 +5,11 @@ import {
   transformToToml,
   transformToIni,
 } from "@src/transformers/transformers";
+import { XmlElement } from "@src/types/types";
 
 export function getTransformer(
   format: string,
-): ((xmlPath: string) => Promise<void>) | undefined {
+): ((xmlContent: XmlElement) => Promise<string>) | undefined {
   switch (format) {
     case "yaml":
       return transformToYaml;
