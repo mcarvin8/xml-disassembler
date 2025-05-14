@@ -22,7 +22,7 @@ export async function buildNestedFile(
   const fieldName = parseUniqueIdElement(element, uniqueIdElements);
 
   const outputDirectory = join(disassembledPath, parentKey);
-  const outputFileName = `${fieldName}.${parentKey}-meta.xml`;
+  const outputFileName = `${fieldName}.${parentKey}-meta.${format}`;
   const outputPath = join(outputDirectory, outputFileName);
 
   await mkdir(outputDirectory, { recursive: true });
@@ -36,14 +36,13 @@ export async function buildNestedFile(
     },
   };
 
-  const serialized = `${buildXMLString(finalXml)}`;
-  await writeFile(outputPath, serialized);
-
-  logger.debug(`Created disassembled file: ${outputPath}`);
-
+  let nestedString: string;
   const transformer = getTransformer(format);
   if (transformer) {
-    await transformer(outputPath);
-    await rm(outputPath);
+    nestedString = await transformer(finalXml);
+  } else {
+    nestedString = buildXMLString(finalXml);
   }
+  await writeFile(outputPath, nestedString);
+  logger.debug(`Created disassembled file: ${outputPath}`);
 }
