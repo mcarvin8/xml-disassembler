@@ -160,7 +160,7 @@ See [`sf-decomposer`](https://github.com/mcarvin8/sf-decomposer) for a Salesforc
 
 Create an ignore file (`.xmldisassemblerignore` by default) to exclude XMLs from disassembly.
 
-- uses [`node-ignore`](https://github.com/kaelzhang/node-ignore) (follows [.gitignore spec 2.22.1](https://git-scm.com/docs/gitignore))
+> uses [`node-ignore`](https://github.com/kaelzhang/node-ignore) (follows [.gitignore spec 2.22.1](https://git-scm.com/docs/gitignore))
 
 ---
 
