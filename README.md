@@ -20,8 +20,6 @@ Designed for improved version control, cleaner diffs, and easier team collaborat
 
 > **Note**: Reassembly guarantees element-level fidelity, but element order may vary—especially when using TOML.
 
----
-
 <!-- TABLE OF CONTENTS -->
 <details>
   <summary>Table of Contents</summary>
@@ -92,8 +90,6 @@ await handler.disassemble({
 ---
 
 ## Disassembly Strategies
-
-`xml-disassembler` supports two disassembly strategies to suit different use cases for nested elements. You can choose a strategy by setting the strategy option when calling disassemble().
 
 ### unique-id (default)
 
