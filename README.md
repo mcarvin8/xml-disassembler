@@ -57,8 +57,6 @@ npm install xml-disassembler
 
 ## Disassembling Files
 
-Disassemble a single XML file or multiple XML files within a directory into smaller files (XML/INI/JSON/JSON5/TOML/YAML).
-
 ```typescript
 /* 
 FLAGS
@@ -130,8 +128,6 @@ Groups all nested elements by tag into a single file. Leaf elements still go int
 | **INI**   | ![INI tag](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-tags-ini.png)<br>     |
 
 ## Reassembling Files
-
-Reassemble a directory of disassembled files (XML/INI/JSON/JSON5/TOML/YAML) into a single XML file.
 
 ```typescript
 /* 
