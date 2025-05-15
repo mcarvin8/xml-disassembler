@@ -2,22 +2,25 @@
 
 [![NPM](https://img.shields.io/npm/v/xml-disassembler.svg?label=xml-disassembler)](https://www.npmjs.com/package/xml-disassembler) [![Downloads/week](https://img.shields.io/npm/dw/xml-disassembler.svg)](https://npmjs.org/package/xml-disassembler)
 
-Disassemble XML files into smaller, more manageable files (XML/INI/JSON/JSON5/TOML/YAML) and reassemble the XML when needed.
+Disassemble large XML files into smaller, modular files in formats like XML, INI, JSON, JSON5, TOML, or YAML—then reassemble them as needed.
 
-This tool simplifies version control, improves diff readability, and streamlines collaboration when dealing with large XML files.
+Designed for improved version control, cleaner diffs, and easier team collaboration when dealing with complex XML structures.
 
 ---
 
-## 🚀 Features
+## Features
 
-- **Disassemble XML Files** – Break down XML files into structured directories.
-- **Reassemble XML Files** – Recreate the original XML structure from disassembled parts.
-  > **NOTE**: The `xml-disassembler` aims to reassemble the original XML 100% element-wise, however, the element sorting will vary. The reassembler will sort elements based on how they are sorted in the disassembled directories. "toml" format sorting varies compared to the other formats.
-- **Multiple Disassembly Strategies** – Provides 2 strategies to disassemble an XML file.
-- **Ignore Files** – Specify XML files to exclude from disassembly.
-- **Logging** – Enable detailed debugging logs.
-- **Integrations** – Works with tools like Salesforce CLI
-- **Multiple Formats** - The disassembled file format can be XML, INI, JSON, JSON5, TOML, or YAML based on preference. The reassembler will reassemble the original XML structure from these formats.
+- **Disassemble XML Files** – Break down XML into smaller components.
+- **Reassemble XML** – Rebuild the original XML from disassembled parts.
+- **Multiple Output Formats** – Choose XML, INI, JSON, JSON5, TOML, or YAML.
+- **Two Disassembly Strategies** – Choose between `unique-id` (default) or `grouped-by-tag`.
+- **Ignore Rules** – Exclude files from processing using an ignore file.
+- **Logging** – Log errors and debug information using `log4js`.
+- **Salesforce Integration** – Supports use cases like Salesforce metadata processing.
+
+> **Note**: Reassembly guarantees element-level fidelity, but element order may vary—especially when using TOML.
+
+---
 
 <!-- TABLE OF CONTENTS -->
 <details>
