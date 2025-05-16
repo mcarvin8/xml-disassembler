@@ -176,7 +176,7 @@ Uses [`fast-xml-parser`](https://github.com/NaturalIntelligence/fast-xml-parser)
 
 ## Logging
 
-Logging uses `log4js`. Logs are written to disassemble.log.
+Logging uses `log4js`. Logs are written to `disassemble.log`.
 
 ```typescript
 import { setLogLevel } from "xml-disassembler";
