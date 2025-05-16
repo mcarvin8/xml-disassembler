@@ -1,16 +1,12 @@
 "use strict";
 
-import { readFile, readdir, stat, rm, writeFile } from "node:fs/promises";
+import { readdir, stat, rm, writeFile } from "node:fs/promises";
 import { join, dirname, basename } from "node:path/posix";
-import { parse as parseYaml } from "yaml";
-import { parse as parseJson5 } from "json5";
-import { parse as parseToml } from "smol-toml";
-import { parse as parseIni } from "ini";
 
 import { logger } from "@src/index";
-import { parseXML } from "@src/parsers/parseXML";
 import { buildXMLString } from "@src/index";
-import { XmlElement } from "@src/types/types";
+import { mergeXmlElements } from "@src/builders/mergeXmlElements";
+import { parseToXmlObject } from "@src/parsers/parseToXmlObject";
 
 export class ReassembleXMLFileHandler {
   async processFilesInDirectory(dirPath: string): Promise<any[]> {
@@ -29,7 +25,7 @@ export class ReassembleXMLFileHandler {
 
       if (fileStat.isFile()) {
         if (/\.(xml|json|json5|ya?ml|toml|ini)$/.test(file)) {
-          const parsedObject = await this.parseToXmlObject(filePath);
+          const parsedObject = await parseToXmlObject(filePath);
           if (parsedObject === undefined) continue;
 
           parsedXmlObjects.push(parsedObject);
@@ -85,67 +81,4 @@ export class ReassembleXMLFileHandler {
       await rm(filePath, { recursive: true });
     }
   }
-
-  private async parseToXmlObject(filePath: string): Promise<any | undefined> {
-    if (filePath.endsWith(".xml")) {
-      return await parseXML(filePath);
-    }
-
-    const fileContent = await readFile(filePath, "utf-8");
-    let parsed: any;
-
-    if (filePath.endsWith(".yaml") || filePath.endsWith(".yml")) {
-      parsed = parseYaml(fileContent);
-    } else if (filePath.endsWith(".json5")) {
-      parsed = parseJson5(fileContent);
-    } else if (filePath.endsWith(".json")) {
-      parsed = JSON.parse(fileContent);
-    } else if (filePath.endsWith(".toml")) {
-      parsed = parseToml(fileContent);
-    } else if (filePath.endsWith(".ini")) {
-      parsed = parseIni(fileContent);
-    }
-
-    return parsed;
-  }
-}
-
-function mergeXmlElements(elements: XmlElement[]): XmlElement {
-  if (elements.length === 0) throw new Error("No elements to merge.");
-
-  const first = elements[0];
-  const rootKey = Object.keys(first).find((k) => k !== "?xml");
-
-  if (!rootKey) {
-    throw new Error("No root element found in the provided XML elements.");
-  }
-
-  const mergedContent: Record<string, any> = {};
-
-  for (const element of elements) {
-    const current = element[rootKey] as Record<string, any>;
-
-    for (const [childKey, value] of Object.entries(current)) {
-      if (Array.isArray(value)) {
-        mergedContent[childKey] = mergedContent[childKey]
-          ? mergedContent[childKey].concat(value)
-          : [...value];
-      } else if (typeof value === "object") {
-        mergedContent[childKey] = mergedContent[childKey]
-          ? ([] as any[]).concat(mergedContent[childKey], value)
-          : [value];
-      } else {
-        if (!mergedContent.hasOwnProperty(childKey)) {
-          mergedContent[childKey] = value;
-        }
-      }
-    }
-  }
-
-  const declaration = first["?xml"];
-  const finalMerged: XmlElement = declaration
-    ? { "?xml": declaration, [rootKey]: mergedContent }
-    : { [rootKey]: mergedContent };
-
-  return finalMerged;
 }
