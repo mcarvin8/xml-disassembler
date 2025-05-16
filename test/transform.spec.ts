@@ -7,6 +7,13 @@ import {
   ReassembleXMLFileHandler,
   setLogLevel,
   logger,
+  parseXML,
+  transformToIni,
+  XmlElement,
+  transformToYaml,
+  transformToJson,
+  transformToJson5,
+  transformToToml,
 } from "../src/index";
 
 setLogLevel("debug");
@@ -177,6 +184,18 @@ describe("transform test suite", () => {
       "samples/general/HR_Admin.permissionset-meta.xml",
       "mock2/general/HR_Admin.permissionset-meta.xml",
     );
+  });
+  it("should test transform functions in the index.", async () => {
+    const parsedXml = await parseXML(
+      "samples/general/HR_Admin.permissionset-meta.xml",
+    );
+    await transformToIni(parsedXml as XmlElement);
+    await transformToJson5(parsedXml as XmlElement);
+    await transformToJson(parsedXml as XmlElement);
+    await transformToYaml(parsedXml as XmlElement);
+    await transformToToml(parsedXml as XmlElement);
+
+    expect(logger.error).not.toHaveBeenCalled();
   });
 });
 
