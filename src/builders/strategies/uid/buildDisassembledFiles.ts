@@ -22,20 +22,12 @@ export async function buildDisassembledFiles(
 
   // Ensure XML declaration is attached directly to the XmlElement
   const rawDeclaration = parsedXml["?xml"];
-  const xmlDeclaration: Record<string, string> =
+  const xmlDeclaration: Record<string, string> | undefined =
     typeof rawDeclaration === "object" && rawDeclaration !== null
       ? (rawDeclaration as Record<string, string>)
-      : {
-          "@_version": "1.0",
-          "@_encoding": "UTF-8",
-        };
+      : undefined;
 
-  const rootElementName = Object.keys(parsedXml).find((k) => k !== "?xml");
-  if (!rootElementName) {
-    logger.error(`Failed to identify root element in ${filePath}`);
-    return;
-  }
-
+  const rootElementName = Object.keys(parsedXml).find((k) => k !== "?xml")!;
   const rootElement: XmlElement = parsedXml[rootElementName];
   const rootAttributes = extractRootAttributes(rootElement);
 
@@ -62,8 +54,8 @@ export async function buildDisassembledFiles(
           leafContent,
           leafCount,
           hasNestedElements,
-          xmlDeclaration,
           format,
+          xmlDeclaration,
         });
 
       const newContent = parsedLeafContent[key];
@@ -102,8 +94,8 @@ export async function buildDisassembledFiles(
       baseName,
       rootElementName,
       rootAttributes,
-      xmlDeclaration,
       format,
+      xmlDeclaration,
     );
   }
 

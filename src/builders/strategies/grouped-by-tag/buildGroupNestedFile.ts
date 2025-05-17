@@ -14,20 +14,26 @@ export async function buildGroupedNestedFile(
   disassembledPath: string,
   rootElementName: string,
   rootAttributes: XmlElement,
-  xmlDeclaration: Record<string, string>,
   format: string,
+  xmlDeclaration?: Record<string, string>,
 ): Promise<void> {
   const outputPath = join(disassembledPath, `${tag}.${format}`);
   await mkdir(disassembledPath, { recursive: true });
 
   // Each element is already a valid XmlElement structure
-  const rootElement: XmlElement = {
-    "?xml": xmlDeclaration,
+  let rootElement: XmlElement = {
     [rootElementName]: {
       ...rootAttributes,
       [tag]: elements,
     },
   };
+
+  if (typeof xmlDeclaration === "object" && xmlDeclaration !== null) {
+    rootElement = {
+      "?xml": xmlDeclaration as Record<string, string>,
+      ...rootElement,
+    };
+  }
 
   let nestedString: string;
   const transformer = getTransformer(format);
