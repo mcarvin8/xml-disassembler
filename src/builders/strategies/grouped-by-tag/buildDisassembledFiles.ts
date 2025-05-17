@@ -70,11 +70,14 @@ export async function buildDisassembledFiles(
 
       if (Object.keys(result.leafContent).length > 0) {
         const newContent = result.leafContent[key];
+        
         if (newContent !== undefined) {
-          leafContent[key] = [
-            ...(leafContent[key] ?? []),
-            newContent,
-          ];
+          const existing = leafContent[key];
+          const existingArray = existing
+            ? (Array.isArray(existing) ? existing : [existing])
+            : [];
+        
+          leafContent[key] = [...existingArray, newContent];
         }
       }
 
