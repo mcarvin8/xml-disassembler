@@ -31,7 +31,7 @@ export async function parseElement(params: XmlElementParams): Promise<{
 
   // Otherwise, it's a leaf element
   const leafContent: XmlElement = {
-    [key]: element,
+    [key]: [element],
   };
 
   return {
