@@ -13,12 +13,12 @@ export async function parseElement(params: XmlElementParams): Promise<{
   const nestedGroups: Record<string, XmlElement[]> = {};
 
   const isArray = Array.isArray(element);
-  const isObjectWithMultipleFields =
-    typeof element === "object" && element !== null;
-
-  // Consider it nested if it's an array or a structured object
-  const isNested = isArray || isObjectWithMultipleFields;
-
+  const isNestedObject =
+    typeof element === "object" &&
+    element !== null &&
+    Object.keys(element).some((k) => !k.startsWith("#")); // heuristic: anything beyond text/attrs is nested
+  
+  const isNested = isArray || isNestedObject;
   if (isNested) {
     nestedGroups[key] = [element];
     return {
