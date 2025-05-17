@@ -36,7 +36,7 @@ export async function parseElement(
 
   // Leaf value → wrap in XmlElement
   const leafContent: XmlElement = {
-    [key]: element,
+    [key]: [element],
   };
 
   return [leafContent, leafCount + 1, hasNestedElements];

@@ -43,7 +43,7 @@ export async function buildDisassembledFiles(
   const rootElement: XmlElement = parsedXml[rootElementName];
   const rootAttributes = extractRootAttributes(rootElement);
 
-  let leafContent: XmlElement = {};
+  let leafContent: Record<string, XmlElement[]> = {};
   let leafCount = 0;
   let hasNestedElements = false;
   const nestedGroups: Record<string, XmlElement[]> = {};
@@ -70,19 +70,9 @@ export async function buildDisassembledFiles(
 
       if (Object.keys(result.leafContent).length > 0) {
         const newContent = result.leafContent[key];
+        
         if (newContent !== undefined) {
-          const existing = leafContent[key];
-          const existingArray = Array.isArray(existing)
-            ? (existing as XmlElement[])
-            : existing !== undefined
-              ? [existing as XmlElement]
-              : [];
-
-          const incomingArray = Array.isArray(newContent)
-            ? (newContent as XmlElement[])
-            : [newContent as XmlElement];
-
-          leafContent[key] = [...existingArray, ...incomingArray];
+          leafContent[key] = [...(leafContent[key] ?? []), ...(newContent as XmlElement[])];
         }
       }
 
@@ -91,7 +81,7 @@ export async function buildDisassembledFiles(
 
       for (const tag in result.nestedGroups) {
         if (!nestedGroups[tag]) nestedGroups[tag] = [];
-        nestedGroups[tag].push(...(result.nestedGroups[tag] ?? []));
+        nestedGroups[tag].push(...result.nestedGroups[tag]);
       }
     }
   }

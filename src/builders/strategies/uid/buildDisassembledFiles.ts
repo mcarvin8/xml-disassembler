@@ -9,6 +9,8 @@ import { buildLeafFile } from "@src/builders/buildLeafFile";
 import { parseXML } from "@src/parsers/parseXML";
 import { extractRootAttributes } from "@src/builders/extractRootAttributes";
 
+export type XmlElementArrayMap = Record<string, XmlElement[]>;
+
 export async function buildDisassembledFiles(
   filePath: string,
   disassembledPath: string,
@@ -31,7 +33,7 @@ export async function buildDisassembledFiles(
   const rootElement: XmlElement = parsedXml[rootElementName];
   const rootAttributes = extractRootAttributes(rootElement);
 
-  let leafContent: XmlElement = {};
+  let leafContent: XmlElementArrayMap = {};
   let leafCount = 0;
   let hasNestedElements = false;
 
@@ -60,19 +62,10 @@ export async function buildDisassembledFiles(
 
       const newContent = parsedLeafContent[key];
       if (newContent !== undefined) {
-        const existing = leafContent[key];
-
-        const existingArray = Array.isArray(existing)
-          ? (existing as XmlElement[])
-          : existing !== undefined
-            ? [existing as XmlElement]
-            : [];
-
-        const incomingArray = Array.isArray(newContent)
-          ? (newContent as XmlElement[])
-          : [newContent as XmlElement];
-
-        leafContent[key] = [...existingArray, ...incomingArray];
+        leafContent[key] = [
+          ...(leafContent[key] ?? []),
+          ...(newContent as XmlElement[]),
+        ];
       }
 
       leafCount = updatedLeafCount;
