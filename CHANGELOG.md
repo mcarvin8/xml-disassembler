@@ -5,6 +5,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.10.8](https://github.com/mcarvin8/xml-disassembler/compare/v1.10.7...v1.10.8) (2025-05-17)
+
+
+### Bug Fixes
+
+* assert non-null on root element and remove default declaration ([9bd9fbd](https://github.com/mcarvin8/xml-disassembler/commit/9bd9fbd2b4d9afa94bab3c851c9555cecaab9726))
+
 ## [1.10.7](https://github.com/mcarvin8/xml-disassembler/compare/v1.10.6...v1.10.7) (2025-05-14)
 
 
