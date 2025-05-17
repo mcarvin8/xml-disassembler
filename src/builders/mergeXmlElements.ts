@@ -35,9 +35,8 @@ export function mergeXmlElements(
   }
 
   const declaration = first["?xml"];
-  const finalMerged: XmlElement = {
-    "?xml": declaration,
-    [rootKey]: mergedContent,
-  };
+  const finalMerged: XmlElement = declaration
+    ? { "?xml": declaration, [rootKey]: mergedContent }
+    : { [rootKey]: mergedContent };
   return finalMerged;
 }
