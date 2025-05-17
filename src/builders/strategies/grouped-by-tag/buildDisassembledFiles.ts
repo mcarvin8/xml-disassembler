@@ -68,12 +68,19 @@ export async function buildDisassembledFiles(
         format,
       });
 
-      const newContent = result.leafContent[key];
+      if (Object.keys(result.leafContent).length > 0) {
+        const newContent = result.leafContent[key];
+        if (newContent !== undefined) {
+          const existing = leafContent[key];
+          const existingArray = Array.isArray(existing)
+            ? existing
+            : [existing as XmlElement];
 
-      if (Array.isArray(newContent)) {
-        const existing = leafContent[key];
-        const existingArray = Array.isArray(existing) ? existing : [];
-        leafContent[key] = [...existingArray, ...newContent];
+          const incomingArray = Array.isArray(newContent)
+            ? (newContent as XmlElement[])
+            : [newContent as XmlElement];
+
+          leafContent[key] = [...existingArray, ...incomingArray];
       }
 
       leafCount = result.leafCount;
