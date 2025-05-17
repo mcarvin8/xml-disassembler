@@ -15,8 +15,8 @@ export async function parseElement(
     key,
     leafCount,
     hasNestedElements,
-    xmlDeclaration,
     format,
+    xmlDeclaration,
   } = params;
 
   // Nested element → write it to its own file
@@ -28,8 +28,8 @@ export async function parseElement(
       rootElementName,
       rootAttributes,
       key,
-      xmlDeclaration,
       format,
+      xmlDeclaration,
     );
     return [{}, leafCount, true];
   }

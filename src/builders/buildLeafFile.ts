@@ -14,19 +14,25 @@ export async function buildLeafFile(
   baseName: string,
   rootElementName: string,
   rootAttributes: XmlElement,
-  xmlDeclaration: Record<string, string>,
   format: string,
+  xmlDeclaration?: Record<string, string>,
 ): Promise<void> {
   const leafOutputPath = join(disassembledPath, `${baseName}.${format}`);
   await mkdir(disassembledPath, { recursive: true });
 
-  const wrappedXml: XmlElement = {
-    "?xml": xmlDeclaration,
+  let wrappedXml: XmlElement = {
     [rootElementName]: {
       ...rootAttributes,
       ...leafContent,
     },
   };
+
+  if (typeof xmlDeclaration === "object" && xmlDeclaration !== null) {
+    wrappedXml = {
+      "?xml": xmlDeclaration as Record<string, string>,
+      ...wrappedXml,
+    };
+  }
 
   let leafString: string;
   const transformer = getTransformer(format);

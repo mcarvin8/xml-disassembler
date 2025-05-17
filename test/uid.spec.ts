@@ -20,6 +20,7 @@ import {
   XmlElement,
 } from "../src/index";
 import { stripWhitespaceTextNodes } from "../src/parsers/stripWhitespace";
+import { mergeXmlElements } from "../src/builders/mergeXmlElements";
 
 setLogLevel("debug");
 const sampleDir: string = "samples";
@@ -286,7 +287,12 @@ describe("unique-id strategy test suite", () => {
     const result = stripWhitespaceTextNodes(input);
     expect(result).toEqual([{ "#text": "keep me" }]);
   });
+  it("should confirm reassemble error condition (nothing to merge).", async () => {
+    const result = mergeXmlElements([]);
 
+    expect(result).toBeUndefined();
+    expect(logger.error).toHaveBeenCalledWith("No elements to merge.");
+  });
   // This should always be the final test
   it("should compare the files created in the mock directory against the baselines to confirm no changes.", async () => {
     await compareDirectories(sampleDir, mockDir);

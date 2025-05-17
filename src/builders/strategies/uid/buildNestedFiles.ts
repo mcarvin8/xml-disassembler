@@ -16,8 +16,8 @@ export async function buildNestedFile(
   rootElementName: string,
   rootAttributes: XmlElement,
   parentKey: string,
-  xmlDeclaration: Record<string, string>,
   format: string,
+  xmlDeclaration?: Record<string, string>,
 ): Promise<void> {
   const fieldName = parseUniqueIdElement(element, uniqueIdElements);
 
@@ -27,14 +27,19 @@ export async function buildNestedFile(
 
   await mkdir(outputDirectory, { recursive: true });
 
-  // ✅ Wrap the nested element under parentKey with root attributes
-  const finalXml: XmlElement = {
-    "?xml": xmlDeclaration,
+  let finalXml: XmlElement = {
     [rootElementName]: {
       ...rootAttributes,
       [parentKey]: element,
     },
   };
+
+  if (typeof xmlDeclaration === "object" && xmlDeclaration !== null) {
+    finalXml = {
+      "?xml": xmlDeclaration as Record<string, string>,
+      ...finalXml,
+    };
+  }
 
   let nestedString: string;
   const transformer = getTransformer(format);

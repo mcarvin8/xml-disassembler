@@ -65,7 +65,7 @@ export class ReassembleXMLFileHandler {
     }
 
     const mergedXml = mergeXmlElements(parsedXmlObjects);
-    const xmlContent = buildXMLString(mergedXml);
+    const xmlContent = buildXMLString(mergedXml!);
     const finalXml = xmlContent;
 
     const parentDirectory = dirname(filePath);
