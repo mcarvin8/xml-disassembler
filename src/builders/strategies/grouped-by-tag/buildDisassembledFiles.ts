@@ -68,14 +68,11 @@ export async function buildDisassembledFiles(
         format,
       });
 
-      if (Object.keys(result.leafContent).length > 0) {
-        const newContent = result.leafContent[key];
+      const newContent = result.leafContent[key] as XmlElement[] | undefined;
 
-        if (Array.isArray(newContent)) {
-          const existing = leafContent[key];
-          const existingArray = Array.isArray(existing) ? existing : [];
-          leafContent[key] = [...existingArray, ...newContent];
-        }
+      if (Array.isArray(newContent)) {
+        const existing = leafContent[key] ?? [];
+        leafContent[key] = [...existing, ...newContent];
       }
 
       leafCount = result.leafCount;
