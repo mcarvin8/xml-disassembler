@@ -91,7 +91,7 @@ export async function buildDisassembledFiles(
 
       for (const tag in result.nestedGroups) {
         if (!nestedGroups[tag]) nestedGroups[tag] = [];
-        nestedGroups[tag].push(...(result.nestedGroups[tag] ?? []));
+        nestedGroups[tag].push(...result.nestedGroups[tag]);
       }
     }
   }
