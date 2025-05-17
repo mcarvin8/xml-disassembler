@@ -81,6 +81,7 @@ export async function buildDisassembledFiles(
             : [newContent as XmlElement];
 
           leafContent[key] = [...existingArray, ...incomingArray];
+        }
       }
 
       leafCount = result.leafCount;
