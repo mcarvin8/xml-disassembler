@@ -70,6 +70,7 @@ export async function buildDisassembledFiles(
 
       if (Object.keys(result.leafContent).length > 0) {
         const newContent = result.leafContent[key];
+
         if (Array.isArray(newContent)) {
           const existing = leafContent[key];
           const existingArray = Array.isArray(existing) ? existing : [];
