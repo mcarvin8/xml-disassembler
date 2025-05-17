@@ -5,6 +5,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.10.9](https://github.com/mcarvin8/xml-disassembler/compare/v1.10.8...v1.10.9) (2025-05-17)
+
+
+### Bug Fixes
+
+* normalize leaf content as arrays to simplify merging logic ([2eb7ad5](https://github.com/mcarvin8/xml-disassembler/commit/2eb7ad5792d6e8f59956476a13752abc23fbec00))
+
 ## [1.10.8](https://github.com/mcarvin8/xml-disassembler/compare/v1.10.7...v1.10.8) (2025-05-17)
 
 
