@@ -43,7 +43,7 @@ export async function buildDisassembledFiles(
   const rootElement: XmlElement = parsedXml[rootElementName];
   const rootAttributes = extractRootAttributes(rootElement);
 
-  let leafContent: Record<string, XmlElement[]> = {};
+  let leafContent: XmlElement = {};
   let leafCount = 0;
   let hasNestedElements = false;
   const nestedGroups: Record<string, XmlElement[]> = {};
