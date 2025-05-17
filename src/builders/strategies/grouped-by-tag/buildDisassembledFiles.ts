@@ -72,7 +72,7 @@ export async function buildDisassembledFiles(
         const newContent = result.leafContent[key];
         
         if (newContent !== undefined) {
-          leafContent[key] = [...(leafContent[key] ?? []), ...newContent];
+          leafContent[key] = [...(leafContent[key] ?? []), ...(newContent as XmlElement[])];
         }
       }
 
