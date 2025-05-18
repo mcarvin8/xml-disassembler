@@ -26,3 +26,5 @@ When developing, run the provided tests for new additions.
 ```bash
 pnpm test
 ```
+
+All updates should meet the 90% code coverage threshold.
