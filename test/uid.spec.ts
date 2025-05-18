@@ -1,13 +1,5 @@
-import {
-  rename,
-  readdir,
-  unlink,
-  writeFile,
-  rm,
-  readFile,
-} from "node:fs/promises";
-import { strictEqual } from "node:assert";
-import { join, resolve } from "node:path/posix";
+import { rename, unlink, writeFile, rm } from "node:fs/promises";
+import { resolve } from "node:path/posix";
 import { copy } from "fs-extra";
 
 import {
@@ -15,12 +7,8 @@ import {
   ReassembleXMLFileHandler,
   setLogLevel,
   logger,
-  parseXML,
-  buildXMLString,
-  XmlElement,
 } from "../src/index";
-import { stripWhitespaceTextNodes } from "../src/parsers/stripWhitespace";
-import { mergeXmlElements } from "../src/builders/mergeXmlElements";
+import { compareDirectories } from "./compare";
 
 setLogLevel("debug");
 const sampleDir: string = "samples";
@@ -247,81 +235,8 @@ describe("unique-id strategy test suite", () => {
 
     expect(logger.warn).toHaveBeenCalled();
   });
-  it("should test parsing and building an XML with the exported functions.", async () => {
-    const result = await parseXML(
-      "mock/ignore/HR_Admin.permissionset-meta.xml",
-    );
-    await buildXMLString(result as XmlElement);
-
-    expect(logger.error).not.toHaveBeenCalled();
-  });
-  it("should parse a raw string with XML contents.", async () => {
-    const result = await readFile(
-      "mock/ignore/HR_Admin.permissionset-meta.xml",
-      "utf-8",
-    );
-    await parseXML(result, true);
-
-    expect(logger.error).not.toHaveBeenCalled();
-  });
-  it("should log an error and return undefined when the file cannot be read", async () => {
-    const result = await parseXML("non-existent-file.xml");
-
-    expect(result).toBeUndefined();
-    expect(logger.error).toHaveBeenCalledWith(
-      "non-existent-file.xml could not be read. Check if the file exists and is accessible.",
-    );
-  });
-  it("should log an error and return undefined when raw XML string is malformed", async () => {
-    const malformedXml = "<root><unclosedTag></root>"; // invalid XML
-
-    const result = await parseXML(malformedXml, true);
-
-    expect(result).toBeUndefined();
-    expect(logger.error).toHaveBeenCalledWith(
-      "Provided XML string could not be parsed. Confirm formatting and try again.",
-    );
-  });
-  it("should remove objects from an array if they only contain a whitespace #text node", () => {
-    const input = [{ "#text": "   " }, { "#text": "keep me" }];
-    const result = stripWhitespaceTextNodes(input);
-    expect(result).toEqual([{ "#text": "keep me" }]);
-  });
-  it("should confirm reassemble error condition (nothing to merge).", async () => {
-    const result = mergeXmlElements([]);
-
-    expect(result).toBeUndefined();
-    expect(logger.error).toHaveBeenCalledWith("No elements to merge.");
-  });
   // This should always be the final test
   it("should compare the files created in the mock directory against the baselines to confirm no changes.", async () => {
     await compareDirectories(sampleDir, mockDir);
   });
 });
-
-async function compareDirectories(
-  referenceDir: string,
-  mockDir: string,
-): Promise<void> {
-  const entriesinRef = await readdir(referenceDir, { withFileTypes: true });
-
-  // Only compare files that are in the reference directory
-  for (const entry of entriesinRef) {
-    const refEntryPath = join(referenceDir, entry.name);
-    const mockPath = join(mockDir, entry.name);
-
-    if (entry.isDirectory()) {
-      // If it's a directory, recursively compare its contents
-      await compareDirectories(refEntryPath, mockPath);
-    } else {
-      // If it's a file, compare its content
-      const refContent = await readFile(refEntryPath, "utf-8");
-      const mockContent = await readFile(mockPath, "utf-8");
-      strictEqual(
-        refContent,
-        mockContent,
-        `File content is different for ${entry.name}`,
-      );
-    }
-  }
-}

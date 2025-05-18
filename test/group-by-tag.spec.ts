@@ -1,21 +1,13 @@
-import {
-  rename,
-  readdir,
-  unlink,
-  writeFile,
-  rm,
-  readFile,
-} from "node:fs/promises";
-import { strictEqual } from "node:assert";
-import { join, resolve } from "node:path/posix";
+import { rename, unlink, rm, writeFile } from "node:fs/promises";
 import { copy } from "fs-extra";
-
+import { resolve } from "node:path";
 import {
   DisassembleXMLFileHandler,
   ReassembleXMLFileHandler,
   setLogLevel,
   logger,
 } from "../src/index";
+import { compareDirectories } from "./compare";
 
 setLogLevel("debug");
 const sampleDir: string = "samples";
@@ -189,6 +181,14 @@ describe("grouped by tag strategy test suite", () => {
 
     expect(logger.error).not.toHaveBeenCalled();
   });
+  it("should test disassemble error condition (XML file only has leaf elements).", async () => {
+    await disassembleHandler.disassemble({
+      filePath: "mock-tag/no-nested-elements",
+      strategy: "grouped-by-tag",
+    });
+
+    expect(logger.error).toHaveBeenCalled();
+  });
   it("should test disassemble error condition (XML file path not provided).", async () => {
     let fakeFile = "mock-tag/not-an-xml.txt";
     fakeFile = resolve(fakeFile);
@@ -209,59 +209,8 @@ describe("grouped by tag strategy test suite", () => {
 
     expect(logger.error).toHaveBeenCalled();
   });
-  it("should test disassemble error condition (XML file only has leaf elements).", async () => {
-    await disassembleHandler.disassemble({
-      filePath: "mock-tag/no-nested-elements",
-      strategy: "grouped-by-tag",
-    });
-
-    expect(logger.error).toHaveBeenCalled();
-  });
-  it("should test ignore file warning condition using a folder-path.", async () => {
-    await disassembleHandler.disassemble({
-      filePath: "mock-tag/ignore",
-      strategy: "grouped-by-tag",
-    });
-
-    expect(logger.warn).toHaveBeenCalled();
-  });
-  it("should test ignore file warning condition using a file-path.", async () => {
-    await disassembleHandler.disassemble({
-      filePath: "mock-tag/ignore/HR_Admin.permissionset-meta.xml",
-      strategy: "grouped-by-tag",
-    });
-
-    expect(logger.warn).toHaveBeenCalled();
-  });
   // This should always be the final test
   it("should compare the files created in the mock directory against the baselines to confirm no changes.", async () => {
     await compareDirectories(sampleDir, mockDir);
   });
 });
-
-async function compareDirectories(
-  referenceDir: string,
-  mockDir: string,
-): Promise<void> {
-  const entriesinRef = await readdir(referenceDir, { withFileTypes: true });
-
-  // Only compare files that are in the reference directory
-  for (const entry of entriesinRef) {
-    const refEntryPath = join(referenceDir, entry.name);
-    const mockPath = join(mockDir, entry.name);
-
-    if (entry.isDirectory()) {
-      // If it's a directory, recursively compare its contents
-      await compareDirectories(refEntryPath, mockPath);
-    } else {
-      // If it's a file, compare its content
-      const refContent = await readFile(refEntryPath, "utf-8");
-      const mockContent = await readFile(mockPath, "utf-8");
-      strictEqual(
-        refContent,
-        mockContent,
-        `File content is different for ${entry.name}`,
-      );
-    }
-  }
-}

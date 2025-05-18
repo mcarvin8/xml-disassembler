@@ -1,5 +1,4 @@
-import { rm, readFile } from "node:fs/promises";
-import { strictEqual } from "node:assert";
+import { rm } from "node:fs/promises";
 import { copy } from "fs-extra";
 
 import {
@@ -15,6 +14,7 @@ import {
   transformToJson5,
   transformToToml,
 } from "../src/index";
+import { compareFiles } from "./compare";
 
 setLogLevel("debug");
 const sampleDir: string = "samples";
@@ -198,12 +198,3 @@ describe("transform test suite", () => {
     expect(logger.error).not.toHaveBeenCalled();
   });
 });
-
-async function compareFiles(
-  refEntryPath: string,
-  mockPath: string,
-): Promise<void> {
-  const refContent = await readFile(refEntryPath, "utf-8");
-  const mockContent = await readFile(mockPath, "utf-8");
-  strictEqual(mockContent, refContent, `File content is different }`);
-}
