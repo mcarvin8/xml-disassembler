@@ -17,3 +17,5 @@ export type XmlElementParams = {
   format: string;
   xmlDeclaration?: Record<string, string>;
 };
+
+export type XmlElementArrayMap = Record<string, XmlElement[]>;

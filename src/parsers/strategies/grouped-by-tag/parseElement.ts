@@ -1,23 +1,27 @@
 "use strict";
 
-import { XmlElementParams, XmlElement } from "@src/types/types";
+import {
+  XmlElementParams,
+  XmlElement,
+  XmlElementArrayMap,
+} from "@src/types/types";
 
 export async function parseElement(params: XmlElementParams): Promise<{
   leafContent: XmlElement;
   leafCount: number;
   hasNestedElements: boolean;
-  nestedGroups: Record<string, XmlElement[]>;
+  nestedGroups: XmlElementArrayMap;
 }> {
   const { element, key, hasNestedElements } = params;
 
-  const nestedGroups: Record<string, XmlElement[]> = {};
+  const nestedGroups: XmlElementArrayMap = {};
 
   const isArray = Array.isArray(element);
   const isNestedObject =
     typeof element === "object" &&
     element !== null &&
     Object.keys(element).some((k) => !k.startsWith("#")); // heuristic: anything beyond text/attrs is nested
-  
+
   const isNested = isArray || isNestedObject;
   if (isNested) {
     nestedGroups[key] = [element];

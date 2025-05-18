@@ -3,13 +3,11 @@
 import { unlink } from "node:fs/promises";
 
 import { logger } from "@src/index";
-import { XmlElement } from "@src/types/types";
+import { XmlElement, XmlElementArrayMap } from "@src/types/types";
 import { parseElement } from "@src/parsers/strategies/uid/parseElement";
 import { buildLeafFile } from "@src/builders/buildLeafFile";
 import { parseXML } from "@src/parsers/parseXML";
 import { extractRootAttributes } from "@src/builders/extractRootAttributes";
-
-export type XmlElementArrayMap = Record<string, XmlElement[]>;
 
 export async function buildDisassembledFiles(
   filePath: string,

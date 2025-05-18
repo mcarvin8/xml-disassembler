@@ -2,7 +2,7 @@
 
 import { unlink } from "node:fs/promises";
 import { logger } from "@src/index";
-import { XmlElement } from "@src/types/types";
+import { XmlElement, XmlElementArrayMap } from "@src/types/types";
 import { parseElement } from "@src/parsers/strategies/grouped-by-tag/parseElement";
 import { buildLeafFile } from "@src/builders/buildLeafFile";
 import { buildGroupedNestedFile } from "@src/builders/strategies/grouped-by-tag/buildGroupNestedFile";
@@ -43,10 +43,10 @@ export async function buildDisassembledFiles(
   const rootElement: XmlElement = parsedXml[rootElementName];
   const rootAttributes = extractRootAttributes(rootElement);
 
-  let leafContent: Record<string, XmlElement[]> = {};
+  let leafContent: XmlElementArrayMap = {};
   let leafCount = 0;
   let hasNestedElements = false;
-  const nestedGroups: Record<string, XmlElement[]> = {};
+  const nestedGroups: XmlElementArrayMap = {};
   const keyOrder = Object.keys(rootElement).filter((k) => !k.startsWith("@"));
 
   for (const key of keyOrder) {
@@ -70,9 +70,12 @@ export async function buildDisassembledFiles(
 
       if (Object.keys(result.leafContent).length > 0) {
         const newContent = result.leafContent[key];
-        
+
         if (newContent !== undefined) {
-          leafContent[key] = [...(leafContent[key] ?? []), ...(newContent as XmlElement[])];
+          leafContent[key] = [
+            ...(leafContent[key] ?? []),
+            ...(newContent as XmlElement[]),
+          ];
         }
       }
 
