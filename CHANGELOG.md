@@ -5,6 +5,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.10.10](https://github.com/mcarvin8/xml-disassembler/compare/v1.10.9...v1.10.10) (2025-05-18)
+
+
+### Bug Fixes
+
+* remove parsing direct xml string ([d62f159](https://github.com/mcarvin8/xml-disassembler/commit/d62f159a642e23da7d3721c0a5f4ee4b669d2af5))
+
 ## [1.10.9](https://github.com/mcarvin8/xml-disassembler/compare/v1.10.8...v1.10.9) (2025-05-17)
 
 
