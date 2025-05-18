@@ -77,15 +77,15 @@ await handler.disassemble({
 });
 ```
 
-| Option             | Description                                                              |
-|--------------------|--------------------------------------------------------------------------|
-| `filePath`         | Path to the XML file or directory                                        |
-| `uniqueIdElements` | Comma-separated list of UID elements for naming nested files             |
-| `prePurge`         | Delete previous disassembly output before running                        |
-| `postPurge`        | Delete the original XML after disassembly                                |
-| `ignorePath`       | Path to the ignore file                                                  |
-| `format`           | Output format: `xml`, `ini`, `json`, `json5`, `toml`, `yaml`             |
-| `strategy`         | Disassembly strategy: `unique-id` or `grouped-by-tag`                    |
+| Option             | Description                                                                            |
+| ------------------ | -------------------------------------------------------------------------------------- |
+| `filePath`         | Path to the XML file or directory                                                      |
+| `uniqueIdElements` | Comma-separated list of UID elements for naming nested files                           |
+| `prePurge`         | Delete previous disassembly output before running (`true` or `false`, default `false`) |
+| `postPurge`        | Delete the original XML after disassembly (`true` or `false`, default `false`)         |
+| `ignorePath`       | Path to the ignore file (default `.xmldisassemblerignore`)                             |
+| `format`           | Output format: `xml`, `ini`, `json`, `json5`, `toml`, `yaml`                           |
+| `strategy`         | Disassembly strategy: `unique-id` or `grouped-by-tag`                                  |
 
 ---
 
@@ -101,7 +101,7 @@ Each nested element is written to a separate file based on its unique identifier
 
 **Example Outputs**
 
-| Format    | UID Example                                                                                                       | Hash Example                                                                                                                   |
+| Format    | UID Example                                                                                                              | Hash Example                                                                                                                     |
 | --------- | ------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------- |
 | **XML**   | ![XML UID](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled.png)<br>         | ![XML Hash](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-hashes.png)<br>         |
 | **YAML**  | ![YAML UID](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-yaml.png)<br>   | ![YAML Hash](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-hashes-yaml.png)<br>   |
@@ -118,7 +118,7 @@ Groups all nested elements by tag into a single file. Leaf elements still go int
 
 **Example Outputs**
 
-| Format    | Grouped by Tag Example                                                                                                            |
+| Format    | Grouped by Tag Example                                                                                                        |
 | --------- | ----------------------------------------------------------------------------------------------------------------------------- |
 | **XML**   | ![XML tag](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-tags.png)<br>         |
 | **YAML**  | ![YAML tag](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-tags-yaml.png)<br>   |
@@ -142,11 +142,11 @@ await handler.reassemble({
 });
 ```
 
-| Option          | Description                                              |
-|------------------|----------------------------------------------------------|
-| `filePath`       | Directory containing disassembled files to reassemble    |
-| `fileExtension`  | Extension for the output XML file (default: `.xml`)      |
-| `postPurge`      | Delete disassembled files after successful reassembly    |
+| Option          | Description                                                                                |
+| --------------- | ------------------------------------------------------------------------------------------ |
+| `filePath`      | Directory containing disassembled files to reassemble                                      |
+| `fileExtension` | Extension for the output XML file (default: `.xml`)                                        |
+| `postPurge`     | Delete disassembled files after successful reassembly (`true` or `false`, default `false`) |
 
 ---
 
@@ -158,9 +158,9 @@ See [`sf-decomposer`](https://github.com/mcarvin8/sf-decomposer) for a Salesforc
 
 ## Ignore File
 
-Create an ignore file (`.xmldisassemblerignore` by default) to exclude XMLs from disassembly.
+Create an ignore file, similar to a `.gitignore`, to exclude XMLs from disassembly.
 
-> uses [`node-ignore`](https://github.com/kaelzhang/node-ignore) (follows [.gitignore spec 2.22.1](https://git-scm.com/docs/gitignore))
+> uses [`node-ignore`](https://github.com/kaelzhang/node-ignore)
 
 ---
 
