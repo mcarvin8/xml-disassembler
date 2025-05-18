@@ -19,3 +19,4 @@ export type XmlElementParams = {
 };
 
 export type XmlElementArrayMap = Record<string, XmlElement[]>;
+export type XmlElementMap = Record<string, XmlElement>;

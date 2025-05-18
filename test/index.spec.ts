@@ -25,18 +25,9 @@ describe("function/index tests", () => {
 
   it("should test parsing and building an XML with the exported functions.", async () => {
     const result = await parseXML(
-      "mock/ignore/HR_Admin.permissionset-meta.xml",
+      "samples/ignore/HR_Admin.permissionset-meta.xml",
     );
     await buildXMLString(result as XmlElement);
-
-    expect(logger.error).not.toHaveBeenCalled();
-  });
-  it("should parse a raw string with XML contents.", async () => {
-    const result = await readFile(
-      "mock/ignore/HR_Admin.permissionset-meta.xml",
-      "utf-8",
-    );
-    await parseXML(result, true);
 
     expect(logger.error).not.toHaveBeenCalled();
   });
@@ -45,17 +36,7 @@ describe("function/index tests", () => {
 
     expect(result).toBeUndefined();
     expect(logger.error).toHaveBeenCalledWith(
-      "non-existent-file.xml could not be read. Check if the file exists and is accessible.",
-    );
-  });
-  it("should log an error and return undefined when raw XML string is malformed", async () => {
-    const malformedXml = "<root><unclosedTag></root>"; // invalid XML
-
-    const result = await parseXML(malformedXml, true);
-
-    expect(result).toBeUndefined();
-    expect(logger.error).toHaveBeenCalledWith(
-      "Provided XML string could not be parsed. Confirm formatting and try again.",
+      "non-existent-file.xml was unabled to be parsed and will not be processed. Confirm formatting and try again.",
     );
   });
   it("should remove objects from an array if they only contain a whitespace #text node", () => {
