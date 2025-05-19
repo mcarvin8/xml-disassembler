@@ -5,7 +5,7 @@ import { unlink } from "node:fs/promises";
 import { logger } from "@src/index";
 import { XmlElement, XmlElementArrayMap } from "@src/types/types";
 import { parseElement } from "@src/parsers/strategies/uid/parseElement";
-import { buildLeafFile } from "@src/builders/buildLeafFile";
+import { buildDisassembledFile } from "@src/builders/buildDisassembledFile";
 import { parseXML } from "@src/parsers/parseXML";
 import { extractRootAttributes } from "@src/builders/extractRootAttributes";
 
@@ -79,15 +79,15 @@ export async function buildDisassembledFiles(
   }
 
   if (leafCount > 0) {
-    await buildLeafFile(
-      leafContent,
+    await buildDisassembledFile({
+      content: leafContent,
       disassembledPath,
-      baseName,
+      outputFileName: `${baseName}.${format}`,
       rootElementName,
       rootAttributes,
-      format,
       xmlDeclaration,
-    );
+      format,
+    });
   }
 
   if (postPurge) {

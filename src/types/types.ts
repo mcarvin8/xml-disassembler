@@ -18,5 +18,19 @@ export type XmlElementParams = {
   xmlDeclaration?: Record<string, string>;
 };
 
+export type BuildDisassembledFileOptions = {
+  content: XmlElement | XmlElement[];
+  disassembledPath: string;
+  outputFileName?: string;
+  subdirectory?: string;
+  wrapKey?: string;
+  isGroupedArray?: boolean;
+  rootElementName: string;
+  rootAttributes: XmlElement;
+  format: string;
+  xmlDeclaration?: Record<string, string>;
+  uniqueIdElements?: string;
+};
+
 export type XmlElementArrayMap = Record<string, XmlElement[]>;
 export type XmlElementMap = Record<string, XmlElement>;
