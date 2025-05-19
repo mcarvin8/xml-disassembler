@@ -4,8 +4,7 @@ import { unlink } from "node:fs/promises";
 import { logger } from "@src/index";
 import { XmlElement, XmlElementArrayMap } from "@src/types/types";
 import { parseElement } from "@src/parsers/strategies/grouped-by-tag/parseElement";
-import { buildLeafFile } from "@src/builders/buildLeafFile";
-import { buildGroupedNestedFile } from "@src/builders/strategies/grouped-by-tag/buildGroupNestedFile";
+import { buildDisassembledFile } from "@src/builders/buildDisassembledFile";
 import { parseXML } from "@src/parsers/parseXML";
 import { extractRootAttributes } from "@src/builders/extractRootAttributes";
 
@@ -97,28 +96,30 @@ export async function buildDisassembledFiles(
   }
 
   for (const tag in nestedGroups) {
-    await buildGroupedNestedFile(
-      tag,
-      nestedGroups[tag],
+    await buildDisassembledFile({
+      content: nestedGroups[tag],
       disassembledPath,
+      outputFileName: `${tag}.${format}`,
+      wrapKey: tag,
+      isGroupedArray: true,
       rootElementName,
       rootAttributes,
-      format,
       xmlDeclaration,
-    );
+      format,
+    });
   }
 
   if (leafCount > 0) {
     const orderedLeafContent = orderXmlElementKeys(leafContent, keyOrder);
-    await buildLeafFile(
-      orderedLeafContent,
+    await buildDisassembledFile({
+      content: orderedLeafContent,
       disassembledPath,
-      baseName,
+      outputFileName: `${baseName}.${format}`,
       rootElementName,
       rootAttributes,
-      format,
       xmlDeclaration,
-    );
+      format,
+    });
   }
 
   if (postPurge) {

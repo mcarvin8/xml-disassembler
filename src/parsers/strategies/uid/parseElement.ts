@@ -1,6 +1,6 @@
 "use strict";
 
-import { buildNestedFile } from "@src/builders/strategies/uid/buildNestedFiles";
+import { buildDisassembledFile } from "@src/builders/buildDisassembledFile";
 import { XmlElement, XmlElementParams } from "@src/types/types";
 
 export async function parseElement(
@@ -21,16 +21,17 @@ export async function parseElement(
 
   // Nested element → write it to its own file
   if (typeof element === "object" && element !== null) {
-    await buildNestedFile(
-      element,
+    await buildDisassembledFile({
+      content: element,
       disassembledPath,
-      uniqueIdElements,
+      subdirectory: key,
+      wrapKey: key,
       rootElementName,
       rootAttributes,
-      key,
-      format,
       xmlDeclaration,
-    );
+      format,
+      uniqueIdElements,
+    });
     return [{}, leafCount, true];
   }
 
