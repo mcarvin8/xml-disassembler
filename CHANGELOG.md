@@ -5,6 +5,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.10.11](https://github.com/mcarvin8/xml-disassembler/compare/v1.10.10...v1.10.11) (2025-05-19)
+
+
+### Bug Fixes
+
+* merge build disassemble file functions ([78c4c24](https://github.com/mcarvin8/xml-disassembler/commit/78c4c249a22dfe81aa598b072e06a84441469540))
+
 ## [1.10.10](https://github.com/mcarvin8/xml-disassembler/compare/v1.10.9...v1.10.10) (2025-05-18)
 
 
