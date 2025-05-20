@@ -11,29 +11,45 @@ export function parseUniqueIdElement(
     return createShortHash(element);
   }
 
-  const uniqueId = findUniqueIdInElement(element, uniqueIdElements.split(","));
-  return uniqueId ?? createShortHash(element);
+  const keys = uniqueIdElements.split(",");
+  const match = searchForUniqueId(element, keys);
+
+  return match ?? createShortHash(element);
 }
 
-function findUniqueIdInElement(
-  element: XmlElement,
+function searchForUniqueId(
+  node: any,
   keys: string[],
 ): string | undefined {
+  if (typeof node !== "object" || node === null) {
+    return undefined;
+  }
+
   for (const key of keys) {
-    const value = element[key];
+    const value = node[key];
     if (typeof value === "string") {
       return value;
     }
-  }
 
-  for (const key in element) {
-    const child = element[key];
-    if (typeof child === "object" && child !== null) {
-      const childId = findUniqueIdInElement(child as XmlElement, keys);
-      if (childId !== undefined) {
-        return childId;
+    // If the value is an array, check each item
+    if (Array.isArray(value)) {
+      for (const item of value) {
+        const found = searchForUniqueId(item, [key]);
+        if (found) return found;
       }
     }
+
+    // If the value is an object, check it recursively
+    if (typeof value === "object" && value !== null) {
+      const found = searchForUniqueId(value, [key]);
+      if (found) return found;
+    }
+  }
+
+  // Recurse into all child properties
+  for (const prop in node) {
+    const found = searchForUniqueId(node[prop], keys);
+    if (found) return found;
   }
 
   return undefined;
