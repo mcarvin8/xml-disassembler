@@ -1,47 +1,46 @@
 "use strict";
 
 import { createHash } from "node:crypto";
-
 import { XmlElement } from "@src/types/types";
 
 export function parseUniqueIdElement(
   element: XmlElement,
-  uniqueIdElements?: string | undefined,
+  uniqueIdElements?: string,
 ): string {
-  if (uniqueIdElements === undefined) {
+  if (!uniqueIdElements) {
     return createShortHash(element);
   }
-  const uniqueIdElementsArray = uniqueIdElements.split(",");
 
-  for (const fieldName of uniqueIdElementsArray) {
-    // Check if the current fieldName exists in the element
-    if (element[fieldName] !== undefined) {
-      if (typeof element[fieldName] === "string") {
-        return element[fieldName] as string;
-      }
+  const uniqueId = findUniqueIdInElement(element, uniqueIdElements.split(","));
+  return uniqueId ?? createShortHash(element);
+}
+
+function findUniqueIdInElement(
+  element: XmlElement,
+  keys: string[],
+): string | undefined {
+  for (const key of keys) {
+    const value = element[key];
+    if (typeof value === "string") {
+      return value;
     }
   }
 
-  // Iterate through child elements to find the field name
   for (const key in element) {
-    if (typeof element[key] === "object" && element[key] !== null) {
-      const childFieldName = parseUniqueIdElement(
-        element[key] as XmlElement,
-        uniqueIdElements,
-      );
-      if (childFieldName !== undefined) {
-        return childFieldName;
+    const child = element[key];
+    if (typeof child === "object" && child !== null) {
+      const childId = findUniqueIdInElement(child as XmlElement, keys);
+      if (childId !== undefined) {
+        return childId;
       }
     }
   }
 
-  // default to short SHA-256 hash if no unique ID elements are found
-  return createShortHash(element);
+  return undefined;
 }
 
 function createShortHash(element: XmlElement): string {
   const hash = createHash("sha256");
   hash.update(JSON.stringify(element));
-  const fullHash = hash.digest("hex");
-  return fullHash.slice(0, 8);
+  return hash.digest("hex").slice(0, 8);
 }
