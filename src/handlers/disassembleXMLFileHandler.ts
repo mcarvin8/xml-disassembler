@@ -21,7 +21,7 @@ export class DisassembleXMLFileHandler {
     ignorePath?: string;
     format?: string;
   }): Promise<void> {
-    const {
+    let {
       filePath,
       uniqueIdElements,
       strategy = "unique-id",
@@ -30,6 +30,12 @@ export class DisassembleXMLFileHandler {
       ignorePath = ".xmldisassemblerignore",
       format = "xml",
     } = xmlAttributes;
+    if (!["unique-id", "grouped-by-tag"].includes(strategy)) {
+      logger.warn(
+        `Unsupported strategy "${strategy}", defaulting to "unique-id".`,
+      );
+      strategy = "unique-id";
+    }
     const resolvedIgnorePath = resolve(ignorePath);
     if (existsSync(resolvedIgnorePath)) {
       const content = await readFile(resolvedIgnorePath);

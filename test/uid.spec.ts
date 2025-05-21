@@ -217,8 +217,9 @@ describe("unique-id strategy test suite", () => {
   it("should test disassemble error condition (XML file only has leaf elements).", async () => {
     await disassembleHandler.disassemble({
       filePath: "mock/no-nested-elements",
+      strategy: "not-valid",
     });
-
+    expect(logger.warn).toHaveBeenCalled();
     expect(logger.error).toHaveBeenCalled();
   });
   it("should test ignore file warning condition using a folder-path.", async () => {
