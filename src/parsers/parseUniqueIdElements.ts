@@ -37,14 +37,16 @@ function findNestedFieldMatch(
 ): string | undefined {
   for (const key in element) {
     const child = element[key];
-    if (typeof child === "object" && child !== null) {
-      const result = parseUniqueIdElement(
-        child as XmlElement,
-        uniqueIdElements,
-      );
-      if (result) return result;
-    }
+
+    if (!isObject(child)) continue;
+
+    const result = parseUniqueIdElement(child as XmlElement, uniqueIdElements);
+    if (result) return result;
   }
+}
+
+function isObject(value: unknown): value is object {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
 function createShortHash(element: XmlElement): string {
