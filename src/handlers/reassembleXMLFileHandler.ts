@@ -9,76 +9,77 @@ import { mergeXmlElements } from "@src/builders/mergeXmlElements";
 import { parseToXmlObject } from "@src/parsers/parseToXmlObject";
 
 export class ReassembleXMLFileHandler {
-  async processFilesInDirectory(dirPath: string): Promise<any[]> {
-    const parsedXmlObjects: any[] = [];
-    const files = await readdir(dirPath);
-
-    files.sort((fileA, fileB) => {
-      const fullNameA = fileA.split(".")[0].toLowerCase();
-      const fullNameB = fileB.split(".")[0].toLowerCase();
-      return fullNameA.localeCompare(fullNameB);
-    });
-
-    for (const file of files) {
-      const filePath = join(dirPath, file);
-      const fileStat = await stat(filePath);
-
-      if (fileStat.isFile()) {
-        if (/\.(xml|json|json5|ya?ml|toml|ini)$/.test(file)) {
-          const parsedObject = await parseToXmlObject(filePath);
-          if (parsedObject === undefined) continue;
-
-          parsedXmlObjects.push(parsedObject);
-        }
-      } else if (fileStat.isDirectory()) {
-        const subParsedObjects = await this.processFilesInDirectory(filePath);
-        parsedXmlObjects.push(...subParsedObjects);
-      }
-    }
-
-    return parsedXmlObjects;
-  }
-
   async reassemble(xmlAttributes: {
     filePath: string;
     fileExtension?: string;
     postPurge?: boolean;
   }): Promise<void> {
     const { filePath, fileExtension, postPurge = false } = xmlAttributes;
-    const fileStat = await stat(filePath);
 
-    if (!fileStat.isDirectory()) {
-      logger.error(
-        `The provided path to reassemble is not a directory: ${filePath}`,
-      );
-      return;
-    }
+    if (!(await this._validateDirectory(filePath))) return;
 
     logger.debug(`Parsing directory to reassemble: ${filePath}`);
     const parsedXmlObjects = await this.processFilesInDirectory(filePath);
 
     if (!parsedXmlObjects.length) {
-      logger.error(
-        `No files under ${filePath} were parsed successfully. A reassembled XML file was not created.`,
-      );
+      this._logEmptyParseError(filePath);
       return;
     }
 
-    const mergedXml = mergeXmlElements(parsedXmlObjects);
-    const xmlContent = buildXMLString(mergedXml!);
-    const finalXml = xmlContent;
-
-    const parentDirectory = dirname(filePath);
-    const subdirectoryBasename = basename(filePath);
-    const fileName = fileExtension
-      ? `${subdirectoryBasename}.${fileExtension}`
-      : `${subdirectoryBasename}.xml`;
-    const outputPath = join(parentDirectory, fileName);
+    const mergedXml = mergeXmlElements(parsedXmlObjects)!;
+    const finalXml = buildXMLString(mergedXml);
+    const outputPath = this._getOutputPath(filePath, fileExtension);
 
     await writeFile(outputPath, finalXml, "utf-8");
+    if (postPurge) await rm(filePath, { recursive: true });
+  }
 
-    if (postPurge) {
-      await rm(filePath, { recursive: true });
+  async processFilesInDirectory(dirPath: string): Promise<any[]> {
+    const parsedXmlObjects: any[] = [];
+    const files = await readdir(dirPath);
+
+    files.sort((a, b) => a.split(".")[0].localeCompare(b.split(".")[0]));
+
+    for (const file of files) {
+      const filePath = join(dirPath, file);
+      const fileStat = await stat(filePath);
+
+      if (
+        fileStat.isFile() &&
+        /\.(xml|json|json5|ya?ml|toml|ini)$/.test(file)
+      ) {
+        const parsed = await parseToXmlObject(filePath);
+        if (parsed) parsedXmlObjects.push(parsed);
+      } else if (fileStat.isDirectory()) {
+        const subParsed = await this.processFilesInDirectory(filePath);
+        parsedXmlObjects.push(...subParsed);
+      }
     }
+
+    return parsedXmlObjects;
+  }
+
+  private async _validateDirectory(path: string): Promise<boolean> {
+    const stats = await stat(path);
+    if (!stats.isDirectory()) {
+      logger.error(
+        `The provided path to reassemble is not a directory: ${path}`,
+      );
+      return false;
+    }
+    return true;
+  }
+
+  private _logEmptyParseError(path: string): void {
+    logger.error(
+      `No files under ${path} were parsed successfully. A reassembled XML file was not created.`,
+    );
+  }
+
+  private _getOutputPath(dirPath: string, extension?: string): string {
+    const parentDir = dirname(dirPath);
+    const baseName = basename(dirPath);
+    const fileName = `${baseName}.${extension ?? "xml"}`;
+    return join(parentDir, fileName);
   }
 }
