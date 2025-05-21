@@ -2,11 +2,15 @@
 
 import { unlink } from "node:fs/promises";
 import { logger } from "@src/index";
-import { XmlElement, XmlElementArrayMap } from "@src/types/types";
-import { parseElement } from "@src/parsers/strategies/grouped-by-tag/parseElement";
+import {
+  XmlElement,
+  XmlElementArrayMap,
+  BuildDisassembledFilesOptions,
+} from "@src/types/types";
 import { buildDisassembledFile } from "@src/builders/buildDisassembledFile";
 import { parseXML } from "@src/parsers/parseXML";
 import { extractRootAttributes } from "@src/builders/extractRootAttributes";
+import { parseElementUnified } from "@src/parsers/parseElement";
 
 function orderXmlElementKeys(
   content: XmlElement,
@@ -21,19 +25,20 @@ function orderXmlElementKeys(
   return ordered;
 }
 
-export async function buildDisassembledFiles(
-  filePath: string,
-  disassembledPath: string,
-  baseName: string,
-  postPurge: boolean,
-  format: string,
-): Promise<void> {
+export async function buildDisassembledFilesUnified({
+  filePath,
+  disassembledPath,
+  baseName,
+  postPurge,
+  format,
+  uniqueIdElements,
+  strategy,
+}: BuildDisassembledFilesOptions): Promise<void> {
   const parsedXml = await parseXML(filePath);
   if (parsedXml === undefined) return;
 
-  // Ensure XML declaration is attached directly to the XmlElement
   const rawDeclaration = parsedXml["?xml"];
-  const xmlDeclaration: Record<string, string> | undefined =
+  const xmlDeclaration =
     typeof rawDeclaration === "object" && rawDeclaration !== null
       ? (rawDeclaration as Record<string, string>)
       : undefined;
@@ -54,37 +59,39 @@ export async function buildDisassembledFiles(
       : [rootElement[key] as XmlElement];
 
     for (const element of elements) {
-      const result = await parseElement({
+      const result = await parseElementUnified({
         element,
         disassembledPath,
+        uniqueIdElements,
         rootElementName,
         rootAttributes,
         key,
         leafContent,
         leafCount,
         hasNestedElements,
-        xmlDeclaration,
         format,
+        xmlDeclaration,
+        strategy,
       });
 
-      if (Object.keys(result.leafContent).length > 0) {
-        const newContent = result.leafContent[key];
+      // Merge leaf content
+      if (result.leafContent[key]) {
+        leafContent[key] = [
+          ...(leafContent[key] ?? []),
+          ...(result.leafContent[key] as XmlElement[]),
+        ];
+      }
 
-        if (newContent !== undefined) {
-          leafContent[key] = [
-            ...(leafContent[key] ?? []),
-            ...(newContent as XmlElement[]),
-          ];
+      // Merge nested groups (only for grouped strategy)
+      if (strategy === "grouped-by-tag" && result.nestedGroups) {
+        for (const tag in result.nestedGroups) {
+          if (!nestedGroups[tag]) nestedGroups[tag] = [];
+          nestedGroups[tag].push(...result.nestedGroups[tag]);
         }
       }
 
       leafCount = result.leafCount;
       hasNestedElements = result.hasNestedElements;
-
-      for (const tag in result.nestedGroups) {
-        if (!nestedGroups[tag]) nestedGroups[tag] = [];
-        nestedGroups[tag].push(...result.nestedGroups[tag]);
-      }
     }
   }
 
@@ -95,22 +102,28 @@ export async function buildDisassembledFiles(
     return;
   }
 
-  for (const tag in nestedGroups) {
-    await buildDisassembledFile({
-      content: nestedGroups[tag],
-      disassembledPath,
-      outputFileName: `${tag}.${format}`,
-      wrapKey: tag,
-      isGroupedArray: true,
-      rootElementName,
-      rootAttributes,
-      xmlDeclaration,
-      format,
-    });
+  if (strategy === "grouped-by-tag") {
+    for (const tag in nestedGroups) {
+      await buildDisassembledFile({
+        content: nestedGroups[tag],
+        disassembledPath,
+        outputFileName: `${tag}.${format}`,
+        wrapKey: tag,
+        isGroupedArray: true,
+        rootElementName,
+        rootAttributes,
+        xmlDeclaration,
+        format,
+      });
+    }
   }
 
   if (leafCount > 0) {
-    const orderedLeafContent = orderXmlElementKeys(leafContent, keyOrder);
+    const orderedLeafContent =
+      strategy === "grouped-by-tag"
+        ? orderXmlElementKeys(leafContent, keyOrder)
+        : leafContent;
+
     await buildDisassembledFile({
       content: orderedLeafContent,
       disassembledPath,
