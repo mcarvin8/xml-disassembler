@@ -4,14 +4,18 @@ import { XmlElement } from "@src/types/types";
 
 /**
  * Extracts XML attributes from a root element and returns them
- * as a new XmlElement suitable for use as part of a grouped element.
+ * as a flat map of string attributes.
  */
-export function extractRootAttributes(rootElement: XmlElement): XmlElement {
-  const attributesOnly: XmlElement = {};
-  for (const [attrKey, attrValue] of Object.entries(rootElement)) {
-    if (attrKey.startsWith("@")) {
-      attributesOnly[attrKey] = attrValue;
+export function extractRootAttributes(
+  element: XmlElement,
+): Record<string, string> {
+  const attributes: Record<string, string> = {};
+
+  for (const [key, value] of Object.entries(element)) {
+    if (key.startsWith("@") && typeof value === "string") {
+      attributes[key] = value;
     }
   }
-  return attributesOnly;
+
+  return attributes;
 }

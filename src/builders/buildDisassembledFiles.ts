@@ -12,6 +12,91 @@ import { parseXML } from "@src/parsers/parseXML";
 import { extractRootAttributes } from "@src/builders/extractRootAttributes";
 import { parseElementUnified } from "@src/parsers/parseElement";
 
+export async function buildDisassembledFilesUnified({
+  filePath,
+  disassembledPath,
+  baseName,
+  postPurge,
+  format,
+  uniqueIdElements,
+  strategy,
+}: BuildDisassembledFilesOptions): Promise<void> {
+  const parsedXml = await parseXML(filePath);
+  if (!parsedXml) return;
+
+  const { rootElementName, rootElement, xmlDeclaration } =
+    getRootInfo(parsedXml);
+  const rootAttributes = extractRootAttributes(rootElement);
+  const keyOrder = Object.keys(rootElement).filter((k) => !k.startsWith("@"));
+
+  const { leafContent, nestedGroups, leafCount, hasNestedElements } =
+    await disassembleElementKeys({
+      rootElement,
+      keyOrder,
+      disassembledPath,
+      rootElementName,
+      rootAttributes,
+      xmlDeclaration,
+      uniqueIdElements,
+      strategy,
+      format,
+    });
+
+  if (!hasNestedElements && leafCount > 0) {
+    logger.error(
+      `The XML file ${filePath} only has leaf elements. This file will not be disassembled.`,
+    );
+    return;
+  }
+
+  await writeNestedGroups(nestedGroups, strategy, {
+    disassembledPath,
+    rootElementName,
+    rootAttributes,
+    xmlDeclaration,
+    format,
+  });
+
+  if (leafCount > 0) {
+    const finalLeafContent =
+      strategy === "grouped-by-tag"
+        ? orderXmlElementKeys(leafContent, keyOrder)
+        : leafContent;
+
+    await buildDisassembledFile({
+      content: finalLeafContent,
+      disassembledPath,
+      outputFileName: `${baseName}.${format}`,
+      rootElementName,
+      rootAttributes,
+      xmlDeclaration,
+      format,
+    });
+  }
+
+  if (postPurge) {
+    await unlink(filePath);
+  }
+}
+
+function getRootInfo(parsedXml: XmlElement) {
+  const rawDeclaration = parsedXml["?xml"];
+  const xmlDeclaration =
+    typeof rawDeclaration === "object" && rawDeclaration !== null
+      ? (rawDeclaration as Record<string, string>)
+      : undefined;
+
+  // Assert the root element key exists and is valid
+  const rootElementName = Object.keys(parsedXml).find(
+    (k) => k !== "?xml",
+  ) as string;
+
+  // Assert the root is a valid XmlElement
+  const rootElement = parsedXml[rootElementName] as XmlElement;
+
+  return { rootElementName, rootElement, xmlDeclaration };
+}
+
 function orderXmlElementKeys(
   content: XmlElement,
   keyOrder: string[],
@@ -25,33 +110,31 @@ function orderXmlElementKeys(
   return ordered;
 }
 
-export async function buildDisassembledFilesUnified({
-  filePath,
+async function disassembleElementKeys({
+  rootElement,
+  keyOrder,
   disassembledPath,
-  baseName,
-  postPurge,
-  format,
+  rootElementName,
+  rootAttributes,
+  xmlDeclaration,
   uniqueIdElements,
   strategy,
-}: BuildDisassembledFilesOptions): Promise<void> {
-  const parsedXml = await parseXML(filePath);
-  if (parsedXml === undefined) return;
-
-  const rawDeclaration = parsedXml["?xml"];
-  const xmlDeclaration =
-    typeof rawDeclaration === "object" && rawDeclaration !== null
-      ? (rawDeclaration as Record<string, string>)
-      : undefined;
-
-  const rootElementName = Object.keys(parsedXml).find((k) => k !== "?xml")!;
-  const rootElement: XmlElement = parsedXml[rootElementName];
-  const rootAttributes = extractRootAttributes(rootElement);
-
+  format,
+}: {
+  rootElement: XmlElement;
+  keyOrder: string[];
+  disassembledPath: string;
+  rootElementName: string;
+  rootAttributes: Record<string, string>;
+  xmlDeclaration?: Record<string, string>;
+  uniqueIdElements?: string;
+  strategy: string;
+  format: string;
+}) {
   let leafContent: XmlElementArrayMap = {};
+  let nestedGroups: XmlElementArrayMap = {};
   let leafCount = 0;
   let hasNestedElements = false;
-  const nestedGroups: XmlElementArrayMap = {};
-  const keyOrder = Object.keys(rootElement).filter((k) => !k.startsWith("@"));
 
   for (const key of keyOrder) {
     const elements = Array.isArray(rootElement[key])
@@ -74,7 +157,6 @@ export async function buildDisassembledFilesUnified({
         strategy,
       });
 
-      // Merge leaf content
       if (result.leafContent[key]) {
         leafContent[key] = [
           ...(leafContent[key] ?? []),
@@ -82,11 +164,12 @@ export async function buildDisassembledFilesUnified({
         ];
       }
 
-      // Merge nested groups (only for grouped strategy)
       if (strategy === "grouped-by-tag" && result.nestedGroups) {
         for (const tag in result.nestedGroups) {
-          if (!nestedGroups[tag]) nestedGroups[tag] = [];
-          nestedGroups[tag].push(...result.nestedGroups[tag]);
+          nestedGroups[tag] = [
+            ...(nestedGroups[tag] ?? []),
+            ...result.nestedGroups[tag],
+          ];
         }
       }
 
@@ -95,47 +178,33 @@ export async function buildDisassembledFilesUnified({
     }
   }
 
-  if (!hasNestedElements && leafCount > 0) {
-    logger.error(
-      `The XML file ${filePath} only has leaf elements. This file will not be disassembled.`,
-    );
-    return;
-  }
+  return { leafContent, nestedGroups, leafCount, hasNestedElements };
+}
 
-  if (strategy === "grouped-by-tag") {
-    for (const tag in nestedGroups) {
-      await buildDisassembledFile({
-        content: nestedGroups[tag],
-        disassembledPath,
-        outputFileName: `${tag}.${format}`,
-        wrapKey: tag,
-        isGroupedArray: true,
-        rootElementName,
-        rootAttributes,
-        xmlDeclaration,
-        format,
-      });
-    }
-  }
+async function writeNestedGroups(
+  nestedGroups: XmlElementArrayMap,
+  strategy: string,
+  options: {
+    disassembledPath: string;
+    rootElementName: string;
+    rootAttributes: Record<string, string>;
+    xmlDeclaration?: Record<string, string>;
+    format: string;
+  },
+) {
+  if (strategy !== "grouped-by-tag") return;
 
-  if (leafCount > 0) {
-    const orderedLeafContent =
-      strategy === "grouped-by-tag"
-        ? orderXmlElementKeys(leafContent, keyOrder)
-        : leafContent;
-
+  for (const tag in nestedGroups) {
     await buildDisassembledFile({
-      content: orderedLeafContent,
-      disassembledPath,
-      outputFileName: `${baseName}.${format}`,
-      rootElementName,
-      rootAttributes,
-      xmlDeclaration,
-      format,
+      content: nestedGroups[tag],
+      disassembledPath: options.disassembledPath,
+      outputFileName: `${tag}.${options.format}`,
+      wrapKey: tag,
+      isGroupedArray: true,
+      rootElementName: options.rootElementName,
+      rootAttributes: options.rootAttributes,
+      xmlDeclaration: options.xmlDeclaration,
+      format: options.format,
     });
-  }
-
-  if (postPurge) {
-    await unlink(filePath);
   }
 }
