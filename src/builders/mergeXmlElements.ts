@@ -8,35 +8,45 @@ export function mergeXmlElements(
     logger.error("No elements to merge.");
     return;
   }
+
   const first = elements[0];
   const rootKey = Object.keys(first).find((k) => k !== "?xml")!;
   const mergedContent: Record<string, any> = {};
 
   for (const element of elements) {
-    const current = element[rootKey] as Record<string, any>;
-
-    for (const [childKey, value] of Object.entries(current)) {
-      if (Array.isArray(value)) {
-        mergedContent[childKey] = [...value];
-      } else if (typeof value === "object") {
-        if (Array.isArray(mergedContent[childKey])) {
-          mergedContent[childKey].push(value);
-        } else if (mergedContent[childKey]) {
-          mergedContent[childKey] = [mergedContent[childKey], value];
-        } else {
-          mergedContent[childKey] = value;
-        }
-      } else {
-        if (!mergedContent.hasOwnProperty(childKey)) {
-          mergedContent[childKey] = value;
-        }
-      }
-    }
+    mergeElementContent(mergedContent, element[rootKey] as Record<string, any>);
   }
 
-  const declaration = first["?xml"];
-  const finalMerged: XmlElement = declaration
-    ? { "?xml": declaration, [rootKey]: mergedContent }
-    : { [rootKey]: mergedContent };
-  return finalMerged;
+  return buildFinalXmlElement(first["?xml"], rootKey, mergedContent);
+}
+
+function mergeElementContent(
+  target: Record<string, any>,
+  source: Record<string, any>,
+) {
+  for (const [key, value] of Object.entries(source)) {
+    if (Array.isArray(value)) {
+      target[key] = [...value];
+    } else if (typeof value === "object") {
+      if (Array.isArray(target[key])) {
+        target[key].push(value);
+      } else if (target[key]) {
+        target[key] = [target[key], value];
+      } else {
+        target[key] = value;
+      }
+    } else if (!target.hasOwnProperty(key)) {
+      target[key] = value;
+    }
+  }
+}
+
+function buildFinalXmlElement(
+  declaration: any,
+  rootKey: string,
+  content: Record<string, any>,
+): XmlElement {
+  return declaration
+    ? { "?xml": declaration, [rootKey]: content }
+    : { [rootKey]: content };
 }
