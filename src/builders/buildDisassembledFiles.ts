@@ -42,12 +42,7 @@ export async function buildDisassembledFilesUnified({
       format,
     });
 
-  if (!hasNestedElements && leafCount > 0) {
-    logger.error(
-      `The XML file ${filePath} only has leaf elements. This file will not be disassembled.`,
-    );
-    return;
-  }
+  if (shouldAbortForLeafOnly(leafCount, hasNestedElements, filePath)) return;
 
   await writeNestedGroups(nestedGroups, strategy, {
     disassembledPath,
@@ -57,26 +52,59 @@ export async function buildDisassembledFilesUnified({
     format,
   });
 
-  if (leafCount > 0) {
-    const finalLeafContent =
-      strategy === "grouped-by-tag"
-        ? orderXmlElementKeys(leafContent, keyOrder)
-        : leafContent;
-
-    await buildDisassembledFile({
-      content: finalLeafContent,
-      disassembledPath,
-      outputFileName: `${baseName}.${format}`,
-      rootElementName,
-      rootAttributes,
-      xmlDeclaration,
-      format,
-    });
-  }
+  await writeLeafContentIfAny(leafCount, leafContent, strategy, keyOrder, {
+    disassembledPath,
+    outputFileName: `${baseName}.${format}`,
+    rootElementName,
+    rootAttributes,
+    xmlDeclaration,
+    format,
+  });
 
   if (postPurge) {
     await unlink(filePath);
   }
+}
+
+function shouldAbortForLeafOnly(
+  leafCount: number,
+  hasNestedElements: boolean,
+  filePath: string,
+): boolean {
+  if (!hasNestedElements && leafCount > 0) {
+    logger.error(
+      `The XML file ${filePath} only has leaf elements. This file will not be disassembled.`,
+    );
+    return true;
+  }
+  return false;
+}
+
+async function writeLeafContentIfAny(
+  leafCount: number,
+  leafContent: XmlElement,
+  strategy: string,
+  keyOrder: string[],
+  options: {
+    disassembledPath: string;
+    outputFileName: string;
+    rootElementName: string;
+    rootAttributes: Record<string, string>;
+    xmlDeclaration?: Record<string, string>;
+    format: string;
+  },
+): Promise<void> {
+  if (leafCount === 0) return;
+
+  const finalLeafContent =
+    strategy === "grouped-by-tag"
+      ? orderXmlElementKeys(leafContent, keyOrder)
+      : leafContent;
+
+  await buildDisassembledFile({
+    content: finalLeafContent,
+    ...options,
+  });
 }
 
 function getRootInfo(parsedXml: XmlElement) {
