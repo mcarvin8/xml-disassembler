@@ -5,6 +5,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.10.12](https://github.com/mcarvin8/xml-disassembler/compare/v1.10.11...v1.10.12) (2025-05-21)
+
+
+### Bug Fixes
+
+* merge build and parse functions ([db7fce3](https://github.com/mcarvin8/xml-disassembler/commit/db7fce3989b7c7d243195663034aef12f5291b79))
+* validate strategy is supported when disassembling ([dc944cc](https://github.com/mcarvin8/xml-disassembler/commit/dc944ccab53acdf4620c787403b4ba0175b21ff0))
+
 ## [1.10.11](https://github.com/mcarvin8/xml-disassembler/compare/v1.10.10...v1.10.11) (2025-05-19)
 
 
