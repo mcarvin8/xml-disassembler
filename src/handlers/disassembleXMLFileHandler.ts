@@ -7,8 +7,7 @@ import { resolve, dirname, join, basename, extname, relative } from "node:path";
 import ignore, { Ignore } from "ignore";
 
 import { logger } from "@src/index";
-import { buildDisassembledFiles as buildDisassembledFilesUID } from "@src/builders/strategies/uid/buildDisassembledFiles";
-import { buildDisassembledFiles as buildDissassembledFilesTag } from "@src/builders/strategies/grouped-by-tag/buildDisassembledFiles";
+import { buildDisassembledFilesUnified } from "@src/builders/buildDisassembledFiles";
 
 export class DisassembleXMLFileHandler {
   private readonly ign: Ignore = ignore();
@@ -118,24 +117,15 @@ export class DisassembleXMLFileHandler {
     if (prePurge && existsSync(outputPath))
       await rm(outputPath, { recursive: true });
 
-    if (strategy === "grouped-by-tag") {
-      await buildDissassembledFilesTag(
-        filePath,
-        outputPath,
-        fullName,
-        postPurge,
-        format,
-      );
-    } else {
-      await buildDisassembledFilesUID(
-        filePath,
-        outputPath,
-        uniqueIdElements,
-        fullName,
-        postPurge,
-        format,
-      );
-    }
+    await buildDisassembledFilesUnified({
+      filePath,
+      disassembledPath: outputPath,
+      uniqueIdElements,
+      baseName: fullName,
+      postPurge,
+      format,
+      strategy,
+    });
   }
 
   private posixPath(path: string): string {

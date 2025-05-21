@@ -32,5 +32,22 @@ export type BuildDisassembledFileOptions = {
   uniqueIdElements?: string;
 };
 
+export type UnifiedParseResult = {
+  leafContent: XmlElement;
+  leafCount: number;
+  hasNestedElements: boolean;
+  nestedGroups?: XmlElementArrayMap;
+};
+
+export type BuildDisassembledFilesOptions = {
+  filePath: string;
+  disassembledPath: string;
+  baseName: string;
+  postPurge: boolean;
+  format: string;
+  uniqueIdElements?: string;
+  strategy: string;
+};
+
 export type XmlElementArrayMap = Record<string, XmlElement[]>;
 export type XmlElementMap = Record<string, XmlElement>;

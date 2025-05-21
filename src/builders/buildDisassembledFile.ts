@@ -7,7 +7,7 @@ import { logger } from "@src/index";
 import { XmlElement, BuildDisassembledFileOptions } from "@src/types/types";
 import { buildXMLString } from "@src/builders/buildXMLString";
 import { getTransformer } from "@src/transformers/getTransformer";
-import { parseUniqueIdElement } from "@src/parsers/strategies/uid/parseUniqueIdElements";
+import { parseUniqueIdElement } from "@src/parsers/parseUniqueIdElements";
 
 export async function buildDisassembledFile({
   content,
