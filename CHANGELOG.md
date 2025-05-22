@@ -5,6 +5,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.10.13](https://github.com/mcarvin8/xml-disassembler/compare/v1.10.12...v1.10.13) (2025-05-22)
+
+
+### Bug Fixes
+
+* add type to write leaf file ([d436497](https://github.com/mcarvin8/xml-disassembler/commit/d43649779f59a53e86a77d4bdd51af5884a0ea1b))
+* reduce complexity in reassemble handler ([94e2886](https://github.com/mcarvin8/xml-disassembler/commit/94e28861b1a6ce0f19f19ec49b6772cf195a749b))
+
 ## [1.10.12](https://github.com/mcarvin8/xml-disassembler/compare/v1.10.11...v1.10.12) (2025-05-21)
 
 
