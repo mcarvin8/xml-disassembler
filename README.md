@@ -1,6 +1,6 @@
 # `xml-disassembler`
 
-[![NPM](https://img.shields.io/npm/v/xml-disassembler.svg?label=xml-disassembler)](https://www.npmjs.com/package/xml-disassembler) [![Downloads/week](https://img.shields.io/npm/dw/xml-disassembler.svg)](https://npmjs.org/package/xml-disassembler) [![Maintainability](https://api.codeclimate.com/v1/badges/0f917902acd05aa037b1/maintainability)](https://codeclimate.com/github/mcarvin8/xml-disassembler/maintainability)
+[![NPM](https://img.shields.io/npm/v/xml-disassembler.svg?label=xml-disassembler)](https://www.npmjs.com/package/xml-disassembler) [![Downloads/week](https://img.shields.io/npm/dw/xml-disassembler.svg)](https://npmjs.org/package/xml-disassembler) [![Maintainability](https://api.codeclimate.com/v1/badges/0f917902acd05aa037b1/maintainability)](https://codeclimate.com/github/mcarvin8/xml-disassembler/maintainability) [![codecov](https://codecov.io/gh/mcarvin8/xml-disassembler/graph/badge.svg?token=WSJJ6YF37O)](https://codecov.io/gh/mcarvin8/xml-disassembler)
 
 Disassemble large XML files into smaller, modular files in formats like XML, INI, JSON, JSON5, TOML, or YAML—then reassemble them as needed.
 
