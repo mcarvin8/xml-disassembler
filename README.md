@@ -1,6 +1,8 @@
 # `xml-disassembler`
 
-[![NPM](https://img.shields.io/npm/v/xml-disassembler.svg?label=xml-disassembler)](https://www.npmjs.com/package/xml-disassembler) [![Downloads/week](https://img.shields.io/npm/dw/xml-disassembler.svg)](https://npmjs.org/package/xml-disassembler) [![Maintainability](https://qlty.sh/badges/e226ad95-4b8d-484a-9484-25862941262d/maintainability.svg)](https://qlty.sh/gh/mcarvin8/projects/xml-disassembler) [![Code Coverage](https://qlty.sh/badges/e226ad95-4b8d-484a-9484-25862941262d/test_coverage.svg)](https://qlty.sh/gh/mcarvin8/projects/xml-disassembler)
+[![NPM](https://img.shields.io/npm/v/xml-disassembler.svg?label=xml-disassembler)](https://www.npmjs.com/package/xml-disassembler) 
+[![Downloads/week](https://img.shields.io/npm/dw/xml-disassembler.svg)](https://npmjs.org/package/xml-disassembler)
+[![Maintainability](https://qlty.sh/badges/e226ad95-4b8d-484a-9484-25862941262d/maintainability.svg)](https://qlty.sh/gh/mcarvin8/projects/xml-disassembler) [![Code Coverage](https://qlty.sh/badges/e226ad95-4b8d-484a-9484-25862941262d/test_coverage.svg)](https://qlty.sh/gh/mcarvin8/projects/xml-disassembler)
 
 Disassemble large XML files into smaller, modular files in formats like XML, INI, JSON, JSON5, TOML, or YAML—then reassemble them as needed.
 
