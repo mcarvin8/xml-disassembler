@@ -37,17 +37,13 @@ export class ReassembleXMLFileHandler {
   async processFilesInDirectory(dirPath: string): Promise<any[]> {
     const parsedXmlObjects: any[] = [];
     const files = await readdir(dirPath);
+    const sortedFiles = this._sortFilesByBaseName(files);
 
-    files.sort((a, b) => a.split(".")[0].localeCompare(b.split(".")[0]));
-
-    for (const file of files) {
+    for (const file of sortedFiles) {
       const filePath = join(dirPath, file);
       const fileStat = await stat(filePath);
 
-      if (
-        fileStat.isFile() &&
-        /\.(xml|json|json5|ya?ml|toml|ini)$/.test(file)
-      ) {
+      if (fileStat.isFile() && this._isParsableFile(file)) {
         const parsed = await parseToXmlObject(filePath);
         if (parsed) parsedXmlObjects.push(parsed);
       } else if (fileStat.isDirectory()) {
@@ -57,6 +53,14 @@ export class ReassembleXMLFileHandler {
     }
 
     return parsedXmlObjects;
+  }
+
+  private _sortFilesByBaseName(files: string[]): string[] {
+    return files.sort((a, b) => a.split(".")[0].localeCompare(b.split(".")[0]));
+  }
+
+  private _isParsableFile(fileName: string): boolean {
+    return /\.(xml|json|json5|ya?ml|toml|ini)$/i.test(fileName);
   }
 
   private async _validateDirectory(path: string): Promise<boolean> {
