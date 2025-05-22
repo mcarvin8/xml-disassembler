@@ -49,5 +49,20 @@ export type BuildDisassembledFilesOptions = {
   strategy: string;
 };
 
+export type LeafWriteParams = {
+  leafCount: number;
+  leafContent: XmlElement;
+  strategy: string;
+  keyOrder: string[];
+  options: {
+    disassembledPath: string;
+    outputFileName: string;
+    rootElementName: string;
+    rootAttributes: Record<string, string>;
+    xmlDeclaration?: Record<string, string>;
+    format: string;
+  };
+};
+
 export type XmlElementArrayMap = Record<string, XmlElement[]>;
 export type XmlElementMap = Record<string, XmlElement>;

@@ -6,6 +6,7 @@ import {
   XmlElement,
   XmlElementArrayMap,
   BuildDisassembledFilesOptions,
+  LeafWriteParams,
 } from "@src/types/types";
 import { buildDisassembledFile } from "@src/builders/buildDisassembledFile";
 import { parseXML } from "@src/parsers/parseXML";
@@ -52,13 +53,19 @@ export async function buildDisassembledFilesUnified({
     format,
   });
 
-  await writeLeafContentIfAny(leafCount, leafContent, strategy, keyOrder, {
-    disassembledPath,
-    outputFileName: `${baseName}.${format}`,
-    rootElementName,
-    rootAttributes,
-    xmlDeclaration,
-    format,
+  await writeLeafContentIfAny({
+    leafCount,
+    leafContent,
+    strategy,
+    keyOrder,
+    options: {
+      disassembledPath,
+      outputFileName: `${baseName}.${format}`,
+      rootElementName,
+      rootAttributes,
+      xmlDeclaration,
+      format,
+    },
   });
 
   if (postPurge) {
@@ -80,20 +87,13 @@ function shouldAbortForLeafOnly(
   return false;
 }
 
-async function writeLeafContentIfAny(
-  leafCount: number,
-  leafContent: XmlElement,
-  strategy: string,
-  keyOrder: string[],
-  options: {
-    disassembledPath: string;
-    outputFileName: string;
-    rootElementName: string;
-    rootAttributes: Record<string, string>;
-    xmlDeclaration?: Record<string, string>;
-    format: string;
-  },
-): Promise<void> {
+async function writeLeafContentIfAny({
+  leafCount,
+  leafContent,
+  strategy,
+  keyOrder,
+  options,
+}: LeafWriteParams): Promise<void> {
   if (leafCount === 0) return;
 
   const finalLeafContent =
