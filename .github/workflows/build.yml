@@ -3,6 +3,7 @@ on:
   push:
     branches-ignore:
       - main
+  workflow_call:
 
 jobs:
   build:
@@ -34,3 +35,9 @@ jobs:
 
       - name: Test
         run: pnpm test
+
+      - name: Upload coverage
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+        continue-on-error: true
