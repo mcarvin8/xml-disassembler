@@ -26,19 +26,49 @@ function mergeElementContent(
 ) {
   for (const [key, value] of Object.entries(source)) {
     if (Array.isArray(value)) {
-      target[key] = [...value];
-    } else if (typeof value === "object") {
-      if (Array.isArray(target[key])) {
-        target[key].push(value);
-      } else if (target[key]) {
-        target[key] = [target[key], value];
-      } else {
-        target[key] = value;
-      }
-    } else if (!target.hasOwnProperty(key)) {
-      target[key] = value;
+      mergeArrayValue(target, key, value);
+    } else if (isMergeableObject(value)) {
+      mergeObjectValue(target, key, value);
+    } else {
+      mergePrimitiveValue(target, key, value);
     }
   }
+}
+
+function mergeArrayValue(
+  target: Record<string, any>,
+  key: string,
+  value: any[],
+) {
+  target[key] = [...value];
+}
+
+function mergeObjectValue(
+  target: Record<string, any>,
+  key: string,
+  value: Record<string, any>,
+) {
+  if (Array.isArray(target[key])) {
+    target[key].push(value);
+  } else if (target[key]) {
+    target[key] = [target[key], value];
+  } else {
+    target[key] = value;
+  }
+}
+
+function mergePrimitiveValue(
+  target: Record<string, any>,
+  key: string,
+  value: any,
+) {
+  if (!Object.prototype.hasOwnProperty.call(target, key)) {
+    target[key] = value;
+  }
+}
+
+function isMergeableObject(value: any): value is Record<string, any> {
+  return typeof value === "object" && value !== null;
 }
 
 function buildFinalXmlElement(
