@@ -196,6 +196,6 @@ Contributions are welcome! See [Contributing](https://github.com/mcarvin8/xml-di
 
 ## Template & License
 
-This project was created from a template by [Allan Oricil](https://github.com/AllanOricil) and licensed under ISC. The original [ISC license](https://github.com/AllanOricil/js-template/blob/main/LICENSE) remains in this project.
+This project is based on a template by [Allan Oricil](https://github.com/AllanOricil) and licensed under the ISC license. The original code remains under the [ISC license](https://github.com/mcarvin8/xml-disassembler/blob/main/LICENSE.isc).
 
-This specific project is licensed under the [MIT license](https://github.com/mcarvin8/xml-disassembler/blob/main/LICENSE.md).
+All contributions specific to the `xml-disassembler` is licensed under the [MIT license](https://github.com/mcarvin8/xml-disassembler/blob/main/LICENSE.md).
