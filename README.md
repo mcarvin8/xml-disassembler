@@ -38,7 +38,7 @@ Designed for improved version control, cleaner diffs, and easier team collaborat
 - [XML Parser](#xml-parser)
 - [Logging](#logging)
 - [Contributing](#contributing)
-- [Template & License](#template-license)
+- [Template & License](#template-&-license)
 </details>
 
 ---
