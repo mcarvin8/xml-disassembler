@@ -38,7 +38,7 @@ Designed for improved version control, cleaner diffs, and easier team collaborat
 - [XML Parser](#xml-parser)
 - [Logging](#logging)
 - [Contributing](#contributing)
-- [Template](#template)
+- [Template & License](#template-license)
 </details>
 
 ---
@@ -194,8 +194,8 @@ Contributions are welcome! See [Contributing](https://github.com/mcarvin8/xml-di
 
 ---
 
-## Template
+## Template & License
 
-This project was created from a template by [Allan Oricil](https://github.com/AllanOricil).
+This project was created from a template by [Allan Oricil](https://github.com/AllanOricil) and licensed under ISC. The original [ISC license](https://github.com/AllanOricil/js-template/blob/main/LICENSE) remains in this project.
 
-His original [license](https://github.com/AllanOricil/js-template/blob/main/LICENSE) remains in this project.
+This specific project is licensed under the [MIT license](https://github.com/mcarvin8/xml-disassembler/blob/main/LICENSE.md).
