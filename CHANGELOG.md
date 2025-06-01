@@ -5,6 +5,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.10.15](https://github.com/mcarvin8/xml-disassembler/compare/v1.10.14...v1.10.15) (2025-06-01)
+
+
+### Bug Fixes
+
+* upgrade pnpm version ([#128](https://github.com/mcarvin8/xml-disassembler/issues/128)) ([34da28b](https://github.com/mcarvin8/xml-disassembler/commit/34da28b450633f36ac5e3a2bfd08d35304dc222e))
+
 ## [1.10.14](https://github.com/mcarvin8/xml-disassembler/compare/v1.10.13...v1.10.14) (2025-06-01)
 
 
