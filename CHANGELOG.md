@@ -5,6 +5,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.10.14](https://github.com/mcarvin8/xml-disassembler/compare/v1.10.13...v1.10.14) (2025-06-01)
+
+
+### Bug Fixes
+
+* **deps:** bump yaml from 2.7.1 to 2.8.0 ([#123](https://github.com/mcarvin8/xml-disassembler/issues/123)) ([87c0c33](https://github.com/mcarvin8/xml-disassembler/commit/87c0c3306cb4218871fad488b2e7338c3ee18ac3))
+
 ## [1.10.13](https://github.com/mcarvin8/xml-disassembler/compare/v1.10.12...v1.10.13) (2025-05-22)
 
 
