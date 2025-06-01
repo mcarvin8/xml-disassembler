@@ -10,7 +10,7 @@
   "types": "dist/typings/index.d.ts",
   "engines": {
     "node": ">=18",
-    "pnpm": ">=8"
+    "pnpm": ">=9"
   },
   "publishConfig": {
     "access": "public"
