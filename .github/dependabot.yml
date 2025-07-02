@@ -1,15 +1,15 @@
 version: 2
 updates:
-  - package-ecosystem: 'npm'
-    directory: '/'
+  - package-ecosystem: "npm"
+    directory: "/"
     schedule:
-      interval: 'monthly'
-    versioning-strategy: 'increase'
+      interval: "monthly"
+    versioning-strategy: "increase"
     labels:
-      - 'dependencies'
+      - "dependencies"
     open-pull-requests-limit: 5
     pull-request-branch-name:
-      separator: '-'
+      separator: "-"
     commit-message:
       # cause a release for non-dev-deps
       prefix: fix(deps)
