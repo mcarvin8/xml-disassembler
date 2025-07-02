@@ -7,21 +7,19 @@ import {
 } from "@src/transformers/transformers";
 import { XmlElement } from "@src/types/types";
 
+const transformers: Record<
+  string,
+  (xmlContent: XmlElement) => Promise<string>
+> = {
+  yaml: transformToYaml,
+  json5: transformToJson5,
+  json: transformToJson,
+  toml: transformToToml,
+  ini: transformToIni,
+};
+
 export function getTransformer(
   format: string,
 ): ((xmlContent: XmlElement) => Promise<string>) | undefined {
-  switch (format) {
-    case "yaml":
-      return transformToYaml;
-    case "json5":
-      return transformToJson5;
-    case "json":
-      return transformToJson;
-    case "toml":
-      return transformToToml;
-    case "ini":
-      return transformToIni;
-    default:
-      return undefined;
-  }
+  return transformers[format];
 }
