@@ -5,6 +5,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.10.17](https://github.com/mcarvin8/xml-disassembler/compare/v1.10.16...v1.10.17) (2025-07-02)
+
+
+### Bug Fixes
+
+* reduce returns on getTransformer ([1339252](https://github.com/mcarvin8/xml-disassembler/commit/13392526a6b0b54f3cda38d40ee41f65677586dc))
+* revert jest dependencies to restore coverage ([d56c257](https://github.com/mcarvin8/xml-disassembler/commit/d56c257867ddf390d4e0c12992221825233602dd))
+
 ## [1.10.16](https://github.com/mcarvin8/xml-disassembler/compare/v1.10.15...v1.10.16) (2025-07-01)
 
 
