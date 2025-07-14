@@ -5,7 +5,7 @@ Contributions are welcome! If you would like to contribute, please fork the repo
 ## Requirements
 
 - `pnpm >= 9`
-- `node >= 18`
+- `node >= 20`
 
 ## Installation
 
