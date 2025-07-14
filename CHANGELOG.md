@@ -5,6 +5,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.10.18](https://github.com/mcarvin8/xml-disassembler/compare/v1.10.17...v1.10.18) (2025-07-14)
+
+
+### Bug Fixes
+
+* upgrade node requirement to 20 ([458da3f](https://github.com/mcarvin8/xml-disassembler/commit/458da3fa461729014d770f2f1a9f74241e983fdc))
+
 ## [1.10.17](https://github.com/mcarvin8/xml-disassembler/compare/v1.10.16...v1.10.17) (2025-07-02)
 
 
