@@ -3,6 +3,9 @@
 import { createHash } from "node:crypto";
 import { XmlElement } from "@src/types/types";
 
+// Cache for stringified elements to avoid redundant JSON.stringify
+const stringifyCache = new WeakMap<object, string>();
+
 export function parseUniqueIdElement(
   element: XmlElement,
   uniqueIdElements?: string,
@@ -50,8 +53,14 @@ function isObject(value: unknown): value is object {
 }
 
 function createShortHash(element: XmlElement): string {
-  const hash = createHash("sha256")
-    .update(JSON.stringify(element))
-    .digest("hex");
+  // Keep SHA-256 for backward compatibility with existing file structures
+  // Cache stringified elements to avoid redundant JSON.stringify calls
+  let stringified = stringifyCache.get(element);
+  if (!stringified) {
+    stringified = JSON.stringify(element);
+    stringifyCache.set(element, stringified);
+  }
+
+  const hash = createHash("sha256").update(stringified).digest("hex");
   return hash.slice(0, 8);
 }

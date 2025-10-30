@@ -164,45 +164,60 @@ async function disassembleElementKeys({
   let leafCount = 0;
   let hasNestedElements = false;
 
+  // Process elements in parallel batches while maintaining order
+  const BATCH_SIZE = 20;
+
   for (const key of keyOrder) {
     const elements = Array.isArray(rootElement[key])
       ? (rootElement[key] as XmlElement[])
       : [rootElement[key] as XmlElement];
 
-    for (const element of elements) {
-      const result = await parseElementUnified({
-        element,
-        disassembledPath,
-        uniqueIdElements,
-        rootElementName,
-        rootAttributes,
-        key,
-        leafContent,
-        leafCount,
-        hasNestedElements,
-        format,
-        xmlDeclaration,
-        strategy,
-      });
+    // Process elements in batches while preserving order
+    for (let i = 0; i < elements.length; i += BATCH_SIZE) {
+      const batch = elements.slice(i, i + BATCH_SIZE);
+      // Use Promise.all to process in parallel but map maintains order
+      const batchResults = await Promise.all(
+        batch.map((element, index) =>
+          parseElementUnified({
+            element,
+            disassembledPath,
+            uniqueIdElements,
+            rootElementName,
+            rootAttributes,
+            key,
+            leafContent,
+            leafCount,
+            hasNestedElements,
+            format,
+            xmlDeclaration,
+            strategy,
+          }),
+        ),
+      );
 
-      if (result.leafContent[key]) {
-        leafContent[key] = [
-          ...(leafContent[key] ?? []),
-          ...(result.leafContent[key] as XmlElement[]),
-        ];
-      }
+      // Aggregate results from batch in the correct order
+      for (let j = 0; j < batchResults.length; j++) {
+        const result = batchResults[j];
 
-      if (strategy === "grouped-by-tag" && result.nestedGroups) {
-        for (const tag in result.nestedGroups) {
-          nestedGroups[tag] = [
-            ...(nestedGroups[tag] ?? []),
-            ...result.nestedGroups[tag],
+        if (result.leafContent[key]) {
+          leafContent[key] = [
+            ...(leafContent[key] ?? []),
+            ...(result.leafContent[key] as XmlElement[]),
           ];
         }
-      }
 
-      leafCount = result.leafCount;
-      hasNestedElements = result.hasNestedElements;
+        if (strategy === "grouped-by-tag" && result.nestedGroups) {
+          for (const tag in result.nestedGroups) {
+            nestedGroups[tag] = [
+              ...(nestedGroups[tag] ?? []),
+              ...result.nestedGroups[tag],
+            ];
+          }
+        }
+
+        leafCount = result.leafCount;
+        hasNestedElements = result.hasNestedElements;
+      }
     }
   }
 
