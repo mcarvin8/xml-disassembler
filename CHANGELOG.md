@@ -5,6 +5,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.11.0](https://github.com/mcarvin8/xml-disassembler/compare/v1.10.18...v1.11.0) (2025-10-30)
+
+
+### Features
+
+* add parallel processing and performance optimizations for XML files ([#161](https://github.com/mcarvin8/xml-disassembler/issues/161)) ([2d1c5b2](https://github.com/mcarvin8/xml-disassembler/commit/2d1c5b2395052190a2826d45da810f61e52ec921))
+
 ## [1.10.18](https://github.com/mcarvin8/xml-disassembler/compare/v1.10.17...v1.10.18) (2025-07-14)
 
 
