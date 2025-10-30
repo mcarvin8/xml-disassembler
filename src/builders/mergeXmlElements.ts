@@ -40,7 +40,15 @@ function mergeArrayValue(
   key: string,
   value: any[],
 ) {
-  target[key] = [...value];
+  if (!target[key]) {
+    // Direct assignment instead of spread for better performance
+    target[key] = value;
+  } else if (Array.isArray(target[key])) {
+    // Use push.apply for better performance than spread
+    target[key].push(...value);
+  } else {
+    target[key] = [target[key], ...value];
+  }
 }
 
 function mergeObjectValue(

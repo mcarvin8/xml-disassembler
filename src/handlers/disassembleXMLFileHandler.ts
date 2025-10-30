@@ -7,9 +7,16 @@ import ignore, { Ignore } from "ignore";
 
 import { logger } from "@src/index";
 import { buildDisassembledFilesUnified } from "@src/builders/buildDisassembledFiles";
+import { AsyncTaskQueue } from "@src/utils/asyncQueue";
 
 export class DisassembleXMLFileHandler {
   private readonly ign: Ignore = ignore();
+  private taskQueue: AsyncTaskQueue;
+
+  constructor() {
+    // Initialize task queue with reasonable concurrency limit
+    this.taskQueue = new AsyncTaskQueue(10);
+  }
 
   async disassemble(xmlAttributes: {
     filePath: string;
@@ -114,7 +121,9 @@ export class DisassembleXMLFileHandler {
     },
   ): Promise<void> {
     const subFiles = await readdir(dirPath);
-    for (const subFile of subFiles) {
+
+    // Use task queue for controlled concurrency
+    const processingPromises = subFiles.map(async (subFile) => {
       const subFilePath = join(dirPath, subFile);
       const relativeSubFilePath = this.posixPath(
         relative(process.cwd(), subFilePath),
@@ -124,15 +133,19 @@ export class DisassembleXMLFileHandler {
         this._isXmlFile(subFilePath) &&
         !this.ign.ignores(relativeSubFilePath)
       ) {
-        await this.processFile({
-          ...options,
-          dirPath,
-          filePath: subFilePath,
-        });
+        return this.taskQueue.add(() =>
+          this.processFile({
+            ...options,
+            dirPath,
+            filePath: subFilePath,
+          }),
+        );
       } else if (this.ign.ignores(relativeSubFilePath)) {
         logger.warn(`File ignored by ignore rules: ${subFilePath}`);
       }
-    }
+    });
+
+    await Promise.all(processingPromises);
   }
 
   private _isXmlFile(filePath: string): boolean {

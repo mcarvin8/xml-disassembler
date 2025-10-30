@@ -8,6 +8,16 @@ import { XML_PARSER_OPTION } from "../constants/constants";
 import { XmlElementMap } from "../types/types";
 import { stripWhitespaceTextNodes } from "./stripWhitespace";
 
+// Cache the parser instance to avoid recreation overhead
+let cachedParser: XMLParser | null = null;
+
+function getParser(): XMLParser {
+  if (!cachedParser) {
+    cachedParser = new XMLParser(XML_PARSER_OPTION);
+  }
+  return cachedParser;
+}
+
 /**
  * Parses an XML file from a path.
  *
@@ -16,7 +26,7 @@ import { stripWhitespaceTextNodes } from "./stripWhitespace";
 export async function parseXML(
   filePath: string,
 ): Promise<XmlElementMap | undefined> {
-  const xmlParser = new XMLParser(XML_PARSER_OPTION);
+  const xmlParser = getParser();
   let xmlParsed: XmlElementMap;
   try {
     const xmlContent = await readFile(filePath, "utf-8");

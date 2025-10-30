@@ -39,14 +39,20 @@ export class ReassembleXMLFileHandler {
     const files = await readdir(dirPath);
     const sortedFiles = this._sortFilesByBaseName(files);
 
-    for (const file of sortedFiles) {
-      const filePath = join(dirPath, file);
-      const fileStat = await stat(filePath);
+    // Batch stat operations for better performance
+    const statPromises = sortedFiles.map((file) =>
+      stat(join(dirPath, file)).then((stats) => ({ file, stats })),
+    );
+    const fileStats = await Promise.all(statPromises);
 
-      if (fileStat.isFile() && this._isParsableFile(file)) {
+    // Process files sequentially to maintain order, but batch the I/O
+    for (const { file, stats } of fileStats) {
+      const filePath = join(dirPath, file);
+
+      if (stats.isFile() && this._isParsableFile(file)) {
         const parsed = await parseToXmlObject(filePath);
         if (parsed) parsedXmlObjects.push(parsed);
-      } else if (fileStat.isDirectory()) {
+      } else if (stats.isDirectory()) {
         const subParsed = await this.processFilesInDirectory(filePath);
         parsedXmlObjects.push(...subParsed);
       }
