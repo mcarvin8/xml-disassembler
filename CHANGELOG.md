@@ -5,6 +5,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.11.1](https://github.com/mcarvin8/xml-disassembler/compare/v1.11.0...v1.11.1) (2025-11-02)
+
+
+### Bug Fixes
+
+* **deps:** bump fast-xml-parser from 5.2.5 to 5.3.0 ([#164](https://github.com/mcarvin8/xml-disassembler/issues/164)) ([3c5407f](https://github.com/mcarvin8/xml-disassembler/commit/3c5407fb15b9f74b2a01ea62dd60fb2dc91ffc09))
+* **deps:** bump smol-toml from 1.4.1 to 1.4.2 ([#165](https://github.com/mcarvin8/xml-disassembler/issues/165)) ([b7ba599](https://github.com/mcarvin8/xml-disassembler/commit/b7ba5991fe2719fa147047271cce52f2bd0b195d))
+
 ## [1.11.0](https://github.com/mcarvin8/xml-disassembler/compare/v1.10.18...v1.11.0) (2025-10-30)
 
 
