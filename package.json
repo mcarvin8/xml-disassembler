@@ -45,7 +45,7 @@
     "typescript": "^5.9.3"
   },
   "dependencies": {
-    "fast-xml-parser": "^5.3.0",
+    "fast-xml-parser": "^5.3.1",
     "ignore": "^7.0.4",
     "ini": "^5.0.0",
     "json5": "^2.2.3",
