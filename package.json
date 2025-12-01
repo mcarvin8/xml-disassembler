@@ -41,7 +41,7 @@
     "lint-staged": "^16.1.2",
     "prettier": "3.6.2",
     "rollup": "^4.44.1",
-    "ts-jest": "^29.4.5",
+    "ts-jest": "^29.4.6",
     "typescript": "^5.9.3"
   },
   "dependencies": {
