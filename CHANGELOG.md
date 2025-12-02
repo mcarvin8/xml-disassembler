@@ -5,6 +5,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.11.3](https://github.com/mcarvin8/xml-disassembler/compare/v1.11.2...v1.11.3) (2025-12-02)
+
+
+### Bug Fixes
+
+* rebuild pnpm lock file ([986ea7a](https://github.com/mcarvin8/xml-disassembler/commit/986ea7a39abfbad7e8bdeaa82b3c6051c00f63cd))
+
 ## [1.11.2](https://github.com/mcarvin8/xml-disassembler/compare/v1.11.1...v1.11.2) (2025-12-01)
 
 
