@@ -13,7 +13,7 @@ import {
 } from "../src/index";
 
 setLogLevel("debug");
-const testFile: string = "test/Just_Shop.loyaltyProgramSetup-meta.xml";
+const testFile: string = "test/fixtures/Just_Shop.loyaltyProgramSetup-meta.xml";
 let baselineContent: string;
 let disassembleHandler: DisassembleXMLFileHandler;
 let reassembleHandler: ReassembleXMLFileHandler;
@@ -40,7 +40,7 @@ describe("multi-level disassembly test suite", () => {
       filePath: testFile,
       uniqueIdElements: "fullName,name,processName",
     });
-    const filePath = "test/Just_Shop";
+    const filePath = "test/fixtures/Just_Shop";
     const disassembledDir = filePath.replace(/\.xml$/, "");
 
     const recursivelyDisassembleLoyaltyProgramSetup = async (
@@ -68,7 +68,10 @@ describe("multi-level disassembly test suite", () => {
     expect(logger.error).not.toHaveBeenCalled();
   });
   it("should reassemble the XML file over multiple levels.", async () => {
-    await reassembleLoyaltyProgramSetup("test/Just_Shop", reassembleHandler);
+    await reassembleLoyaltyProgramSetup(
+      "test/fixtures/Just_Shop",
+      reassembleHandler,
+    );
     expect(logger.error).not.toHaveBeenCalled();
   });
   it("confirm the XML is the same as the baseline.", async () => {

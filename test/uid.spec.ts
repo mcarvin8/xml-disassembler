@@ -8,7 +8,7 @@ import {
   setLogLevel,
   logger,
 } from "../src/index";
-import { compareDirectories } from "./compare";
+import { compareDirectories } from "./helpers/compare";
 
 setLogLevel("debug");
 const sampleDir: string = "fixtures";

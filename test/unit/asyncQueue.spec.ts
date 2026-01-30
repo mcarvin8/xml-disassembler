@@ -1,4 +1,4 @@
-import { AsyncTaskQueue, processBatch } from "../src/utils/asyncQueue";
+import { AsyncTaskQueue, processBatch } from "../../src/utils/asyncQueue";
 
 describe("AsyncTaskQueue", () => {
   it("should use default concurrency when not specified", async () => {

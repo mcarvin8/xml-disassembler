@@ -14,7 +14,7 @@ import {
   transformToJson5,
   transformToToml,
 } from "../src/index";
-import { compareFiles } from "./compare";
+import { compareFiles } from "./helpers/compare";
 
 setLogLevel("debug");
 const sampleDir: string = "fixtures";

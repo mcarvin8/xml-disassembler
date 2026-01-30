@@ -1,4 +1,4 @@
-import { ObjectPool, resultObjectPool } from "../src/utils/objectPool";
+import { ObjectPool, resultObjectPool } from "../../src/utils/objectPool";
 
 describe("ObjectPool", () => {
   it("should use default maxSize when not specified", () => {

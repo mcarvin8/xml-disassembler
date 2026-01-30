@@ -1,5 +1,5 @@
-import { mergeXmlElements } from "../src/builders/mergeXmlElements";
-import { XmlElement } from "../src/types/types";
+import { mergeXmlElements } from "../../src/builders/mergeXmlElements";
+import { XmlElement } from "../../src/types/types";
 
 describe("mergeXmlElements", () => {
   it("should merge simple XML elements", () => {
