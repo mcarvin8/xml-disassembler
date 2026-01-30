@@ -10,7 +10,7 @@ import {
 import { compareDirectories } from "./compare";
 
 setLogLevel("debug");
-const sampleDir: string = "samples";
+const sampleDir: string = "fixtures";
 const mockDir: string = "mock-tag";
 let disassembleHandler: DisassembleXMLFileHandler;
 let reassembleHandler: ReassembleXMLFileHandler;
@@ -127,7 +127,7 @@ describe("grouped by tag strategy test suite", () => {
   });
   it("should disassemble a XML file with an array of leaf elements and no defined unique ID element.", async () => {
     await disassembleHandler.disassemble({
-      filePath: "mock-tag/array-of-leafs",
+      filePath: "mock-tag/array-of-leaves",
       strategy: "grouped-by-tag",
       postPurge: true,
     });
@@ -136,7 +136,7 @@ describe("grouped by tag strategy test suite", () => {
   });
   it("should reassemble a XML file with an array of leaf elements and no defined unique ID element.", async () => {
     await reassembleHandler.reassemble({
-      filePath: "mock-tag/array-of-leafs/Dreamhouse",
+      filePath: "mock-tag/array-of-leaves/Dreamhouse",
       fileExtension: "app-meta.xml",
     });
 
@@ -144,7 +144,7 @@ describe("grouped by tag strategy test suite", () => {
   });
   it("should purge the existing disassembled directory before disassembling the file.", async () => {
     await disassembleHandler.disassemble({
-      filePath: "mock-tag/array-of-leafs",
+      filePath: "mock-tag/array-of-leaves",
       strategy: "grouped-by-tag",
       prePurge: true,
       postPurge: true,
@@ -154,7 +154,7 @@ describe("grouped by tag strategy test suite", () => {
   });
   it("should reassemble the files from the previous test (prePurge) and delete the disassemble files afterwards.", async () => {
     await reassembleHandler.reassemble({
-      filePath: "mock-tag/array-of-leafs/Dreamhouse",
+      filePath: "mock-tag/array-of-leaves/Dreamhouse",
       fileExtension: "app-meta.xml",
       postPurge: true,
     });

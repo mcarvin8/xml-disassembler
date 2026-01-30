@@ -17,7 +17,7 @@ import {
 import { compareFiles } from "./compare";
 
 setLogLevel("debug");
-const sampleDir: string = "samples";
+const sampleDir: string = "fixtures";
 const mockDir: string = "mock2";
 let disassembleHandler: DisassembleXMLFileHandler;
 let reassembleHandler: ReassembleXMLFileHandler;
@@ -63,7 +63,7 @@ describe("transform test suite", () => {
   });
   it("should compare the reassembled XML from JSON files against the baseline.", async () => {
     await compareFiles(
-      "samples/general/HR_Admin.permissionset-meta.xml",
+      "fixtures/general/HR_Admin.permissionset-meta.xml",
       "mock2/general/HR_Admin.permissionset-meta.xml",
     );
   });
@@ -87,7 +87,7 @@ describe("transform test suite", () => {
   });
   it("should compare the reassembled XML from JSON5 files against the baseline.", async () => {
     await compareFiles(
-      "samples/general/HR_Admin.permissionset-meta.xml",
+      "fixtures/general/HR_Admin.permissionset-meta.xml",
       "mock2/general/HR_Admin.permissionset-meta.xml",
     );
   });
@@ -110,7 +110,7 @@ describe("transform test suite", () => {
   });
   it("should compare the reassembled XML from YAML files against the baseline.", async () => {
     await compareFiles(
-      "samples/general/HR_Admin.permissionset-meta.xml",
+      "fixtures/general/HR_Admin.permissionset-meta.xml",
       "mock2/general/HR_Admin.permissionset-meta.xml",
     );
   });
@@ -133,7 +133,7 @@ describe("transform test suite", () => {
   });
   it("should compare the reassembled XML from TOML files against the baseline.", async () => {
     await compareFiles(
-      "samples/general/HR_Admin.permissionset-meta.xml",
+      "fixtures/general/HR_Admin.permissionset-meta.xml",
       "mock2/general/HR_Admin.permissionset-meta.xml",
     );
   });
@@ -156,7 +156,7 @@ describe("transform test suite", () => {
   });
   it("should compare the reassembled XML from INI files against the baseline.", async () => {
     await compareFiles(
-      "samples/general/HR_Admin.permissionset-meta.xml",
+      "fixtures/general/HR_Admin.permissionset-meta.xml",
       "mock2/general/HR_Admin.permissionset-meta.xml",
     );
   });
@@ -181,13 +181,13 @@ describe("transform test suite", () => {
   });
   it("should compare the reassembled XML from JSON files with the group tag strategy against the baseline.", async () => {
     await compareFiles(
-      "samples/general/HR_Admin.permissionset-meta.xml",
+      "fixtures/general/HR_Admin.permissionset-meta.xml",
       "mock2/general/HR_Admin.permissionset-meta.xml",
     );
   });
   it("should test transform functions in the index.", async () => {
     const parsedXml = await parseXML(
-      "samples/general/HR_Admin.permissionset-meta.xml",
+      "fixtures/general/HR_Admin.permissionset-meta.xml",
     );
     await transformToIni(parsedXml as XmlElement);
     await transformToJson5(parsedXml as XmlElement);

@@ -11,7 +11,7 @@ import {
 import { compareDirectories } from "./compare";
 
 setLogLevel("debug");
-const sampleDir: string = "samples";
+const sampleDir: string = "fixtures";
 const mockDir: string = "mock";
 let disassembleHandler: DisassembleXMLFileHandler;
 let reassembleHandler: ReassembleXMLFileHandler;
@@ -129,7 +129,7 @@ describe("unique-id strategy test suite", () => {
   });
   it("should disassemble a XML file with an array of leaf elements and no defined unique ID element.", async () => {
     await disassembleHandler.disassemble({
-      filePath: "mock/array-of-leafs",
+      filePath: "mock/array-of-leaves",
       postPurge: true,
     });
 
@@ -137,7 +137,7 @@ describe("unique-id strategy test suite", () => {
   });
   it("should reassemble a XML file with an array of leaf elements and no defined unique ID element.", async () => {
     await reassembleHandler.reassemble({
-      filePath: "mock/array-of-leafs/Dreamhouse",
+      filePath: "mock/array-of-leaves/Dreamhouse",
       fileExtension: "app-meta.xml",
     });
 
@@ -145,7 +145,7 @@ describe("unique-id strategy test suite", () => {
   });
   it("should purge the existing disassembled directory before disassembling the file.", async () => {
     await disassembleHandler.disassemble({
-      filePath: "mock/array-of-leafs",
+      filePath: "mock/array-of-leaves",
       prePurge: true,
       postPurge: true,
     });
@@ -154,7 +154,7 @@ describe("unique-id strategy test suite", () => {
   });
   it("should reassemble the files from the previous test (prePurge) and delete the disassemble files afterwards.", async () => {
     await reassembleHandler.reassemble({
-      filePath: "mock/array-of-leafs/Dreamhouse",
+      filePath: "mock/array-of-leaves/Dreamhouse",
       fileExtension: "app-meta.xml",
       postPurge: true,
     });

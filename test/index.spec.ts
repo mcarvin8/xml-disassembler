@@ -25,7 +25,7 @@ describe("function/index tests", () => {
 
   it("should test parsing and building an XML with the exported functions.", async () => {
     const result = await parseXML(
-      "samples/ignore/HR_Admin.permissionset-meta.xml",
+      "fixtures/ignore/HR_Admin.permissionset-meta.xml",
     );
     await buildXMLString(result as XmlElement);
 
