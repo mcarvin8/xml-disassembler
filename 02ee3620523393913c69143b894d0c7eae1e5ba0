@@ -1,0 +1,29 @@
+test/uid.spec.ts
+  b4bfe0d7a71e0556 14,132,140,148,157
+test/index.spec.ts
+  b4bfe0d7a71e0556 28
+test/transform.spec.ts
+  b4bfe0d7a71e0556 20,66,90,113,136,159,184,190
+test/group-by-tag.spec.ts
+  b4bfe0d7a71e0556 13,130,139,147,157
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.0.40",
+  "base_commit_sha": "02ee3620523393913c69143b894d0c7eae1e5ba0",
+  "prompts": {
+    "b4bfe0d7a71e0556": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "c97e3c16-d57a-47c1-8d49-e6732d835d22",
+        "model": "default"
+      },
+      "human_author": "Matt Carvin <90224411+mcarvin8@users.noreply.github.com>",
+      "messages": [],
+      "total_additions": 23,
+      "total_deletions": 23,
+      "accepted_lines": 19,
+      "overriden_lines": 0
+    }
+  }
+}
