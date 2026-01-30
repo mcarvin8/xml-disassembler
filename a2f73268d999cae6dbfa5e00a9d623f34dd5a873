@@ -1,0 +1,37 @@
+test/transform.spec.ts
+  b4bfe0d7a71e0556 17
+test/uid.spec.ts
+  b4bfe0d7a71e0556 11
+test/helpers/compare.ts
+  b4bfe0d7a71e0556 1-39
+test/unit/objectPool.spec.ts
+  b4bfe0d7a71e0556 1-273
+test/unit/mergeXmlElements.spec.ts
+  b4bfe0d7a71e0556 1-242
+test/unit/asyncQueue.spec.ts
+  b4bfe0d7a71e0556 1-275
+test/multi-level.spec.ts
+  b4bfe0d7a71e0556 16,43,71
+test/group-by-tag.spec.ts
+  b4bfe0d7a71e0556 10
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.0.40",
+  "base_commit_sha": "a2f73268d999cae6dbfa5e00a9d623f34dd5a873",
+  "prompts": {
+    "b4bfe0d7a71e0556": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "c97e3c16-d57a-47c1-8d49-e6732d835d22",
+        "model": "default"
+      },
+      "human_author": "Matt Carvin <90224411+mcarvin8@users.noreply.github.com>",
+      "messages": [],
+      "total_additions": 835,
+      "total_deletions": 6,
+      "accepted_lines": 835,
+      "overriden_lines": 0
+    }
+  }
+}
