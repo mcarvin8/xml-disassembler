@@ -11,6 +11,8 @@ Split large XML files into smaller, version-control–friendly pieces—then rea
 
 Useful for cleaner diffs, easier collaboration, and workflows like Salesforce metadata.
 
+> **Rust implementation:** For a native, high-performance alternative, see [xml-disassembler-rust](https://github.com/mcarvin8/xml-disassembler-rust).
+
 ---
 
 ## Table of contents
