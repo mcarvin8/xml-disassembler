@@ -1,0 +1,36 @@
+xml-diassemble/Cargo.toml
+  ae52316e76ae5a93 1-17
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.0.42",
+  "base_commit_sha": "c079f12a735729ef8cc5fc20f0d959c2036d23d1",
+  "prompts": {
+    "ae52316e76ae5a93": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "4fc5b2df-b078-45f4-b6ac-cef747dbd100",
+        "model": "default"
+      },
+      "human_author": "Matt Carvin <90224411+mcarvin8@users.noreply.github.com>",
+      "messages": [],
+      "total_additions": 1548,
+      "total_deletions": 762,
+      "accepted_lines": 17,
+      "overriden_lines": 0
+    },
+    "b4bfe0d7a71e0556": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "c97e3c16-d57a-47c1-8d49-e6732d835d22",
+        "model": "default"
+      },
+      "human_author": "Matt Carvin <90224411+mcarvin8@users.noreply.github.com>",
+      "messages": [],
+      "total_additions": 835,
+      "total_deletions": 6,
+      "accepted_lines": 0,
+      "overriden_lines": 0
+    }
+  }
+}
