@@ -1,0 +1,51 @@
+tsconfig.json
+  ae52316e76ae5a93 22
+xml-diassemble/Cargo.toml
+  ae52316e76ae5a93 1-17
+src/rustBindings.ts
+  ae52316e76ae5a93 1-47,50-65,69
+xml-diassemble/package.json
+  ae52316e76ae5a93 10-11
+test/group-by-tag.spec.ts
+  ae52316e76ae5a93 185-186,191-193,196,201,205-208
+src/handlers/disassembleXMLFileHandler.ts
+  ae52316e76ae5a93 5,34-35,42
+xml-diassemble/src/lib.rs
+  ae52316e76ae5a93 1-57
+rollup.config.mjs
+  ae52316e76ae5a93 6,22,41
+package.json
+  ae52316e76ae5a93 20,49,52
+types/xml-diassemble.d.ts
+  ae52316e76ae5a93 1-17
+test/index.spec.ts
+  ae52316e76ae5a93 4-5,21-23,26-30
+test/uid.spec.ts
+  ae52316e76ae5a93 186,191,193-195,199-200,204-206,209-210,212-214,219,221-224,229,232-235,241-244,251-254
+.github/workflows/build.yml
+  ae52316e76ae5a93 35-48,52-53
+jest.config.json
+  ae52316e76ae5a93 15-18
+src/handlers/reassembleXMLFileHandler.ts
+  ae52316e76ae5a93 3-4,14
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.0.42",
+  "base_commit_sha": "9a7225e501036f823249461badc189d9493dce70",
+  "prompts": {
+    "ae52316e76ae5a93": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "4fc5b2df-b078-45f4-b6ac-cef747dbd100",
+        "model": "default"
+      },
+      "human_author": "Matt Carvin <90224411+mcarvin8@users.noreply.github.com>",
+      "messages": [],
+      "total_additions": 1548,
+      "total_deletions": 762,
+      "accepted_lines": 1225,
+      "overriden_lines": 5
+    }
+  }
+}
