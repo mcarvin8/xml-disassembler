@@ -17,6 +17,7 @@
   },
   "scripts": {
     "build": "rollup -c",
+    "build:native": "cd xml-diassemble && npm run build",
     "start": "node dist/index.cjs",
     "test": "jest --coverage",
     "release": "semantic-release",
@@ -45,14 +46,10 @@
     "typescript": "^5.9.3"
   },
   "dependencies": {
-    "fast-xml-parser": "^5.3.4",
-    "ignore": "^7.0.4",
-    "ini": "^6.0.0",
-    "json5": "^2.2.3",
+    "fs-extra": "^11.2.0",
     "log4js": "^6.9.1",
-    "smol-toml": "^1.6.0",
     "tslib": "^2.6.2",
-    "yaml": "^2.8.2"
+    "xml-diassemble": "file:./xml-diassemble"
   },
   "repository": {
     "type": "git",

@@ -3,6 +3,7 @@ import terser from "@rollup/plugin-terser";
 
 export default {
   input: "./src/index.ts",
+  external: ["xml-diassemble"],
   output: [
     {
       file: "./dist/index.mjs",
@@ -18,10 +19,9 @@ export default {
       file: "./dist/index.umd.js",
       format: "umd",
       name: "jsTemplate",
-      globals: {},
+      globals: { "xml-diassemble": "xmlDiassemble" },
       sourcemap: true,
     },
-    ,
     {
       file: "./dist/index.min.mjs",
       format: "es",
@@ -38,7 +38,7 @@ export default {
       file: "./dist/index.min.umd.js",
       format: "umd",
       name: "jsTemplate",
-      globals: {},
+      globals: { "xml-diassemble": "xmlDiassemble" },
       sourcemap: true,
       plugins: [terser()],
     },

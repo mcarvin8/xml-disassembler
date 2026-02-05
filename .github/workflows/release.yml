@@ -42,8 +42,28 @@ jobs:
           registry-url: "https://registry.npmjs.org"
         if: ${{ steps.release.outputs.release_created == 'true' }}
 
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+        if: ${{ steps.release.outputs.release_created == 'true' }}
+
+      - name: Cache Rust
+        uses: swatinem/rust-cache@v2
+        with:
+          workspaces: xml-diassemble
+        if: ${{ steps.release.outputs.release_created == 'true' }}
+
+      - name: Install Linux build deps
+        if: ${{ steps.release.outputs.release_created == 'true' && runner.os == 'Linux' }}
+        run: sudo apt-get update && sudo apt-get install -y build-essential
+
       - name: Install Dependencies
         run: pnpm install
+        if: ${{ steps.release.outputs.release_created == 'true' }}
+
+      - name: Build native addon
+        run: pnpm run build:native
         if: ${{ steps.release.outputs.release_created == 'true' }}
 
       - name: Build
