@@ -914,6 +914,7 @@ name = "xml-diassemble"
 version = "0.1.0"
 dependencies = [
  "neon",
+ "serde_json",
  "tokio",
  "xml-disassembler",
 ]

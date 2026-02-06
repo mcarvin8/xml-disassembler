@@ -82,7 +82,7 @@ where
     Fut: std::future::Future<Output = String>,
 {
     let rt = tokio::runtime::Runtime::new().map_err(|e| e.to_string())?;
-    rt.block_on(f())
+    Ok(rt.block_on(f()))
 }
 
 #[neon::export]
