@@ -3,6 +3,17 @@ import { getLogger, configure } from "log4js";
 export { ReassembleXMLFileHandler } from "./handlers/reassembleXMLFileHandler";
 export { DisassembleXMLFileHandler } from "./handlers/disassembleXMLFileHandler";
 
+export {
+  parseXmlString,
+  buildXmlString,
+  transformToIni,
+  transformToJson,
+  transformToJson5,
+  transformToToml,
+  transformToYaml,
+  type XmlElement,
+} from "./rustBindings";
+
 // Function to update the log level
 export function setLogLevel(level: string) {
   getLogger().level = level;
