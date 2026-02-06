@@ -1,0 +1,35 @@
+xml-diassemble/Cargo.toml
+  ae52316e76ae5a93 16
+types/xml-diassemble.d.ts
+  ae52316e76ae5a93 17-23
+test/rustBindings.spec.ts
+  ae52316e76ae5a93 3-9,14-20,26,32,123-179
+test/index.spec.ts
+  ae52316e76ae5a93 1-12,18-24,51-96
+src/index.ts
+  ae52316e76ae5a93 6-16
+xml-diassemble/src/lib.rs
+  ae52316e76ae5a93 2,4-8,63-121
+src/rustBindings.ts
+  ae52316e76ae5a93 23-29,77-131
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.0.42",
+  "base_commit_sha": "6e9c6a36f2ba3a578d1a4faf31e5dfec704fb66f",
+  "prompts": {
+    "ae52316e76ae5a93": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "4fc5b2df-b078-45f4-b6ac-cef747dbd100",
+        "model": "default"
+      },
+      "human_author": "Matt Carvin <90224411+mcarvin8@users.noreply.github.com>",
+      "messages": [],
+      "total_additions": 299,
+      "total_deletions": 4,
+      "accepted_lines": 296,
+      "overriden_lines": 0
+    }
+  }
+}
