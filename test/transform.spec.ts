@@ -5,12 +5,10 @@ import {
   DisassembleXMLFileHandler,
   ReassembleXMLFileHandler,
   parseXML,
-  transformToIni,
   XmlElement,
   transformToYaml,
   transformToJson,
   transformToJson5,
-  transformToToml,
 } from "../src/index";
 import { compareFiles } from "./helpers/compare";
 const sampleDir: string = "fixtures";
@@ -89,37 +87,7 @@ describe("transform test suite", () => {
       "mock2/general/HR_Admin.permissionset-meta.xml",
     );
   });
-  it("should disassemble a general XML file into TOML files", async () => {
-    await disassembleHandler.disassemble({
-      filePath: "mock2/general",
-      postPurge: true,
-      prePurge: true,
-      format: "toml",
-    });
-  });
-  it("should reassemble the TOML files back into the original XML.", async () => {
-    await reassembleHandler.reassemble({
-      filePath: "mock2/general/HR_Admin",
-      fileExtension: "permissionset-meta.xml",
-    });
-  });
-  it("should disassemble a general XML file into INI files", async () => {
-    await disassembleHandler.disassemble({
-      filePath: "mock2/general",
-      postPurge: true,
-      prePurge: true,
-      format: "ini",
-    });
-  });
-  it("should reassemble the INI files back into the original XML.", async () => {
-    await reassembleHandler.reassemble({
-      filePath: "mock2/general/HR_Admin",
-      fileExtension: "permissionset-meta.xml",
-    });
-  });
   it("should disassemble a general XML file into JSON files with the group tag strategy", async () => {
-    // Re-copy general folder so we disassemble the original XML, not INI round-trip output
-    await copy("fixtures/general", "mock2/general", { overwrite: true });
     await disassembleHandler.disassemble({
       filePath: "mock2/general",
       strategy: "grouped-by-tag",
@@ -144,10 +112,8 @@ describe("transform test suite", () => {
     const parsedXml = await parseXML(
       "fixtures/general/HR_Admin.permissionset-meta.xml",
     );
-    await transformToIni(parsedXml as XmlElement);
     await transformToJson5(parsedXml as XmlElement);
     await transformToJson(parsedXml as XmlElement);
     await transformToYaml(parsedXml as XmlElement);
-    await transformToToml(parsedXml as XmlElement);
   });
 });

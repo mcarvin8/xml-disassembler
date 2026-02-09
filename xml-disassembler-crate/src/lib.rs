@@ -3,8 +3,8 @@
 use neon::prelude::*;
 use std::sync::OnceLock;
 use xml_disassembler::{
-    build_xml_string, parse_xml, transform_to_ini, transform_to_json, transform_to_json5,
-    transform_to_toml, transform_to_yaml, DisassembleXmlFileHandler, ReassembleXmlFileHandler,
+    build_xml_string, parse_xml, transform_to_json, transform_to_json5, transform_to_yaml,
+    DisassembleXmlFileHandler, ReassembleXmlFileHandler,
 };
 
 static RUNTIME: OnceLock<tokio::runtime::Runtime> = OnceLock::new();
@@ -42,10 +42,8 @@ fn main(mut cx: ModuleContext) -> NeonResult<()> {
     cx.export_function("parseXml", parse_xml_js)?;
     cx.export_function("buildXmlString", build_xml_string_js)?;
     cx.export_function("transformToYaml", transform_to_yaml_js)?;
-    cx.export_function("transformToIni", transform_to_ini_js)?;
     cx.export_function("transformToJson", transform_to_json_js)?;
     cx.export_function("transformToJson5", transform_to_json5_js)?;
-    cx.export_function("transformToToml", transform_to_toml_js)?;
 
     Ok(())
 }
@@ -155,16 +153,6 @@ fn transform_to_yaml_js(mut cx: FunctionContext) -> JsResult<JsString> {
     Ok(cx.string(result))
 }
 
-fn transform_to_ini_js(mut cx: FunctionContext) -> JsResult<JsString> {
-    let json_str = cx.argument::<JsString>(0)?.value(&mut cx);
-    let parsed: serde_json::Value = match serde_json::from_str(&json_str) {
-        Ok(v) => v,
-        Err(e) => return cx.throw_error(format!("Invalid JSON: {}", e)),
-    };
-    let result = runtime().block_on(transform_to_ini(&parsed));
-    Ok(cx.string(result))
-}
-
 fn transform_to_json_js(mut cx: FunctionContext) -> JsResult<JsString> {
     let json_str = cx.argument::<JsString>(0)?.value(&mut cx);
     let parsed: serde_json::Value = match serde_json::from_str(&json_str) {
@@ -185,12 +173,3 @@ fn transform_to_json5_js(mut cx: FunctionContext) -> JsResult<JsString> {
     Ok(cx.string(result))
 }
 
-fn transform_to_toml_js(mut cx: FunctionContext) -> JsResult<JsString> {
-    let json_str = cx.argument::<JsString>(0)?.value(&mut cx);
-    let parsed: serde_json::Value = match serde_json::from_str(&json_str) {
-        Ok(v) => v,
-        Err(e) => return cx.throw_error(format!("Invalid JSON: {}", e)),
-    };
-    let result = runtime().block_on(transform_to_toml(&parsed));
-    Ok(cx.string(result))
-}

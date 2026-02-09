@@ -50,18 +50,10 @@ export async function transformToYaml(parsedXml: XmlElement): Promise<string> {
   return native.transformToYaml(JSON.stringify(parsedXml));
 }
 
-export async function transformToIni(parsedXml: XmlElement): Promise<string> {
-  return native.transformToIni(JSON.stringify(parsedXml));
-}
-
 export async function transformToJson(parsedXml: XmlElement): Promise<string> {
   return native.transformToJson(JSON.stringify(parsedXml));
 }
 
 export async function transformToJson5(parsedXml: XmlElement): Promise<string> {
   return native.transformToJson5(JSON.stringify(parsedXml));
-}
-
-export async function transformToToml(parsedXml: XmlElement): Promise<string> {
-  return native.transformToToml(JSON.stringify(parsedXml));
 }
