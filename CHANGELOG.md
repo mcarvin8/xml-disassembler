@@ -5,6 +5,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0](https://github.com/mcarvin8/xml-disassembler/compare/v1.11.5...v2.0.0) (2026-02-09)
+
+
+### ⚠ BREAKING CHANGES
+
+* 
+
+### Features
+
+* embed Rust xml-disassembler via Neon addon ([#191](https://github.com/mcarvin8/xml-disassembler/issues/191)) ([af991a8](https://github.com/mcarvin8/xml-disassembler/commit/af991a84402bffad17b7832d72d56019f425d957))
+
 ## [1.11.5](https://github.com/mcarvin8/xml-disassembler/compare/v1.11.4...v1.11.5) (2026-02-04)
 
 
