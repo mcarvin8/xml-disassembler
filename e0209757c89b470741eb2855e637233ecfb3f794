@@ -1,0 +1,65 @@
+xml-disassembler-crate/package.json
+  4c0d0be2e90b6de6 1-25
+xml-disassembler-crate/Cargo.toml
+  4c0d0be2e90b6de6 1-18
+.github/workflows/release.yml
+  4c0d0be2e90b6de6 36,40-41,45,49,53
+xml-disassembler-crate/.gitignore
+  4c0d0be2e90b6de6 1-6
+.github/workflows/build.yml
+  4c0d0be2e90b6de6 28-29,31-32,35,38,41
+xml-disassembler-crate/README.md
+  4c0d0be2e90b6de6 1-90
+xml-disassembler-crate/src/lib.rs
+  4c0d0be2e90b6de6 1-196
+xml-disassembler-crate/package-lock.json
+  4c0d0be2e90b6de6 1-170
+xml-disassembler-crate/Cargo.lock
+  4c0d0be2e90b6de6 1-949
+src/index.ts
+  4c0d0be2e90b6de6 1-8,10-11,13-42,44-62,64-67
+package-lock.json
+  4c0d0be2e90b6de6 1-6125
+test/transform.spec.ts
+  4c0d0be2e90b6de6 1
+test/uid.spec.ts
+  4c0d0be2e90b6de6 1-2,23
+test/helpers/compare.ts
+  4c0d0be2e90b6de6 1-3,9,21-22,36-37
+test/index.spec.ts
+  4c0d0be2e90b6de6 1,8,10
+test/multi-level..ts
+  4c0d0be2e90b6de6 1-3,20,34,61,93,109,116-122,151,157,184
+rollup.config.mjs
+  4c0d0be2e90b6de6 6
+test/group-by-tag.spec.ts
+  4c0d0be2e90b6de6 1,3,22,144
+tsconfig.json
+  4c0d0be2e90b6de6 22
+README.md
+  4c0d0be2e90b6de6 190
+xml-disassembler-crate/.npmignore
+  4c0d0be2e90b6de6 1-8
+package.json
+  4c0d0be2e90b6de6 17-18,46,48
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.0.42",
+  "base_commit_sha": "e0209757c89b470741eb2855e637233ecfb3f794",
+  "prompts": {
+    "4c0d0be2e90b6de6": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "e25dedde-2c75-42ea-9353-5f806b187f67",
+        "model": "default"
+      },
+      "human_author": "Matt Carvin <90224411+mcarvin8@users.noreply.github.com>",
+      "messages": [],
+      "total_additions": 8346,
+      "total_deletions": 6768,
+      "accepted_lines": 7900,
+      "overriden_lines": 0
+    }
+  }
+}
