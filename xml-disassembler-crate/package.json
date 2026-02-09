@@ -11,8 +11,8 @@
     "test": "cargo test",
     "cargo-build": "cargo build --message-format=json-render-diagnostics > cargo.log",
     "cross-build": "cross build --message-format=json-render-diagnostics > cross.log",
-    "postcargo-build": "npx neon dist < cargo.log",
-    "postcross-build": "npx neon dist -m /target < cross.log",
+    "postcargo-build": "npx @neon-rs/cli dist < cargo.log",
+    "postcross-build": "npx @neon-rs/cli dist -m /target < cross.log",
     "debug": "npm run cargo-build --",
     "build": "npm run cargo-build -- --release",
     "cross": "npm run cross-build -- --release"

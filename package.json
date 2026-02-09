@@ -27,6 +27,7 @@
     "**/*": "prettier --write \"**/*.{js,ts}\" --ignore-unknown"
   },
   "devDependencies": {
+    "@neon-rs/cli": "0.1.82",
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^12.1.4",
     "@types/fs-extra": "^11.0.4",
