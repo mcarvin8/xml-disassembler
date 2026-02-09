@@ -11,7 +11,7 @@ Split large XML files into smaller, version-control–friendly pieces—then rea
 
 Useful for cleaner diffs, easier collaboration, and workflows like Salesforce metadata.
 
-> **Rust implementation:** For a native, high-performance alternative, see [xml-disassembler-rust](https://github.com/mcarvin8/xml-disassembler-rust).
+> **Native Rust:** Core logic is in the [xml-disassembler](https://crates.io/crates/xml-disassembler) crate; this package provides Node.js bindings via [Neon](https://neon-bindings.com).
 
 ---
 
@@ -25,9 +25,9 @@ Useful for cleaner diffs, easier collaboration, and workflows like Salesforce me
 - [Reassembling](#reassembling)
 - [Ignore file](#ignore-file)
 - [Logging](#logging)
-- [XML parser](#xml-parser)
+- [Implementation](#implementation)
 - [Use case](#use-case)
-- [Development](#development)
+- [Contributing](#contributing)
 - [License](#license)
 
 ---
@@ -67,7 +67,7 @@ await reassemble.reassemble({
 - **Multiple formats** – Output (and reassemble from) XML, JSON, JSON5, or YAML.
 - **Strategies** – `unique-id` (one file per nested element) or `grouped-by-tag` (one file per tag).
 - **Ignore rules** – Exclude paths via a `.xmldisassemblerignore` file (same style as `.gitignore`).
-- **Logging** – Configurable logging via `log4js` (writes to `disassemble.log` by default).
+- **Logging** – Uses [env_logger](https://docs.rs/env_logger); set `RUST_LOG` for verbosity (e.g. `RUST_LOG=debug`).
 - **Salesforce-friendly** – Fits metadata and similar XML-heavy workflows.
 
 Reassembly preserves element content and structure.
@@ -187,13 +187,9 @@ The Rust crate uses [env_logger](https://docs.rs/env_logger). Set `RUST_LOG` to 
 
 ---
 
-## XML parser
+## Implementation
 
-Parsing is done with [fast-xml-parser](https://github.com/NaturalIntelligence/fast-xml-parser), with support for:
-
-- **CDATA** – `"![CDATA["`
-- **Comments** – `"!---"`
-- **Attributes** – `"@__**"`
+The core logic is implemented in Rust ([xml-disassembler](https://crates.io/crates/xml-disassembler)) and exposed to Node.js via [Neon](https://neon-bindings.com). Building from source requires Rust and Node.js.
 
 ---
 
