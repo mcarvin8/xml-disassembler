@@ -5,6 +5,6 @@ coverage
 src/**/*.js
 test/**/*.js
 .env
-package-lock.json
-
+*.log
+**/*.log
 disassemble.log

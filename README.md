@@ -7,11 +7,11 @@
 [![Code Coverage](https://qlty.sh/badges/e226ad95-4b8d-484a-9484-25862941262d/test_coverage.svg)](https://qlty.sh/gh/mcarvin8/projects/xml-disassembler)
 [![Known Vulnerabilities](https://snyk.io//test/github/mcarvin8/xml-disassembler/badge.svg?targetFile=package.json)](https://snyk.io//test/github/mcarvin8/xml-disassembler?targetFile=package.json)
 
-Split large XML files into smaller, version-control–friendly pieces—then reassemble them when needed. Output as XML, INI, JSON, JSON5, TOML, or YAML.
+Split large XML files into smaller, version-control–friendly pieces—then reassemble them when needed. Output as XML, JSON, JSON5, or YAML.
 
 Useful for cleaner diffs, easier collaboration, and workflows like Salesforce metadata.
 
-> **Rust implementation:** For a native, high-performance alternative, see [xml-disassembler-rust](https://github.com/mcarvin8/xml-disassembler-rust).
+> **Native Rust:** Core logic is in the [xml-disassembler](https://crates.io/crates/xml-disassembler) crate; this package provides Node.js bindings via [Neon](https://neon-bindings.com).
 
 ---
 
@@ -25,9 +25,9 @@ Useful for cleaner diffs, easier collaboration, and workflows like Salesforce me
 - [Reassembling](#reassembling)
 - [Ignore file](#ignore-file)
 - [Logging](#logging)
-- [XML parser](#xml-parser)
+- [Implementation](#implementation)
 - [Use case](#use-case)
-- [Development](#development)
+- [Contributing](#contributing)
 - [License](#license)
 
 ---
@@ -64,13 +64,13 @@ await reassemble.reassemble({
 
 - **Disassemble** – Break XML into smaller components (by unique ID or by tag).
 - **Reassemble** – Rebuild the original XML from disassembled output.
-- **Multiple formats** – Output (and reassemble from) XML, INI, JSON, JSON5, TOML, or YAML.
+- **Multiple formats** – Output (and reassemble from) XML, JSON, JSON5, or YAML.
 - **Strategies** – `unique-id` (one file per nested element) or `grouped-by-tag` (one file per tag).
 - **Ignore rules** – Exclude paths via a `.xmldisassemblerignore` file (same style as `.gitignore`).
-- **Logging** – Configurable logging via `log4js` (writes to `disassemble.log` by default).
+- **Logging** – Uses [env_logger](https://docs.rs/env_logger); set `RUST_LOG` for verbosity (e.g. `RUST_LOG=debug`).
 - **Salesforce-friendly** – Fits metadata and similar XML-heavy workflows.
 
-Reassembly preserves element content and structure; element order may differ (especially with TOML).
+Reassembly preserves element content and structure.
 
 ---
 
@@ -107,7 +107,7 @@ await handler.disassemble({
 | `prePurge`         | Remove existing disassembly output before running (default: `false`).       |
 | `postPurge`        | Remove the source XML after disassembly (default: `false`).                 |
 | `ignorePath`       | Path to the ignore file (default: `.xmldisassemblerignore`).                |
-| `format`           | Output format: `xml`, `ini`, `json`, `json5`, `toml`, `yaml`.               |
+| `format`           | Output format: `xml`, `json`, `json5`, `yaml`.                              |
 | `strategy`         | `unique-id` or `grouped-by-tag`.                                            |
 
 ---
@@ -128,8 +128,6 @@ Best for fine-grained diffs and version control.
 | **YAML**  | [![YAML UID](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-yaml.png)](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-yaml.png)    | [![YAML Hash](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-hashes-yaml.png)](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-hashes-yaml.png)    |
 | **JSON**  | [![JSON UID](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-json.png)](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-json.png)    | [![JSON Hash](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-hashes-json.png)](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-hashes-json.png)    |
 | **JSON5** | [![JSON5 UID](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-json5.png)](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-json5.png) | [![JSON5 Hash](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-hashes-json5.png)](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-hashes-json5.png) |
-| **TOML**  | [![TOML UID](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-toml.png)](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-toml.png)    | [![TOML Hash](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-hashes-toml.png)](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-hashes-toml.png)    |
-| **INI**   | [![INI UID](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-ini.png)](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-ini.png)       | [![INI Hash](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-hashes-ini.png)](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-hashes-ini.png)       |
 
 ### grouped-by-tag
 
@@ -145,8 +143,6 @@ Best for fewer files and quick inspection.
 | **YAML**  | [![YAML tag](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-tags-yaml.png)](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-tags-yaml.png)    |
 | **JSON**  | [![JSON tag](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-tags-json.png)](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-tags-json.png)    |
 | **JSON5** | [![JSON5 tag](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-tags-json5.png)](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-tags-json5.png) |
-| **TOML**  | [![TOML tag](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-tags-toml.png)](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-tags-toml.png)    |
-| **INI**   | [![INI tag](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-tags-ini.png)](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-tags-ini.png)       |
 
 ---
 
@@ -187,23 +183,13 @@ Example:
 
 ## Logging
 
-Logging uses [log4js](https://github.com/log4js-node/log4js-node). By default, logs go to `disassemble.log` at `error` level.
-
-```typescript
-import { setLogLevel } from "xml-disassembler";
-
-setLogLevel("debug"); // Verbose logging
-```
+The Rust crate uses [env_logger](https://docs.rs/env_logger). Set `RUST_LOG` to control verbosity (e.g. `RUST_LOG=debug`).
 
 ---
 
-## XML parser
+## Implementation
 
-Parsing is done with [fast-xml-parser](https://github.com/NaturalIntelligence/fast-xml-parser), with support for:
-
-- **CDATA** – `"![CDATA["`
-- **Comments** – `"!---"`
-- **Attributes** – `"@__**"`
+The core logic is implemented in Rust ([xml-disassembler](https://crates.io/crates/xml-disassembler)) and exposed to Node.js via [Neon](https://neon-bindings.com). Building from source requires Rust and Node.js.
 
 ---
 

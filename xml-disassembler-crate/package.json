@@ -1,0 +1,22 @@
+{
+  "name": "xml-disassembler-crate",
+  "version": "0.2.0",
+  "description": "",
+  "main": "index.node",
+  "files": [
+    "index.node",
+    "package.json"
+  ],
+  "scripts": {
+    "test": "cargo test",
+    "cargo-build": "cargo build --message-format=json-render-diagnostics > cargo.log",
+    "cross-build": "cross build --message-format=json-render-diagnostics > cross.log",
+    "postcargo-build": "npx @neon-rs/cli dist < cargo.log",
+    "postcross-build": "npx @neon-rs/cli dist -m /target < cross.log",
+    "debug": "npm run cargo-build --",
+    "build": "npm run cargo-build -- --release",
+    "cross": "npm run cross-build -- --release"
+  },
+  "author": "Matt Carvin",
+  "license": "MIT"
+}

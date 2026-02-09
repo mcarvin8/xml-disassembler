@@ -1,12 +1,12 @@
-import { readdir, readFile } from "node:fs/promises";
-import { strictEqual } from "node:assert";
-import { join } from "node:path/posix";
+import { promises as fs } from "fs";
+import { strictEqual } from "assert";
+import { join } from "path";
 
 export async function compareDirectories(
   referenceDir: string,
   mockDir: string,
 ): Promise<void> {
-  const entriesinRef = await readdir(referenceDir, { withFileTypes: true });
+  const entriesinRef = await fs.readdir(referenceDir, { withFileTypes: true });
 
   // Only compare files that are in the reference directory
   for (const entry of entriesinRef) {
@@ -18,8 +18,8 @@ export async function compareDirectories(
       await compareDirectories(refEntryPath, mockPath);
     } else {
       // If it's a file, compare its content
-      const refContent = await readFile(refEntryPath, "utf-8");
-      const mockContent = await readFile(mockPath, "utf-8");
+      const refContent = await fs.readFile(refEntryPath, "utf-8");
+      const mockContent = await fs.readFile(mockPath, "utf-8");
       strictEqual(
         refContent,
         mockContent,
@@ -33,7 +33,7 @@ export async function compareFiles(
   refEntryPath: string,
   mockPath: string,
 ): Promise<void> {
-  const refContent = await readFile(refEntryPath, "utf-8");
-  const mockContent = await readFile(mockPath, "utf-8");
+  const refContent = await fs.readFile(refEntryPath, "utf-8");
+  const mockContent = await fs.readFile(mockPath, "utf-8");
   strictEqual(mockContent, refContent, `File content is different }`);
 }

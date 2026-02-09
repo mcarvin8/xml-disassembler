@@ -1,27 +1,59 @@
-import { getLogger, configure } from "log4js";
+/**
+ * xml-disassembler - Node.js bindings to the Rust xml-disassembler crate.
+ * Disassemble XML files into smaller, more manageable files and reassemble the XML when needed.
+ */
 
-export { ReassembleXMLFileHandler } from "./handlers/reassembleXMLFileHandler";
-export { DisassembleXMLFileHandler } from "./handlers/disassembleXMLFileHandler";
-export { parseXML } from "./parsers/parseXML";
-export { buildXMLString } from "./builders/buildXMLString";
-export { XmlElement } from "./types/types";
-export {
-  transformToYaml,
-  transformToIni,
-  transformToJson,
-  transformToJson5,
-  transformToToml,
-} from "./transformers/transformers";
+/* eslint-disable @typescript-eslint/no-require-imports */
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const native = require("xml-disassembler-crate");
 
-// Function to update the log level
-export function setLogLevel(level: string) {
-  getLogger().level = level;
+export type XmlElement = {
+  [key: string]: string | XmlElement | string[] | XmlElement[];
+};
+
+export class DisassembleXMLFileHandler {
+  async disassemble(xmlAttributes: {
+    filePath: string;
+    uniqueIdElements?: string;
+    strategy?: string;
+    prePurge?: boolean;
+    postPurge?: boolean;
+    ignorePath?: string;
+    format?: string;
+  }): Promise<void> {
+    native.disassemble(xmlAttributes);
+  }
 }
 
-// Expose the logger
-export const logger = getLogger();
+export class ReassembleXMLFileHandler {
+  async reassemble(xmlAttributes: {
+    filePath: string;
+    fileExtension?: string;
+    postPurge?: boolean;
+  }): Promise<void> {
+    native.reassemble(xmlAttributes);
+  }
+}
 
-configure({
-  appenders: { disassemble: { type: "file", filename: "disassemble.log" } },
-  categories: { default: { appenders: ["disassemble"], level: "error" } },
-});
+export async function parseXML(
+  filePath: string,
+): Promise<XmlElement | undefined> {
+  const result = native.parseXml(filePath);
+  return result ? (JSON.parse(result) as XmlElement) : undefined;
+}
+
+export function buildXMLString(element: XmlElement): string {
+  return native.buildXmlString(JSON.stringify(element));
+}
+
+export async function transformToYaml(parsedXml: XmlElement): Promise<string> {
+  return native.transformToYaml(JSON.stringify(parsedXml));
+}
+
+export async function transformToJson(parsedXml: XmlElement): Promise<string> {
+  return native.transformToJson(JSON.stringify(parsedXml));
+}
+
+export async function transformToJson5(parsedXml: XmlElement): Promise<string> {
+  return native.transformToJson5(JSON.stringify(parsedXml));
+}

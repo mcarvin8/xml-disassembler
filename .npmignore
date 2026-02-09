@@ -10,3 +10,4 @@ test
 jest.config.js
 rollup.config.mjs
 tsconfig.json
+fixtures
