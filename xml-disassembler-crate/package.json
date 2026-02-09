@@ -18,8 +18,5 @@
     "cross": "npm run cross-build -- --release"
   },
   "author": "Matt Carvin",
-  "license": "MIT",
-  "devDependencies": {
-    "@neon-rs/cli": "0.1.82"
-  }
+  "license": "MIT"
 }
