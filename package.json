@@ -14,7 +14,7 @@
     "access": "public"
   },
   "scripts": {
-    "build": "npm run build:crate && npx rollup -c",
+    "build": "npm run build:crate && npx rollup -c && node scripts/copy-native.js",
     "build:crate": "cd xml-disassembler-crate && npm install && npm run build",
     "start": "node dist/index.cjs",
     "test": "jest --coverage",
@@ -44,8 +44,7 @@
   },
   "dependencies": {
     "fs-extra": "^11.2.0",
-    "tslib": "^2.6.2",
-    "xml-disassembler-crate": "file:./xml-disassembler-crate"
+    "tslib": "^2.6.2"
   },
   "repository": {
     "type": "git",

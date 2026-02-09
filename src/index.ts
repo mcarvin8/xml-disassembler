@@ -5,7 +5,9 @@
 
 /* eslint-disable @typescript-eslint/no-require-imports */
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const native = require("xml-disassembler-crate");
+const path = require("path");
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const native = require(path.join(__dirname, "..", "dist", "native-loader.cjs"));
 
 export type XmlElement = {
   [key: string]: string | XmlElement | string[] | XmlElement[];

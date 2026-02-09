@@ -3,7 +3,7 @@ import terser from "@rollup/plugin-terser";
 
 export default {
   input: "./src/index.ts",
-  external: ["xml-disassembler-crate"],
+  external: (id) => id.includes("native-loader.cjs"),
   output: [
     {
       file: "./dist/index.mjs",
