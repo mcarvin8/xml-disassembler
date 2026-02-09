@@ -187,13 +187,7 @@ Example:
 
 ## Logging
 
-Logging uses [log4js](https://github.com/log4js-node/log4js-node). By default, logs go to `disassemble.log` at `error` level.
-
-```typescript
-import { setLogLevel } from "xml-disassembler";
-
-setLogLevel("debug"); // Verbose logging
-```
+The Rust crate uses [env_logger](https://docs.rs/env_logger). Set `RUST_LOG` to control verbosity (e.g. `RUST_LOG=debug`).
 
 ---
 

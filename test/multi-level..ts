@@ -1,18 +1,13 @@
-import { existsSync } from "node:fs";
-import { join } from "node:path";
-import { strictEqual } from "node:assert";
-import { readdir, writeFile, readFile, stat } from "node:fs/promises";
+import { existsSync, promises as fs } from "fs";
+import { join } from "path";
+import { strictEqual } from "assert";
 import {
   DisassembleXMLFileHandler,
-  setLogLevel,
-  logger,
   XmlElement,
   parseXML,
   buildXMLString,
   ReassembleXMLFileHandler,
 } from "../src/index";
-
-setLogLevel("debug");
 const testFile: string = "test/fixtures/Just_Shop.loyaltyProgramSetup-meta.xml";
 let baselineContent: string;
 let disassembleHandler: DisassembleXMLFileHandler;
@@ -22,17 +17,7 @@ describe("multi-level disassembly test suite", () => {
   beforeAll(async () => {
     disassembleHandler = new DisassembleXMLFileHandler();
     reassembleHandler = new ReassembleXMLFileHandler();
-    baselineContent = await readFile(testFile, "utf-8");
-  });
-
-  beforeEach(async () => {
-    jest.spyOn(logger, "debug");
-    jest.spyOn(logger, "error");
-    jest.spyOn(logger, "warn");
-  });
-
-  afterEach(async () => {
-    jest.restoreAllMocks();
+    baselineContent = await fs.readFile(testFile, "utf-8");
   });
 
   it("should disassemble a XML file multiple times by level", async () => {
@@ -46,7 +31,7 @@ describe("multi-level disassembly test suite", () => {
     const recursivelyDisassembleLoyaltyProgramSetup = async (
       dir: string,
     ): Promise<void> => {
-      const entries = await readdir(dir, { withFileTypes: true });
+      const entries = await fs.readdir(dir, { withFileTypes: true });
 
       for (const entry of entries) {
         const fullPath = join(dir, entry.name);
@@ -65,17 +50,15 @@ describe("multi-level disassembly test suite", () => {
     if (existsSync(disassembledDir)) {
       await recursivelyDisassembleLoyaltyProgramSetup(disassembledDir);
     }
-    expect(logger.error).not.toHaveBeenCalled();
   });
   it("should reassemble the XML file over multiple levels.", async () => {
     await reassembleLoyaltyProgramSetup(
       "test/fixtures/Just_Shop",
       reassembleHandler,
     );
-    expect(logger.error).not.toHaveBeenCalled();
   });
   it("confirm the XML is the same as the baseline.", async () => {
-    const testContent = await readFile(testFile, "utf-8");
+    const testContent = await fs.readFile(testFile, "utf-8");
     strictEqual(
       testContent,
       baselineContent,
@@ -107,7 +90,7 @@ async function stripRootAndDisassemble(
   }
 
   const newXml = buildXMLString(stripped);
-  await writeFile(fullPath, newXml, "utf-8");
+  await fs.writeFile(fullPath, newXml, "utf-8");
 
   await handler.disassemble({
     filePath: fullPath,
@@ -123,17 +106,20 @@ async function reassembleLoyaltyProgramSetup(
   basePath: string,
   handler: ReassembleXMLFileHandler,
 ): Promise<void> {
-  const children = await readdir(basePath, { withFileTypes: true });
+  const children = await fs.readdir(basePath, { withFileTypes: true });
   for (const entry of children) {
     if (!entry.isDirectory()) continue;
     const programProcessesPath = join(basePath, "programProcesses");
 
     if (!existsSync(programProcessesPath)) continue;
 
-    const processDirs = await readdir(programProcessesPath);
-    for (const process of processDirs) {
-      const processPath = join(programProcessesPath, process);
-      const subDirs = await readdir(processPath, { withFileTypes: true });
+    const processEntries = await fs.readdir(programProcessesPath, {
+      withFileTypes: true,
+    });
+    for (const processEntry of processEntries) {
+      const processPath = join(programProcessesPath, processEntry.name);
+      if (!processEntry.isDirectory()) continue; // Skip files (e.g. leaf-only XML not disassembled)
+      const subDirs = await fs.readdir(processPath, { withFileTypes: true });
 
       for (const subDir of subDirs) {
         if (subDir.isDirectory()) {
@@ -162,13 +148,13 @@ async function reassembleLoyaltyProgramSetup(
 }
 
 async function wrapAllFilesWithLoyaltyRoot(folderPath: string): Promise<void> {
-  const files = await readdir(folderPath);
+  const files = await fs.readdir(folderPath);
 
   for (const file of files) {
     if (!file.endsWith(".xml")) continue;
 
     const xmlPath = join(folderPath, file);
-    const statResult = await stat(xmlPath);
+    const statResult = await fs.stat(xmlPath);
     if (!statResult.isFile()) continue;
 
     const parsed = await parseXML(xmlPath);
@@ -195,6 +181,6 @@ async function wrapAllFilesWithLoyaltyRoot(folderPath: string): Promise<void> {
     };
 
     const xmlString = buildXMLString(wrapped);
-    await writeFile(xmlPath, xmlString, "utf-8");
+    await fs.writeFile(xmlPath, xmlString, "utf-8");
   }
 }

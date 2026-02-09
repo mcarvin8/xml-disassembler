@@ -19,27 +19,26 @@ jobs:
         os: [ubuntu-latest, windows-latest]
 
     steps:
-      - uses: pnpm/action-setup@v4.0.0
-        with:
-          version: 9
-
       - name: Checkout
         uses: actions/checkout@v4.1.1
 
       - name: Setup Node
         uses: actions/setup-node@v4.0.1
         with:
-          node-version: 20
-          cache: pnpm
+          node-version: 24
+          cache: npm
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
 
       - name: Install Dependencies
-        run: pnpm install
+        run: npm ci
 
       - name: Build
-        run: pnpm build
+        run: npm run build
 
       - name: Test
-        run: pnpm test
+        run: npm test
 
       - name: Upload coverage
         if: runner.os == 'Linux'

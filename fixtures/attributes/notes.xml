@@ -1,14 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <note date="12/11/2002">
     <nest id="2">
         <to>Tove</to>
         <from>Jani</from>
         <heading>Reminder</heading>
-        <body>Don't forget me this weekend!</body>
+        <body>Don&apos;t forget me this weekend!</body>
     </nest>
     <nest id="1">
         <to>fdfd</to>
         <from>Jani</from>
         <heading>Reminder</heading>
-        <body>Don't forget me this weekend!</body>
+        <body>Don&apos;t forget me this weekend!</body>
     </nest>
 </note>
