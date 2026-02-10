@@ -20,6 +20,9 @@ const UNIQUE_ID_ELEMENTS =
   "apexClass,name,object,field,layout,actionName,targetReference,assignToReference,choiceText,promptText";
 
 async function main() {
+  console.log("[smoke] Platform:", process.platform, process.arch);
+  console.log("[smoke] Node:", process.version);
+
   const fixtureDir = path.join(
     __dirname,
     "..",
@@ -31,6 +34,11 @@ async function main() {
     throw new Error("Fixture not found: " + fixtureFile);
   }
   const originalContent = fs.readFileSync(fixtureFile, "utf8");
+  console.log(
+    "[smoke] Fixture:",
+    fixtureFile,
+    "(" + originalContent.length + " chars)",
+  );
 
   const tmpDir = fs.mkdtempSync(
     path.join(os.tmpdir(), "xml-disassembler-smoke-"),
@@ -41,17 +49,21 @@ async function main() {
     fixtureFile,
     path.join(tmpFixtureDir, "Get_Info.flow-meta.xml"),
   );
+  console.log("[smoke] Temp dir:", tmpDir);
 
   try {
     // Parse + build round-trip (validates native addon and core API)
     const xmlPath = path.join(tmpFixtureDir, "Get_Info.flow-meta.xml");
+    console.log("[smoke] Parse + build round-trip...");
     const parsed = await parseXML(xmlPath);
     if (!parsed) throw new Error("parseXML returned undefined");
     const rebuilt = buildXMLString(parsed);
     if (!rebuilt || !rebuilt.includes("Flow"))
       throw new Error("buildXMLString failed");
+    console.log("[smoke] Parse + build OK");
 
     // Disassemble + reassemble using deeply-nested fixture and unique ID elements
+    console.log("[smoke] Disassemble (unique-id, xml)...");
     const handler = new DisassembleXMLFileHandler();
     handler.disassemble({
       filePath: tmpFixtureDir,
@@ -59,6 +71,15 @@ async function main() {
       strategy: "unique-id",
       format: "xml",
     });
+    const disassembledFiles = fs.readdirSync(tmpFixtureDir, {
+      recursive: true,
+    });
+    console.log(
+      "[smoke] Disassemble OK, output files:",
+      disassembledFiles.length,
+    );
+
+    console.log("[smoke] Reassemble...");
     const reassembleHandler = new ReassembleXMLFileHandler();
     reassembleHandler.reassemble({
       filePath: path.join(tmpFixtureDir, "Get_Info"),
@@ -68,16 +89,23 @@ async function main() {
     if (!fs.existsSync(reassembledPath))
       throw new Error("Reassemble did not produce output file");
     const reassembledContent = fs.readFileSync(reassembledPath, "utf8");
+    console.log(
+      "[smoke] Reassemble OK, output length:",
+      reassembledContent.length,
+    );
+
+    console.log("[smoke] Comparing reassembled output to fixture...");
     strictEqual(
       reassembledContent,
       originalContent,
       "Reassembled XML must match the original fixture exactly",
     );
+    console.log("[smoke] Comparison OK (exact match)");
   } finally {
     fs.rmSync(tmpDir, { recursive: true, force: true });
   }
 
-  console.log("Smoke test passed:", process.platform, process.arch);
+  console.log("[smoke] Smoke test passed:", process.platform, process.arch);
 }
 
 main().catch((err) => {
