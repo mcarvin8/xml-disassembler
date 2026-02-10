@@ -5,6 +5,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.6](https://github.com/mcarvin8/xml-disassembler/compare/v2.0.5...v2.0.6) (2026-02-10)
+
+
+### Bug Fixes
+
+* update rust crate to 0.2.0 ([a890db5](https://github.com/mcarvin8/xml-disassembler/commit/a890db5f847d8171113903ca04a621e1254da617))
+
 ## [2.0.5](https://github.com/mcarvin8/xml-disassembler/compare/v2.0.4...v2.0.5) (2026-02-10)
 
 
