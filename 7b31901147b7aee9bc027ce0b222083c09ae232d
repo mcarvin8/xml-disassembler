@@ -1,0 +1,31 @@
+rollup.config.mjs
+  4c0d0be2e90b6de6 4,10-13,20-21
+package.json
+  4c0d0be2e90b6de6 27-29
+.github/workflows/release.yml
+  4c0d0be2e90b6de6 14-15,17-18,26-63,65-70,87-97,99-100
+scripts/build-native.js
+  4c0d0be2e90b6de6 1-13
+src/index.ts
+  4c0d0be2e90b6de6 3-8
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.1",
+  "base_commit_sha": "7b31901147b7aee9bc027ce0b222083c09ae232d",
+  "prompts": {
+    "4c0d0be2e90b6de6": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "e25dedde-2c75-42ea-9353-5f806b187f67",
+        "model": "default"
+      },
+      "human_author": "Matt Carvin <90224411+mcarvin8@users.noreply.github.com>",
+      "messages": [],
+      "total_additions": 100,
+      "total_deletions": 35,
+      "accepted_lines": 93,
+      "overriden_lines": 0
+    }
+  }
+}
