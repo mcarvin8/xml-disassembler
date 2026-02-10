@@ -1,9 +1,17 @@
 import path from "path";
 
-// Resolves to dist/native/index.node from both src/ (tests) and dist/ (published)
-const nativeAddon = require(
-  path.join(__dirname, "..", "dist", "native", "index.node"),
-);
+// Platform-specific path so one npm package can ship win/linux/darwin binaries
+const isDist = path.basename(__dirname) === "dist";
+const nativeDir = isDist
+  ? path.join(__dirname, "native", process.platform + "-" + process.arch)
+  : path.join(
+      __dirname,
+      "..",
+      "dist",
+      "native",
+      process.platform + "-" + process.arch,
+    );
+const nativeAddon = require(path.join(nativeDir, "index.node"));
 
 export interface XmlElement {
   name: string;

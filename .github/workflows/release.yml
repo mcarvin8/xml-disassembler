@@ -11,13 +11,11 @@ permissions:
   id-token: write # Required for OIDC
 
 jobs:
-  build:
-    uses: ./.github/workflows/build.yml
-    secrets: inherit
-  release:
-    name: Release
+  release-please:
+    name: Release Please
     runs-on: ubuntu-latest
-
+    outputs:
+      release_created: ${{ steps.release.outputs.release_created }}
     steps:
       - name: Release Please
         id: release
@@ -25,9 +23,53 @@ jobs:
         with:
           release-type: node
 
+  build-natives:
+    name: Build native (${{ matrix.os }})
+    needs: release-please
+    if: needs.release-please.outputs.release_created == 'true'
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    steps:
       - name: Checkout
         uses: actions/checkout@v4.1.1
-        if: ${{ steps.release.outputs.release_created == 'true' }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v4.0.1
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Build native addon
+        run: node scripts/build-native.js
+
+      - name: Set platform id
+        id: platform
+        shell: bash
+        run: echo "platform=$(node -p "process.platform+'-'+process.arch")" >> $GITHUB_OUTPUT
+
+      - name: Upload native artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: native-${{ steps.platform.outputs.platform }}
+          path: dist/native/
+
+  release:
+    name: Release
+    needs: [release-please, build-natives]
+    if: needs.release-please.outputs.release_created == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.1.1
 
       - name: Setup Node
         uses: actions/setup-node@v4.0.1
@@ -35,24 +77,30 @@ jobs:
           node-version: 24
           cache: npm
           registry-url: "https://registry.npmjs.org"
-        if: ${{ steps.release.outputs.release_created == 'true' }}
 
       - name: Setup Rust
         uses: dtolnay/rust-toolchain@stable
-        if: ${{ steps.release.outputs.release_created == 'true' }}
 
       - name: Install Dependencies
         run: npm ci
-        if: ${{ steps.release.outputs.release_created == 'true' }}
 
-      - name: Build
-        run: npm run build
-        if: ${{ steps.release.outputs.release_created == 'true' }}
+      - name: Download all native artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: native-*
+          path: native-artifacts
+          merge-multiple: true
+
+      - name: Merge natives into dist
+        run: |
+          mkdir -p dist/native
+          cp -r native-artifacts/* dist/native/
+
+      - name: Build JS (Rollup)
+        run: npm run build:js
 
       - name: Test
         run: npm test
-        if: ${{ steps.release.outputs.release_created == 'true' }}
 
       - name: Publish to NPM
         run: NODE_AUTH_TOKEN="" npm publish --access public --provenance
-        if: ${{ steps.release.outputs.release_created == 'true' }}

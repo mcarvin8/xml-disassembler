@@ -1,23 +1,24 @@
 import typescript from "@rollup/plugin-typescript";
 import terser from "@rollup/plugin-terser";
 
-/** For ESM builds: replace require() of .node with createRequire(import.meta.url) */
+/** For ESM builds: replace require() of .node with createRequire(import.meta.url) and platform path */
 function esmNativeLoader() {
   return {
     name: "esm-native-loader",
     renderChunk(code, chunk, options) {
       if (options.format !== "es") return null;
-      const requireLine =
-        /const\s+nativeAddon\s*=\s*require\s*\(\s*path\.join\s*\(\s*__dirname\s*,\s*["']\.\.["']\s*,\s*["']dist["']\s*,\s*["']native["']\s*,\s*["']index\.node["']\s*\)\s*\)\s*;?/;
-      if (!requireLine.test(code)) return null;
+      // Match: const isDist = ... const nativeDir = ... const nativeAddon = require(path.join(nativeDir, "index.node"));
+      const block =
+        /const\s+isDist\s*=[\s\S]*?const\s+nativeAddon\s*=\s*require\s*\(\s*path\.join\s*\(\s*nativeDir\s*,\s*["']index\.node["']\s*\)\s*\)\s*;?/;
+      if (!block.test(code)) return null;
       const newCode = code
         .replace(
           /import path from ['"]path['"]\s*;?/,
           "import path from 'path';\nimport { createRequire } from 'module';\nimport { fileURLToPath } from 'url';",
         )
         .replace(
-          requireLine,
-          "const __dirname = path.dirname(fileURLToPath(import.meta.url));\nconst nativeAddon = createRequire(import.meta.url)(path.join(__dirname, 'native', 'index.node'));",
+          block,
+          "const __dirname = path.dirname(fileURLToPath(import.meta.url));\nconst nativeDir = path.join(__dirname, 'native', process.platform + '-' + process.arch);\nconst nativeAddon = createRequire(import.meta.url)(path.join(nativeDir, 'index.node'));",
         );
       return { code: newCode, map: null };
     },

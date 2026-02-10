@@ -24,8 +24,9 @@
     "access": "public"
   },
   "scripts": {
-    "build": "npm run build:crate && npx rollup -c",
-    "build:crate": "node -e \"require('fs').mkdirSync('dist/native',{recursive:true})\" && npx cargo-cp-artifact -a cdylib xml-disassembler-crate dist/native/index.node -- cargo build --release --message-format=json-render-diagnostics",
+    "build": "npm run build:crate && npm run build:js",
+    "build:js": "npx rollup -c",
+    "build:crate": "node scripts/build-native.js",
     "start": "node dist/index.cjs",
     "test": "jest --coverage",
     "release": "semantic-release",
