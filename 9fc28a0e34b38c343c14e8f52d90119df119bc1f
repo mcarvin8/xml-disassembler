@@ -1,0 +1,23 @@
+CONTRIBUTING.md
+  4c0d0be2e90b6de6 3,8,25,31,39-45,49-51,53-56,62
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.1",
+  "base_commit_sha": "9fc28a0e34b38c343c14e8f52d90119df119bc1f",
+  "prompts": {
+    "4c0d0be2e90b6de6": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "e25dedde-2c75-42ea-9353-5f806b187f67",
+        "model": "default"
+      },
+      "human_author": "Matt Carvin <90224411+mcarvin8@users.noreply.github.com>",
+      "messages": [],
+      "total_additions": 22,
+      "total_deletions": 14,
+      "accepted_lines": 20,
+      "overriden_lines": 1
+    }
+  }
+}
