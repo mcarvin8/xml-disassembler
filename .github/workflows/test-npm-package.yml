@@ -34,4 +34,4 @@ jobs:
         shell: bash
         run: |
           cp scripts/smoke-test-published.cjs test-npm-package/
-          cd test-npm-package && node smoke-test-published.cjs
+          cd test-npm-package && RUST_LOG=debug node smoke-test-published.cjs
