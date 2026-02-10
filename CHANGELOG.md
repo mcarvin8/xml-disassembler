@@ -5,6 +5,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.8](https://github.com/mcarvin8/xml-disassembler/compare/v2.0.7...v2.0.8) (2026-02-10)
+
+
+### Bug Fixes
+
+* **build:** install cross compliation deps for linux-arm64 and linux-ia32 jobs ([b293ea5](https://github.com/mcarvin8/xml-disassembler/commit/b293ea53f08e22f3dd6f63d7a28d3ae63b655501))
+
 ## [2.0.7](https://github.com/mcarvin8/xml-disassembler/compare/v2.0.6...v2.0.7) (2026-02-10)
 
 
