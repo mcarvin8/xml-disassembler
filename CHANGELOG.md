@@ -5,6 +5,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.4](https://github.com/mcarvin8/xml-disassembler/compare/v2.0.3...v2.0.4) (2026-02-10)
+
+
+### Bug Fixes
+
+* create platform-specific binaries under native ([7b31901](https://github.com/mcarvin8/xml-disassembler/commit/7b31901147b7aee9bc027ce0b222083c09ae232d))
+
 ## [2.0.3](https://github.com/mcarvin8/xml-disassembler/compare/v2.0.2...v2.0.3) (2026-02-10)
 
 
