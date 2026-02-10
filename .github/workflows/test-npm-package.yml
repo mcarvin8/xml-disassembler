@@ -1,0 +1,36 @@
+# Test the latest xml-disassembler published to npm on each OS used in release.
+# Run manually to verify the published package works on Linux, Windows, and macOS.
+name: Test NPM package
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test-published:
+    name: Test published package (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.1.1
+
+      - name: Setup Node
+        uses: actions/setup-node@v4.0.1
+        with:
+          node-version: 24
+
+      - name: Install latest xml-disassembler from NPM
+        shell: bash
+        run: |
+          mkdir -p test-npm-package
+          cd test-npm-package
+          npm init -y
+          npm install xml-disassembler
+
+      - name: Run smoke test (published package)
+        shell: bash
+        run: node ../scripts/smoke-test-published.cjs
+        working-directory: test-npm-package
