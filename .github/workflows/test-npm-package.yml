@@ -32,5 +32,6 @@ jobs:
 
       - name: Run smoke test (published package)
         shell: bash
-        run: node ../scripts/smoke-test-published.cjs
-        working-directory: test-npm-package
+        run: |
+          cp scripts/smoke-test-published.cjs test-npm-package/
+          cd test-npm-package && node smoke-test-published.cjs
