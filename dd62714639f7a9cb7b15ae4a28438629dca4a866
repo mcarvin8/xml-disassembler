@@ -1,0 +1,25 @@
+.github/workflows/release.yml
+  4c0d0be2e90b6de6 27,34-52,65-66,72-74,80
+scripts/build-native.js
+  4c0d0be2e90b6de6 5-8,10-11
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.1",
+  "base_commit_sha": "dd62714639f7a9cb7b15ae4a28438629dca4a866",
+  "prompts": {
+    "4c0d0be2e90b6de6": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "e25dedde-2c75-42ea-9353-5f806b187f67",
+        "model": "default"
+      },
+      "human_author": "Matt Carvin <90224411+mcarvin8@users.noreply.github.com>",
+      "messages": [],
+      "total_additions": 50,
+      "total_deletions": 11,
+      "accepted_lines": 49,
+      "overriden_lines": 0
+    }
+  }
+}
