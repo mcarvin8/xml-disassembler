@@ -1,0 +1,25 @@
+.github/workflows/test-npm-package.yml
+  4c0d0be2e90b6de6 1-36
+scripts/smoke-test-published.cjs
+  4c0d0be2e90b6de6 1-66
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.1",
+  "base_commit_sha": "95c092b348b7a6e88a1266eb2ef018294e347f01",
+  "prompts": {
+    "4c0d0be2e90b6de6": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "e25dedde-2c75-42ea-9353-5f806b187f67",
+        "model": "default"
+      },
+      "human_author": "Matt Carvin <90224411+mcarvin8@users.noreply.github.com>",
+      "messages": [],
+      "total_additions": 134,
+      "total_deletions": 32,
+      "accepted_lines": 102,
+      "overriden_lines": 0
+    }
+  }
+}
