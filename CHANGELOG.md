@@ -5,6 +5,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.5](https://github.com/mcarvin8/xml-disassembler/compare/v2.0.4...v2.0.5) (2026-02-10)
+
+
+### Bug Fixes
+
+* **build:** reduce branch coverage requirement to release ([51f66e3](https://github.com/mcarvin8/xml-disassembler/commit/51f66e3cbbf20457bfe755e37d7f14b83a9b9ed6))
+
 ## [2.0.4](https://github.com/mcarvin8/xml-disassembler/compare/v2.0.3...v2.0.4) (2026-02-10)
 
 
