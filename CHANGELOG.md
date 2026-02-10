@@ -5,6 +5,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.3](https://github.com/mcarvin8/xml-disassembler/compare/v2.0.2...v2.0.3) (2026-02-10)
+
+
+### Bug Fixes
+
+* move rust files to root ([f4a5151](https://github.com/mcarvin8/xml-disassembler/commit/f4a5151c8dae866fd86b30b6af5c9da91c498322))
+
 ## [2.0.2](https://github.com/mcarvin8/xml-disassembler/compare/v2.0.1...v2.0.2) (2026-02-09)
 
 
