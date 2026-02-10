@@ -1,0 +1,23 @@
+scripts/smoke-test-published.cjs
+  4c0d0be2e90b6de6 23-25,37,96
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.1",
+  "base_commit_sha": "56a24b169a6d465a8d0f206b6d79f0c411d6f8f8",
+  "prompts": {
+    "4c0d0be2e90b6de6": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "e25dedde-2c75-42ea-9353-5f806b187f67",
+        "model": "default"
+      },
+      "human_author": "Matt Carvin <90224411+mcarvin8@users.noreply.github.com>",
+      "messages": [],
+      "total_additions": 17,
+      "total_deletions": 1,
+      "accepted_lines": 17,
+      "overriden_lines": 0
+    }
+  }
+}
