@@ -5,6 +5,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.7](https://github.com/mcarvin8/xml-disassembler/compare/v2.0.6...v2.0.7) (2026-02-10)
+
+
+### Bug Fixes
+
+* align binaries with rust workflows ([dd62714](https://github.com/mcarvin8/xml-disassembler/commit/dd62714639f7a9cb7b15ae4a28438629dca4a866))
+
 ## [2.0.6](https://github.com/mcarvin8/xml-disassembler/compare/v2.0.5...v2.0.6) (2026-02-10)
 
 
