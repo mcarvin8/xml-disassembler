@@ -169,7 +169,7 @@ await handler.reassemble({
 
 ## Ignore file
 
-Exclude files or directories from disassembly using an ignore file (default: `.xmldisassemblerignore`). Syntax matches [node-ignore](https://github.com/kaelzhang/node-ignore) (similar to `.gitignore`).
+Exclude files or directories from disassembly using an ignore file (default: `.xmldisassemblerignore`). Syntax is the same as [`.gitignore`](https://git-scm.com/docs/gitignore) (e.g. patterns, `**/`, negation).
 
 Example:
 
