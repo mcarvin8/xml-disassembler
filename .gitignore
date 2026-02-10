@@ -8,3 +8,6 @@ test/**/*.js
 *.log
 **/*.log
 disassemble.log
+target
+cargo.log
+index.node

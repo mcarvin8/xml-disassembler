@@ -172,4 +172,3 @@ fn transform_to_json5_js(mut cx: FunctionContext) -> JsResult<JsString> {
     let result = runtime().block_on(transform_to_json5(&parsed));
     Ok(cx.string(result))
 }
-

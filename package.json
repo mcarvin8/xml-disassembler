@@ -17,17 +17,21 @@
   "engines": {
     "node": ">=20"
   },
+  "files": [
+    "dist"
+  ],
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
-    "build": "npm run build:crate && npx rollup -c && node scripts/copy-native.js",
-    "build:crate": "cd xml-disassembler-crate && npm install && npm run build",
+    "build": "npm run build:crate && npx rollup -c",
+    "build:crate": "node -e \"require('fs').mkdirSync('dist/native',{recursive:true})\" && npx cargo-cp-artifact -a cdylib xml-disassembler-crate dist/native/index.node -- cargo build --release --message-format=json-render-diagnostics",
     "start": "node dist/index.cjs",
     "test": "jest --coverage",
     "release": "semantic-release",
     "lint": "eslint .",
     "format": "prettier --write \"**/*.{js,ts}\"",
+    "prepack": "npm run build",
     "prepare": "husky install"
   },
   "lint-staged": {
@@ -39,6 +43,7 @@
     "@types/fs-extra": "^11.0.4",
     "@types/jest": "^30.0.0",
     "@types/node": "^25.2.0",
+    "cargo-cp-artifact": "^0.1.9",
     "eslint": "^9.39.2",
     "eslint-config-prettier": "^10.1.2",
     "husky": "^9.1.7",

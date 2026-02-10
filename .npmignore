@@ -11,5 +11,9 @@ jest.config.js
 rollup.config.mjs
 tsconfig.json
 fixtures
-xml-disassembler-crate
 scripts
+Cargo.toml
+Cargo.lock
+cargo.log
+target
+.xmldisassemblerignore

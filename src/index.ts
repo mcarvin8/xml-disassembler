@@ -1,20 +1,44 @@
-/**
- * xml-disassembler - Node.js bindings to the Rust xml-disassembler crate.
- * Disassemble XML files into smaller, more manageable files and reassemble the XML when needed.
- */
+import path from "path";
 
-/* eslint-disable @typescript-eslint/no-require-imports */
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const path = require("path");
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const native = require(path.join(__dirname, "..", "dist", "native-loader.cjs"));
+// Resolves to dist/native/index.node from both src/ (tests) and dist/ (published)
+const nativeAddon = require(
+  path.join(__dirname, "..", "dist", "native", "index.node"),
+);
 
-export type XmlElement = {
-  [key: string]: string | XmlElement | string[] | XmlElement[];
-};
+export interface XmlElement {
+  name: string;
+  attributes?: Record<string, string>;
+  children?: XmlNode[];
+  [key: string]: unknown;
+}
+
+export type XmlNode = XmlElement | string;
+
+export async function parseXML(
+  filePath: string,
+): Promise<XmlElement | undefined> {
+  const json = nativeAddon.parseXml(filePath);
+  return json != null ? JSON.parse(json) : undefined;
+}
+
+export function buildXMLString(element: XmlElement): string {
+  return nativeAddon.buildXmlString(JSON.stringify(element));
+}
+
+export function transformToYaml(element: XmlElement): string {
+  return nativeAddon.transformToYaml(JSON.stringify(element));
+}
+
+export function transformToJson(element: XmlElement): string {
+  return nativeAddon.transformToJson(JSON.stringify(element));
+}
+
+export function transformToJson5(element: XmlElement): string {
+  return nativeAddon.transformToJson5(JSON.stringify(element));
+}
 
 export class DisassembleXMLFileHandler {
-  async disassemble(xmlAttributes: {
+  disassemble(opts: {
     filePath: string;
     uniqueIdElements?: string;
     strategy?: string;
@@ -22,40 +46,17 @@ export class DisassembleXMLFileHandler {
     postPurge?: boolean;
     ignorePath?: string;
     format?: string;
-  }): Promise<void> {
-    native.disassemble(xmlAttributes);
+  }): void {
+    nativeAddon.disassemble(opts);
   }
 }
 
 export class ReassembleXMLFileHandler {
-  async reassemble(xmlAttributes: {
+  reassemble(opts: {
     filePath: string;
     fileExtension?: string;
     postPurge?: boolean;
-  }): Promise<void> {
-    native.reassemble(xmlAttributes);
+  }): void {
+    nativeAddon.reassemble(opts);
   }
-}
-
-export async function parseXML(
-  filePath: string,
-): Promise<XmlElement | undefined> {
-  const result = native.parseXml(filePath);
-  return result ? (JSON.parse(result) as XmlElement) : undefined;
-}
-
-export function buildXMLString(element: XmlElement): string {
-  return native.buildXmlString(JSON.stringify(element));
-}
-
-export async function transformToYaml(parsedXml: XmlElement): Promise<string> {
-  return native.transformToYaml(JSON.stringify(parsedXml));
-}
-
-export async function transformToJson(parsedXml: XmlElement): Promise<string> {
-  return native.transformToJson(JSON.stringify(parsedXml));
-}
-
-export async function transformToJson5(parsedXml: XmlElement): Promise<string> {
-  return native.transformToJson5(JSON.stringify(parsedXml));
 }

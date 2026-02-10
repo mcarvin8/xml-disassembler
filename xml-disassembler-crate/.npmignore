@@ -1,8 +1,0 @@
-# Exclude build artifacts but keep index.node for distribution
-target
-cargo.log
-cross.log
-*.rs
-src
-Cargo.toml
-Cargo.lock
