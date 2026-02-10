@@ -1,0 +1,35 @@
+rollup.config.mjs
+  4c0d0be2e90b6de6 4-26,76
+src/lib.rs
+  4c0d0be2e90b6de6 1-174
+Cargo.toml
+  4c0d0be2e90b6de6 1-18
+src/index.ts
+  4c0d0be2e90b6de6 1-22,24-30,32-38,41,49-50,55
+.gitignore
+  4c0d0be2e90b6de6 11-13
+package.json
+  4c0d0be2e90b6de6 20
+.npmignore
+  4c0d0be2e90b6de6 15-18
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.1",
+  "base_commit_sha": "f4a5151c8dae866fd86b30b6af5c9da91c498322",
+  "prompts": {
+    "4c0d0be2e90b6de6": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "e25dedde-2c75-42ea-9353-5f806b187f67",
+        "model": "default"
+      },
+      "human_author": "Matt Carvin <90224411+mcarvin8@users.noreply.github.com>",
+      "messages": [],
+      "total_additions": 464,
+      "total_deletions": 115,
+      "accepted_lines": 345,
+      "overriden_lines": 0
+    }
+  }
+}
