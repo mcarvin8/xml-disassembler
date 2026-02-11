@@ -4,7 +4,7 @@ use neon::prelude::*;
 use std::sync::OnceLock;
 use xml_disassembler::{
     build_xml_string, parse_xml, transform_to_json, transform_to_json5, transform_to_yaml,
-    path_segment_from_file_pattern, DisassembleXmlFileHandler, MultiLevelRule,
+    path_segment_from_file_pattern, DecomposeRule, DisassembleXmlFileHandler, MultiLevelRule,
     ReassembleXmlFileHandler,
 };
 
@@ -65,6 +65,44 @@ fn disassemble(mut cx: FunctionContext) -> JsResult<JsUndefined> {
         .unwrap_or_else(|| ".xmldisassemblerignore".to_string());
     let format = opt_string(&mut cx, &opts, "format").unwrap_or_else(|| "xml".to_string());
     let multi_level_str = opt_string(&mut cx, &opts, "multiLevel");
+    let split_tags_str = opt_string(&mut cx, &opts, "splitTags");
+
+    // Parse "tag:mode:field" or "tag:path:mode:field" (comma-separated) into DecomposeRule list (same as crate CLI -p/--split-tags).
+    let decompose_rules: Vec<DecomposeRule> = split_tags_str
+        .as_deref()
+        .map(|spec| {
+            let mut rules = Vec::new();
+            for part in spec.split(',') {
+                let part = part.trim();
+                let segments: Vec<&str> = part.splitn(4, ':').collect();
+                if segments.len() >= 3 {
+                    let tag = segments[0].to_string();
+                    let (path_segment, mode, field) = if segments.len() == 3 {
+                        (
+                            tag.clone(),
+                            segments[1].to_string(),
+                            segments[2].to_string(),
+                        )
+                    } else {
+                        (
+                            segments[1].to_string(),
+                            segments[2].to_string(),
+                            segments[3].to_string(),
+                        )
+                    };
+                    if !tag.is_empty() && !mode.is_empty() && !field.is_empty() {
+                        rules.push(DecomposeRule {
+                            tag,
+                            path_segment,
+                            mode,
+                            field,
+                        });
+                    }
+                }
+            }
+            rules
+        })
+        .unwrap_or_default();
 
     // Parse "file_pattern:root_to_strip:unique_id_elements" into MultiLevelRule (same as crate CLI).
     let multi_level_rule = multi_level_str.as_deref().and_then(|spec| {
@@ -87,6 +125,12 @@ fn disassemble(mut cx: FunctionContext) -> JsResult<JsUndefined> {
         })
     });
 
+    let decompose_rules_ref = if decompose_rules.is_empty() {
+        None
+    } else {
+        Some(decompose_rules.as_slice())
+    };
+
     let result = runtime().block_on(async {
         let mut handler = DisassembleXmlFileHandler::new();
         handler
@@ -99,6 +143,7 @@ fn disassemble(mut cx: FunctionContext) -> JsResult<JsUndefined> {
                 &ignore_path,
                 &format,
                 multi_level_rule.as_ref(),
+                decompose_rules_ref,
             )
             .await
     });

@@ -55,6 +55,7 @@ export class DisassembleXMLFileHandler {
     ignorePath?: string;
     format?: string;
     multiLevel?: string;
+    splitTags?: string;
   }): void {
     nativeAddon.disassemble(opts);
   }
