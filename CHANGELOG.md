@@ -5,6 +5,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.2.0](https://github.com/mcarvin8/xml-disassembler/compare/v2.1.0...v2.2.0) (2026-02-11)
+
+
+### Features
+
+* add split-tags strategy for grouped-by-tag (crate 0.4.0) ([ee8f9a7](https://github.com/mcarvin8/xml-disassembler/commit/ee8f9a7e468566f21d84788166cc2f79e78665d2))
+* add split-tags strategy for grouped-by-tag (crate 0.4.0) ([4923395](https://github.com/mcarvin8/xml-disassembler/commit/49233955d31c47a8316879169d2c6c23489b5e72))
+
 ## [2.1.0](https://github.com/mcarvin8/xml-disassembler/compare/v2.0.8...v2.1.0) (2026-02-11)
 
 
