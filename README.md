@@ -22,6 +22,7 @@ Useful for cleaner diffs, easier collaboration, and workflows like Salesforce me
 - [Install](#install)
 - [Disassembling](#disassembling)
 - [Disassembly strategies](#disassembly-strategies)
+  - [Split tags (splitTags)](#split-tags-splittags)
 - [Multi-level disassembly](#multi-level-disassembly)
 - [Reassembling](#reassembling)
 - [Ignore file](#ignore-file)
@@ -106,6 +107,7 @@ await handler.disassemble({
 | `filePath`         | Path to the XML file or directory to disassemble.                                                                                     |
 | `uniqueIdElements` | Comma-separated element names used to derive filenames for nested elements.                                                           |
 | `multiLevel`       | Optional. Multi-level spec: `file_pattern:root_to_strip:unique_id_elements`. See [Multi-level disassembly](#multi-level-disassembly). |
+| `splitTags`        | Optional. With `strategy: "grouped-by-tag"`: split or group nested tags. See [Split tags](#split-tags--splittags).                    |
 | `prePurge`         | Remove existing disassembly output before running (default: `false`).                                                                 |
 | `postPurge`        | Remove the source XML after disassembly (default: `false`).                                                                           |
 | `ignorePath`       | Path to the ignore file (default: `.xmldisassemblerignore`).                                                                          |
@@ -136,6 +138,34 @@ Best for fine-grained diffs and version control.
 All nested elements with the same tag go into one file per tag. Leaf content stays in the base file named after the original XML.
 
 Best for fewer files and quick inspection.
+
+```typescript
+await handler.disassemble({
+  filePath: "my.xml",
+  strategy: "grouped-by-tag",
+  format: "yaml",
+});
+```
+
+Reassembly preserves element content and structure.
+
+#### Split tags (`splitTags`)
+
+With `strategy: "grouped-by-tag"`, you can optionally split or group specific nested tags into subdirectories instead of a single file per tag. Useful for permission sets and similar metadata: e.g. one file per `objectPermissions` under `objectPermissions/`, and `fieldPermissions` grouped by object under `fieldPermissions/`.
+
+**Spec:** Comma-separated rules. Each rule is `tag:mode:field` or `tag:path:mode:field` (path defaults to tag). **mode** is `split` (one file per array item, filename from field) or `group` (group array items by field, one file per group).
+
+```typescript
+// Permission set: objectPermissions → one file per object; fieldPermissions → one file per field value
+await handler.disassemble({
+  filePath: "fixtures/split-tags/HR_Admin.permissionset-meta.xml",
+  strategy: "grouped-by-tag",
+  splitTags: "objectPermissions:split:object,fieldPermissions:group:field",
+  format: "xml",
+});
+```
+
+Creates `HR_Admin/` with e.g. `objectPermissions/Job_Request__c.objectPermissions-meta.xml`, `objectPermissions/Account.objectPermissions-meta.xml`, `fieldPermissions/<fieldValue>.fieldPermissions-meta.xml`, plus the main `HR_Admin.permissionset-meta.xml` with the rest. Reassembly requires no changes: the existing reassemble command merges subdirs and files back into one XML.
 
 **Example layouts**
 
