@@ -857,9 +857,9 @@ checksum = "d6bbff5f0aada427a1e5a6da5f1f98158182f26556f345ac9e04d36d0ebed650"
 
 [[package]]
 name = "xml-disassembler"
-version = "0.2.0"
+version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e127c8ac3b8dec6b2f4f7a22db2e46def53c990f5356383d8d2f24237a264f39"
+checksum = "078bc22a2e0ad4bd21970e2f0661b1488159f85a5f61a3c2ad0de7b5a4cccb80"
 dependencies = [
  "anyhow",
  "env_logger",

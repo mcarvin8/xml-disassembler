@@ -4,7 +4,8 @@ use neon::prelude::*;
 use std::sync::OnceLock;
 use xml_disassembler::{
     build_xml_string, parse_xml, transform_to_json, transform_to_json5, transform_to_yaml,
-    DisassembleXmlFileHandler, ReassembleXmlFileHandler,
+    path_segment_from_file_pattern, DisassembleXmlFileHandler, MultiLevelRule,
+    ReassembleXmlFileHandler,
 };
 
 static RUNTIME: OnceLock<tokio::runtime::Runtime> = OnceLock::new();
@@ -63,6 +64,28 @@ fn disassemble(mut cx: FunctionContext) -> JsResult<JsUndefined> {
     let ignore_path = opt_string(&mut cx, &opts, "ignorePath")
         .unwrap_or_else(|| ".xmldisassemblerignore".to_string());
     let format = opt_string(&mut cx, &opts, "format").unwrap_or_else(|| "xml".to_string());
+    let multi_level_str = opt_string(&mut cx, &opts, "multiLevel");
+
+    // Parse "file_pattern:root_to_strip:unique_id_elements" into MultiLevelRule (same as crate CLI).
+    let multi_level_rule = multi_level_str.as_deref().and_then(|spec| {
+        let parts: Vec<&str> = spec.splitn(3, ':').collect();
+        if parts.len() != 3 {
+            return None;
+        }
+        let (file_pattern, root_to_strip, unique_id_elements) = (parts[0], parts[1], parts[2]);
+        if file_pattern.is_empty() || root_to_strip.is_empty() || unique_id_elements.is_empty() {
+            return None;
+        }
+        let path_segment = path_segment_from_file_pattern(file_pattern);
+        Some(MultiLevelRule {
+            file_pattern: file_pattern.to_string(),
+            root_to_strip: root_to_strip.to_string(),
+            unique_id_elements: unique_id_elements.to_string(),
+            path_segment: path_segment.clone(),
+            wrap_root_element: root_to_strip.to_string(),
+            wrap_xmlns: String::new(),
+        })
+    });
 
     let result = runtime().block_on(async {
         let mut handler = DisassembleXmlFileHandler::new();
@@ -75,6 +98,7 @@ fn disassemble(mut cx: FunctionContext) -> JsResult<JsUndefined> {
                 post_purge,
                 &ignore_path,
                 &format,
+                multi_level_rule.as_ref(),
             )
             .await
     });

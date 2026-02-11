@@ -22,6 +22,7 @@ Useful for cleaner diffs, easier collaboration, and workflows like Salesforce me
 - [Install](#install)
 - [Disassembling](#disassembling)
 - [Disassembly strategies](#disassembly-strategies)
+- [Multi-level disassembly](#multi-level-disassembly)
 - [Reassembling](#reassembling)
 - [Ignore file](#ignore-file)
 - [Logging](#logging)
@@ -100,15 +101,16 @@ await handler.disassemble({
 });
 ```
 
-| Option             | Description                                                                 |
-| ------------------ | --------------------------------------------------------------------------- |
-| `filePath`         | Path to the XML file or directory to disassemble.                           |
-| `uniqueIdElements` | Comma-separated element names used to derive filenames for nested elements. |
-| `prePurge`         | Remove existing disassembly output before running (default: `false`).       |
-| `postPurge`        | Remove the source XML after disassembly (default: `false`).                 |
-| `ignorePath`       | Path to the ignore file (default: `.xmldisassemblerignore`).                |
-| `format`           | Output format: `xml`, `json`, `json5`, `yaml`.                              |
-| `strategy`         | `unique-id` or `grouped-by-tag`.                                            |
+| Option             | Description                                                                                                                           |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------- |
+| `filePath`         | Path to the XML file or directory to disassemble.                                                                                     |
+| `uniqueIdElements` | Comma-separated element names used to derive filenames for nested elements.                                                           |
+| `multiLevel`       | Optional. Multi-level spec: `file_pattern:root_to_strip:unique_id_elements`. See [Multi-level disassembly](#multi-level-disassembly). |
+| `prePurge`         | Remove existing disassembly output before running (default: `false`).                                                                 |
+| `postPurge`        | Remove the source XML after disassembly (default: `false`).                                                                           |
+| `ignorePath`       | Path to the ignore file (default: `.xmldisassemblerignore`).                                                                          |
+| `format`           | Output format: `xml`, `json`, `json5`, `yaml`.                                                                                        |
+| `strategy`         | `unique-id` or `grouped-by-tag`.                                                                                                      |
 
 ---
 
@@ -143,6 +145,45 @@ Best for fewer files and quick inspection.
 | **YAML**  | [![YAML tag](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-tags-yaml.png)](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-tags-yaml.png)    |
 | **JSON**  | [![JSON tag](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-tags-json.png)](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-tags-json.png)    |
 | **JSON5** | [![JSON5 tag](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-tags-json5.png)](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-tags-json5.png) |
+
+---
+
+## Multi-level disassembly
+
+For XML with nested repeatable blocks (e.g. `programProcesses` inside `LoyaltyProgramSetup`), you can disassemble in one call and reassemble in one call. Pass a **multi-level spec** so the tool further splits matching files and later merges them in the right order.
+
+**Spec format:** `file_pattern:root_to_strip:unique_id_elements`  
+Example: `programProcesses:programProcesses:parameterName,ruleName` — for files whose name contains `programProcesses`, strip the `programProcesses` root and disassemble by `parameterName` and `ruleName`.
+
+```typescript
+import {
+  DisassembleXMLFileHandler,
+  ReassembleXMLFileHandler,
+} from "xml-disassembler";
+
+const disassemble = new DisassembleXMLFileHandler();
+await disassemble.disassemble({
+  filePath: "Cloud_Kicks_Inner_Circle.loyaltyProgramSetup-meta.xml",
+  uniqueIdElements: "fullName,name,processName",
+  multiLevel: "programProcesses:programProcesses:parameterName,ruleName",
+  postPurge: true,
+});
+
+const reassemble = new ReassembleXMLFileHandler();
+await reassemble.reassemble({
+  filePath: "Cloud_Kicks_Inner_Circle",
+  fileExtension: "loyaltyProgramSetup-meta.xml",
+  postPurge: true,
+});
+```
+
+| Option       | Description                                                                 |
+| ------------ | --------------------------------------------------------------------------- |
+| `multiLevel` | Optional. `file_pattern:root_to_strip:unique_id_elements` for nested split. |
+
+A `.multi_level.json` config is written in the disassembly root so reassembly knows how to merge inner levels first, then the top level. No extra options are needed for reassembly.
+
+**Caveat:** Multi-level reassembly removes disassembled directories after reassembling each level, even when you do not pass `postPurge`. This is required so the next level can merge the reassembled XML files. Use version control (e.g. Git) to recover the tree if needed, or run reassembly only in a pipeline where these changes can be discarded.
 
 ---
 
