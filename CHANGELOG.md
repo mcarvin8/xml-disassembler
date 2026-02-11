@@ -5,6 +5,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.1.0](https://github.com/mcarvin8/xml-disassembler/compare/v2.0.8...v2.1.0) (2026-02-11)
+
+
+### Features
+
+* add multi-level disassembly using crate 0.3.0 ([3039b3e](https://github.com/mcarvin8/xml-disassembler/commit/3039b3eade174b8d7911bb5ab957b87278350750))
+* add multi-level disassembly using crate 0.3.0 ([d8f17d7](https://github.com/mcarvin8/xml-disassembler/commit/d8f17d7526c72f10513a674250cafe37fd7c9500))
+
 ## [2.0.8](https://github.com/mcarvin8/xml-disassembler/compare/v2.0.7...v2.0.8) (2026-02-10)
 
 
