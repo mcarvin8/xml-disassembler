@@ -1,0 +1,31 @@
+src/index.ts
+  4c0d0be2e90b6de6 57
+test/multi-level.spec.ts
+  4c0d0be2e90b6de6 1-8,10-59
+src/lib.rs
+  4c0d0be2e90b6de6 7,67,69-88,101
+README.md
+  4c0d0be2e90b6de6 25,108,151-189
+Cargo.toml
+  4c0d0be2e90b6de6 14
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.2",
+  "base_commit_sha": "d8f17d7526c72f10513a674250cafe37fd7c9500",
+  "prompts": {
+    "4c0d0be2e90b6de6": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "e25dedde-2c75-42ea-9353-5f806b187f67",
+        "model": "default"
+      },
+      "human_author": "Matt Carvin <90224411+mcarvin8@users.noreply.github.com>",
+      "messages": [],
+      "total_additions": 399,
+      "total_deletions": 177,
+      "accepted_lines": 128,
+      "overriden_lines": 1
+    }
+  }
+}
