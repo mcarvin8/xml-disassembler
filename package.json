@@ -1,6 +1,6 @@
 {
   "name": "xml-disassembler",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "description": "Disassemble XML files into smaller, more manageable files and reassemble the XML when needed.",
   "author": "Matt Carvin",
   "license": "MIT",
