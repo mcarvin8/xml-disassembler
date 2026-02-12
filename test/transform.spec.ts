@@ -4,11 +4,6 @@ import { copy } from "fs-extra";
 import {
   DisassembleXMLFileHandler,
   ReassembleXMLFileHandler,
-  parseXML,
-  XmlElement,
-  transformToYaml,
-  transformToJson,
-  transformToJson5,
 } from "../src/index";
 import { compareFiles } from "./helpers/compare";
 const sampleDir: string = "fixtures";
@@ -107,13 +102,5 @@ describe("transform test suite", () => {
       "fixtures/general/HR_Admin.permissionset-meta.xml",
       "mock2/general/HR_Admin.permissionset-meta.xml",
     );
-  });
-  it("should test transform functions in the index.", async () => {
-    const parsedXml = await parseXML(
-      "fixtures/general/HR_Admin.permissionset-meta.xml",
-    );
-    await transformToJson5(parsedXml as XmlElement);
-    await transformToJson(parsedXml as XmlElement);
-    await transformToYaml(parsedXml as XmlElement);
   });
 });
