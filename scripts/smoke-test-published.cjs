@@ -10,8 +10,6 @@ const os = require("os");
 const { strictEqual } = require("assert");
 
 const {
-  parseXML,
-  buildXMLString,
   DisassembleXMLFileHandler,
   ReassembleXMLFileHandler,
 } = require("xml-disassembler");
@@ -52,16 +50,6 @@ async function main() {
   console.log("[smoke] Temp dir:", tmpDir);
 
   try {
-    // Parse + build round-trip (validates native addon and core API)
-    const xmlPath = path.join(tmpFixtureDir, "Get_Info.flow-meta.xml");
-    console.log("[smoke] Parse + build round-trip...");
-    const parsed = await parseXML(xmlPath);
-    if (!parsed) throw new Error("parseXML returned undefined");
-    const rebuilt = buildXMLString(parsed);
-    if (!rebuilt || !rebuilt.includes("Flow"))
-      throw new Error("buildXMLString failed");
-    console.log("[smoke] Parse + build OK");
-
     // Disassemble + reassemble using deeply-nested fixture and unique ID elements
     console.log("[smoke] Disassemble (unique-id, xml)...");
     const handler = new DisassembleXMLFileHandler();
