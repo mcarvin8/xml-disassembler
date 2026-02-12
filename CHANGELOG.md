@@ -5,6 +5,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.2.2](https://github.com/mcarvin8/xml-disassembler/compare/v2.2.1...v2.2.2) (2026-02-12)
+
+
+### Bug Fixes
+
+* upgrade rust crate to latest for multi-level fixes and path standardization ([865cbe8](https://github.com/mcarvin8/xml-disassembler/commit/865cbe8f697d352f4c5b72b3ca5db26316ba555e))
+
 ## [2.2.1](https://github.com/mcarvin8/xml-disassembler/compare/v2.2.0...v2.2.1) (2026-02-12)
 
 
