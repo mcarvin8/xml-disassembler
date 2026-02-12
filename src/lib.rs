@@ -3,7 +3,6 @@
 use neon::prelude::*;
 use std::sync::OnceLock;
 use xml_disassembler::{
-    build_xml_string, parse_xml, transform_to_json, transform_to_json5, transform_to_yaml,
     path_segment_from_file_pattern, DecomposeRule, DisassembleXmlFileHandler, MultiLevelRule,
     ReassembleXmlFileHandler,
 };
@@ -40,11 +39,6 @@ fn main(mut cx: ModuleContext) -> NeonResult<()> {
 
     cx.export_function("disassemble", disassemble)?;
     cx.export_function("reassemble", reassemble)?;
-    cx.export_function("parseXml", parse_xml_js)?;
-    cx.export_function("buildXmlString", build_xml_string_js)?;
-    cx.export_function("transformToYaml", transform_to_yaml_js)?;
-    cx.export_function("transformToJson", transform_to_json_js)?;
-    cx.export_function("transformToJson5", transform_to_json5_js)?;
 
     Ok(())
 }
@@ -177,67 +171,4 @@ fn reassemble(mut cx: FunctionContext) -> JsResult<JsUndefined> {
     }
 
     Ok(cx.undefined())
-}
-
-/// Parses XML file and returns JSON string representation, or undefined if parsing fails.
-/// The JS wrapper should JSON.parse the result to get the XmlElement object.
-fn parse_xml_js(mut cx: FunctionContext) -> JsResult<JsValue> {
-    let file_path = cx.argument::<JsString>(0)?.value(&mut cx);
-
-    let result = runtime().block_on(parse_xml(&file_path));
-
-    match result {
-        Some(parsed) => {
-            let json_str = match serde_json::to_string(&parsed) {
-                Ok(s) => s,
-                Err(e) => return cx.throw_error(format!("Serialize error: {}", e)),
-            };
-            Ok(cx.string(json_str).upcast())
-        }
-        None => Ok(cx.undefined().upcast()),
-    }
-}
-
-/// Builds XML string from a JSON-serialized XmlElement.
-/// The JS wrapper should pass JSON.stringify(element) as the argument.
-fn build_xml_string_js(mut cx: FunctionContext) -> JsResult<JsString> {
-    let json_str = cx.argument::<JsString>(0)?.value(&mut cx);
-
-    let parsed: serde_json::Value = match serde_json::from_str(&json_str) {
-        Ok(v) => v,
-        Err(e) => return cx.throw_error(format!("Invalid JSON: {}", e)),
-    };
-
-    let xml = build_xml_string(&parsed);
-    Ok(cx.string(xml))
-}
-
-fn transform_to_yaml_js(mut cx: FunctionContext) -> JsResult<JsString> {
-    let json_str = cx.argument::<JsString>(0)?.value(&mut cx);
-    let parsed: serde_json::Value = match serde_json::from_str(&json_str) {
-        Ok(v) => v,
-        Err(e) => return cx.throw_error(format!("Invalid JSON: {}", e)),
-    };
-    let result = runtime().block_on(transform_to_yaml(&parsed));
-    Ok(cx.string(result))
-}
-
-fn transform_to_json_js(mut cx: FunctionContext) -> JsResult<JsString> {
-    let json_str = cx.argument::<JsString>(0)?.value(&mut cx);
-    let parsed: serde_json::Value = match serde_json::from_str(&json_str) {
-        Ok(v) => v,
-        Err(e) => return cx.throw_error(format!("Invalid JSON: {}", e)),
-    };
-    let result = runtime().block_on(transform_to_json(&parsed));
-    Ok(cx.string(result))
-}
-
-fn transform_to_json5_js(mut cx: FunctionContext) -> JsResult<JsString> {
-    let json_str = cx.argument::<JsString>(0)?.value(&mut cx);
-    let parsed: serde_json::Value = match serde_json::from_str(&json_str) {
-        Ok(v) => v,
-        Err(e) => return cx.throw_error(format!("Invalid JSON: {}", e)),
-    };
-    let result = runtime().block_on(transform_to_json5(&parsed));
-    Ok(cx.string(result))
 }
