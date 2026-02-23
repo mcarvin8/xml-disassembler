@@ -16,9 +16,12 @@ updates:
       # no release for dev-deps
       prefix-development: chore(dev-deps)
   - package-ecosystem: "cargo"
-    # Look for `Cargo.toml` and `Cargo.lock` in the root directory
     directory: "/"
-    # Check for updates every Monday
+    schedule:
+      interval: "monthly"
+    open-pull-requests-limit: 5
+  - package-ecosystem: "github-actions"
+    directory: "/"
     schedule:
       interval: "monthly"
     open-pull-requests-limit: 5
