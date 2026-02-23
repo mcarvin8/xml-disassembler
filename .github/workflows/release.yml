@@ -52,7 +52,7 @@ jobs:
             node_platform: linux-ia32
     steps:
       - name: Checkout
-        uses: actions/checkout@v4.1.1
+        uses: actions/checkout@v6.0.2
 
       - name: Setup Node
         uses: actions/setup-node@v6
@@ -99,7 +99,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4.1.1
+        uses: actions/checkout@v6.0.2
 
       - name: Setup Node
         uses: actions/setup-node@v6
