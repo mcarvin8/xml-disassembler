@@ -87,7 +87,7 @@ jobs:
         run: node scripts/build-native.js
 
       - name: Upload native artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: native-${{ matrix.node_platform }}
           path: dist/native/
