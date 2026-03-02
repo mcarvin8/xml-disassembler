@@ -11,9 +11,7 @@ updates:
     pull-request-branch-name:
       separator: "-"
     commit-message:
-      # cause a release for non-dev-deps
       prefix: fix(deps)
-      # no release for dev-deps
       prefix-development: chore(dev-deps)
   - package-ecosystem: "cargo"
     directory: "/"
