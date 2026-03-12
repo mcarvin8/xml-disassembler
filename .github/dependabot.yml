@@ -18,6 +18,10 @@ updates:
     schedule:
       interval: "monthly"
     open-pull-requests-limit: 5
+    commit-message:
+      prefix: "feat(rust)"
+    allow:
+      - dependency-name: "xml-disassembler"
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
