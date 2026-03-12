@@ -1,18 +1,5 @@
 version: 2
 updates:
-  - package-ecosystem: "npm"
-    directory: "/"
-    schedule:
-      interval: "monthly"
-    versioning-strategy: "increase"
-    labels:
-      - "dependencies"
-    open-pull-requests-limit: 5
-    pull-request-branch-name:
-      separator: "-"
-    commit-message:
-      prefix: fix(deps)
-      prefix-development: chore(dev-deps)
   - package-ecosystem: "cargo"
     directory: "/"
     schedule:
