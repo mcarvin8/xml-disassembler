@@ -5,6 +5,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.2.3](https://github.com/mcarvin8/xml-disassembler/compare/v2.2.2...v2.2.3) (2026-03-12)
+
+
+### Bug Fixes
+
+* **deps:** bump fs-extra from 11.3.3 to 11.3.4 ([#231](https://github.com/mcarvin8/xml-disassembler/issues/231)) ([9fcd772](https://github.com/mcarvin8/xml-disassembler/commit/9fcd772da2d6f389e16a6a39b298d53cd1ac15e4))
+
 ## [2.2.2](https://github.com/mcarvin8/xml-disassembler/compare/v2.2.1...v2.2.2) (2026-02-12)
 
 
