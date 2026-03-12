@@ -56,7 +56,7 @@
     "typescript": "^5.9.3"
   },
   "dependencies": {
-    "fs-extra": "^11.2.0",
+    "fs-extra": "^11.3.4",
     "tslib": "^2.6.2"
   },
   "repository": {
