@@ -39,7 +39,7 @@
     "**/*": "prettier --write \"**/*.{js,ts}\" --ignore-unknown"
   },
   "devDependencies": {
-    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-terser": "^1.0.0",
     "@rollup/plugin-typescript": "^12.1.4",
     "@types/fs-extra": "^11.0.4",
     "@types/jest": "^30.0.0",
