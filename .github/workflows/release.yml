@@ -134,3 +134,8 @@ jobs:
 
       - name: Publish to NPM
         run: NODE_AUTH_TOKEN="" npm publish --access public --provenance
+  smoke-test:
+    needs: release
+    if: needs.release-please.outputs.release_created == 'true'
+    uses: ./.github/workflows/smoke-test.yml
+    secrets: inherit

@@ -1,6 +1,6 @@
 # Test the latest xml-disassembler published to npm on each OS used in release.
 # Run manually to verify the published package works on Linux, Windows, and macOS.
-name: Test NPM package
+name: Smoke Test - Published Plugin
 
 on:
   workflow_dispatch:
