@@ -11,6 +11,10 @@ permissions:
   id-token: write # Required for OIDC
 
 jobs:
+  test:
+    uses: ./.github/workflows/build.yml
+    secrets: inherit
+
   release-please:
     name: Release Please
     runs-on: ubuntu-latest
@@ -128,9 +132,6 @@ jobs:
 
       - name: Build JS (Rollup)
         run: npm run build:js
-
-      - name: Test
-        run: npm test
 
       - name: Publish to NPM
         run: NODE_AUTH_TOKEN="" npm publish --access public --provenance
