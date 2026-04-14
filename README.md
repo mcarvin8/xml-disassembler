@@ -4,7 +4,7 @@
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/LICENSE.md)
 [![Downloads/week](https://img.shields.io/npm/dw/xml-disassembler.svg)](https://npmjs.org/package/xml-disassembler)
 [![Maintainability](https://qlty.sh/badges/e226ad95-4b8d-484a-9484-25862941262d/maintainability.svg)](https://qlty.sh/gh/mcarvin8/projects/xml-disassembler)
-[![Code Coverage](https://qlty.sh/badges/e226ad95-4b8d-484a-9484-25862941262d/test_coverage.svg)](https://qlty.sh/gh/mcarvin8/projects/xml-disassembler)
+[![codecov](https://codecov.io/gh/mcarvin8/xml-disassembler/graph/badge.svg?token=WSJJ6YF37O)](https://codecov.io/gh/mcarvin8/xml-disassembler)
 [![Known Vulnerabilities](https://snyk.io//test/github/mcarvin8/xml-disassembler/badge.svg?targetFile=package.json)](https://snyk.io//test/github/mcarvin8/xml-disassembler?targetFile=package.json)
 
 Split large XML files into smaller, version-control–friendly pieces—then reassemble them when needed. Output as XML, JSON, JSON5, or YAML.
