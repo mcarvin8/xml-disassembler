@@ -1,5 +1,4 @@
 import { promises as fs } from "fs";
-import { copy } from "fs-extra";
 
 import {
   DisassembleXMLFileHandler,
@@ -13,7 +12,7 @@ let reassembleHandler: ReassembleXMLFileHandler;
 
 describe("transform test suite", () => {
   beforeAll(async () => {
-    await copy(sampleDir, mockDir, { overwrite: true });
+    await fs.cp(sampleDir, mockDir, { recursive: true, force: true });
     disassembleHandler = new DisassembleXMLFileHandler();
     reassembleHandler = new ReassembleXMLFileHandler();
   });

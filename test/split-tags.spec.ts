@@ -1,6 +1,5 @@
 import { promises as fs } from "fs";
 import { strictEqual } from "assert";
-import { copy } from "fs-extra";
 import {
   DisassembleXMLFileHandler,
   ReassembleXMLFileHandler,
@@ -22,7 +21,7 @@ let reassembleHandler: ReassembleXMLFileHandler;
 
 describe("split-tags disassembly test suite", () => {
   beforeAll(async () => {
-    await copy(fixtureDir, mockDir, { overwrite: true });
+    await fs.cp(fixtureDir, mockDir, { recursive: true, force: true });
     disassembleHandler = new DisassembleXMLFileHandler();
     reassembleHandler = new ReassembleXMLFileHandler();
     baselineContent = await fs.readFile(baselineFile, "utf-8");

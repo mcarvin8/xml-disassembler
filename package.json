@@ -41,7 +41,6 @@
   "devDependencies": {
     "@rollup/plugin-terser": "^1.0.0",
     "@rollup/plugin-typescript": "^12.1.4",
-    "@types/fs-extra": "^11.0.4",
     "@types/jest": "^30.0.0",
     "@types/node": "^25.5.0",
     "cargo-cp-artifact": "^0.1.9",
@@ -56,7 +55,6 @@
     "typescript": "^5.9.3"
   },
   "dependencies": {
-    "fs-extra": "^11.3.4",
     "tslib": "^2.6.2"
   },
   "repository": {
