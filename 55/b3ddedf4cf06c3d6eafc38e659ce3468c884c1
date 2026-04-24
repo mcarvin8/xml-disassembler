@@ -1,0 +1,29 @@
+rollup.config.mjs
+  d922e1025d4c0509 10-13,15
+src/index.ts
+  d922e1025d4c0509 2,4-8
+src/native-dir.ts
+  d922e1025d4c0509 1-20
+test/native-dir.spec.ts
+  d922e1025d4c0509 1-36
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.4",
+  "base_commit_sha": "55b3ddedf4cf06c3d6eafc38e659ce3468c884c1",
+  "prompts": {
+    "d922e1025d4c0509": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "cff47286-227a-4685-b8e1-0b722f20c242",
+        "model": "auto-high"
+      },
+      "human_author": "Matt Carvin",
+      "messages": [],
+      "total_additions": 67,
+      "total_deletions": 13,
+      "accepted_lines": 67,
+      "overriden_lines": 0
+    }
+  }
+}
