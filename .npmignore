@@ -7,7 +7,7 @@ node_modules
 test
 .gitignore
 .releaserc.json
-jest.config.js
+vitest.config.ts
 rollup.config.mjs
 tsconfig.json
 fixtures
