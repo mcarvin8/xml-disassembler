@@ -1,0 +1,42 @@
+commitlint.config.cjs
+  h_b104b674256482 1
+tsconfig.json
+  d922e1025d4c0509 17
+.husky/commit-msg
+  h_b104b674256482 1
+vitest.config.ts
+  d922e1025d4c0509 1-17,19
+package.json
+  d922e1025d4c0509 31,42,46,54-55
+.husky/pre-push
+  h_b104b674256482 1
+.npmignore
+  d922e1025d4c0509 10
+.husky/pre-commit
+  h_b104b674256482 1
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.4",
+  "base_commit_sha": "9a4924dc5f84bbb07f037878bce72760d40aa8f7",
+  "prompts": {
+    "d922e1025d4c0509": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "cff47286-227a-4685-b8e1-0b722f20c242",
+        "model": "auto-high"
+      },
+      "human_author": "Matt Carvin",
+      "messages": [],
+      "total_additions": 25,
+      "total_deletions": 28,
+      "accepted_lines": 25,
+      "overriden_lines": 0
+    }
+  },
+  "humans": {
+    "h_b104b674256482": {
+      "author": "Matt Carvin"
+    }
+  }
+}
