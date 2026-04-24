@@ -1,16 +1,11 @@
 import path from "path";
+import { resolveNativeDir } from "./native-dir";
 
-// Platform-specific path so one npm package can ship win/linux/darwin binaries
-const isDist = path.basename(__dirname) === "dist";
-const nativeDir = isDist
-  ? path.join(__dirname, "native", process.platform + "-" + process.arch)
-  : path.join(
-      __dirname,
-      "..",
-      "dist",
-      "native",
-      process.platform + "-" + process.arch,
-    );
+const nativeDir = resolveNativeDir(
+  __dirname,
+  process.platform,
+  process.arch,
+);
 const nativeAddon = require(path.join(nativeDir, "index.node"));
 
 export class DisassembleXMLFileHandler {

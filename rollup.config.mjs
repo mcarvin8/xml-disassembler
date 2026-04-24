@@ -7,9 +7,12 @@ function esmNativeLoader() {
     name: "esm-native-loader",
     renderChunk(code, chunk, options) {
       if (options.format !== "es") return null;
-      // Match: const isDist = ... const nativeDir = ... const nativeAddon = require(path.join(nativeDir, "index.node"));
+      // Match the inlined resolveNativeDir helper through the nativeAddon require.
+      // Covers both the function declaration and the module-level consumers,
+      // replacing the whole block with an ESM-safe equivalent that hardcodes
+      // the dist path (ESM builds only ship inside dist/).
       const block =
-        /const\s+isDist\s*=[\s\S]*?const\s+nativeAddon\s*=\s*require\s*\(\s*path\.join\s*\(\s*nativeDir\s*,\s*["']index\.node["']\s*\)\s*\)\s*;?/;
+        /function\s+resolveNativeDir[\s\S]*?const\s+nativeAddon\s*=\s*require\s*\(\s*path\.join\s*\(\s*nativeDir\s*,\s*["']index\.node["']\s*\)\s*\)\s*;?/;
       if (!block.test(code)) return null;
       const newCode = code
         .replace(
