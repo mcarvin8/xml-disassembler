@@ -5,6 +5,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.5.0](https://github.com/mcarvin8/xml-disassembler-node/compare/v2.4.0...v2.5.0) (2026-04-24)
+
+
+### Features
+
+* **rust:** bump xml-disassembler from 0.4.6 to 0.4.7 ([#239](https://github.com/mcarvin8/xml-disassembler-node/issues/239)) ([bb6857a](https://github.com/mcarvin8/xml-disassembler-node/commit/bb6857a02fb0ef5d1acaa402eb64136b303b2d73))
+
 ## [2.4.0](https://github.com/mcarvin8/xml-disassembler/compare/v2.3.0...v2.4.0) (2026-04-05)
 
 
