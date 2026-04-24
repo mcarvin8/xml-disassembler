@@ -1,10 +1,10 @@
-# xml-disassembler
+# xml-disassembler-node
 
 [![NPM](https://img.shields.io/npm/v/xml-disassembler.svg?label=xml-disassembler)](https://www.npmjs.com/package/xml-disassembler)
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/LICENSE.md)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](https://raw.githubusercontent.com/mcarvin8/xml-disassembler-node/main/LICENSE.md)
 [![Downloads/week](https://img.shields.io/npm/dw/xml-disassembler.svg)](https://npmjs.org/package/xml-disassembler)
 [![Maintainability](https://qlty.sh/badges/e226ad95-4b8d-484a-9484-25862941262d/maintainability.svg)](https://qlty.sh/gh/mcarvin8/projects/xml-disassembler)
-[![codecov](https://codecov.io/gh/mcarvin8/xml-disassembler/graph/badge.svg?token=WSJJ6YF37O)](https://codecov.io/gh/mcarvin8/xml-disassembler)
+[![codecov](https://codecov.io/gh/mcarvin8/xml-disassembler-node/graph/badge.svg?token=WSJJ6YF37O)](https://codecov.io/gh/mcarvin8/xml-disassembler-node)
 
 Split large XML files into smaller, version-control–friendly pieces—then reassemble them when needed. Output as XML, JSON, JSON5, or YAML.
 
@@ -127,10 +127,10 @@ Best for fine-grained diffs and version control.
 
 | Format    | UID-based layout                                                                                                                                                                                                               | Hash-based layout                                                                                                                                                                                                                             |
 | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **XML**   | [![XML UID](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled.png)](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled.png)               | [![XML Hash](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-hashes.png)](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-hashes.png)               |
-| **YAML**  | [![YAML UID](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-yaml.png)](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-yaml.png)    | [![YAML Hash](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-hashes-yaml.png)](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-hashes-yaml.png)    |
-| **JSON**  | [![JSON UID](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-json.png)](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-json.png)    | [![JSON Hash](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-hashes-json.png)](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-hashes-json.png)    |
-| **JSON5** | [![JSON5 UID](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-json5.png)](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-json5.png) | [![JSON5 Hash](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-hashes-json5.png)](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-hashes-json5.png) |
+| **XML**   | [![XML UID](https://raw.githubusercontent.com/mcarvin8/xml-disassembler-node/main/.github/images/disassembled.png)](https://raw.githubusercontent.com/mcarvin8/xml-disassembler-node/main/.github/images/disassembled.png)               | [![XML Hash](https://raw.githubusercontent.com/mcarvin8/xml-disassembler-node/main/.github/images/disassembled-hashes.png)](https://raw.githubusercontent.com/mcarvin8/xml-disassembler-node/main/.github/images/disassembled-hashes.png)               |
+| **YAML**  | [![YAML UID](https://raw.githubusercontent.com/mcarvin8/xml-disassembler-node/main/.github/images/disassembled-yaml.png)](https://raw.githubusercontent.com/mcarvin8/xml-disassembler-node/main/.github/images/disassembled-yaml.png)    | [![YAML Hash](https://raw.githubusercontent.com/mcarvin8/xml-disassembler-node/main/.github/images/disassembled-hashes-yaml.png)](https://raw.githubusercontent.com/mcarvin8/xml-disassembler-node/main/.github/images/disassembled-hashes-yaml.png)    |
+| **JSON**  | [![JSON UID](https://raw.githubusercontent.com/mcarvin8/xml-disassembler-node/main/.github/images/disassembled-json.png)](https://raw.githubusercontent.com/mcarvin8/xml-disassembler-node/main/.github/images/disassembled-json.png)    | [![JSON Hash](https://raw.githubusercontent.com/mcarvin8/xml-disassembler-node/main/.github/images/disassembled-hashes-json.png)](https://raw.githubusercontent.com/mcarvin8/xml-disassembler-node/main/.github/images/disassembled-hashes-json.png)    |
+| **JSON5** | [![JSON5 UID](https://raw.githubusercontent.com/mcarvin8/xml-disassembler-node/main/.github/images/disassembled-json5.png)](https://raw.githubusercontent.com/mcarvin8/xml-disassembler-node/main/.github/images/disassembled-json5.png) | [![JSON5 Hash](https://raw.githubusercontent.com/mcarvin8/xml-disassembler-node/main/.github/images/disassembled-hashes-json5.png)](https://raw.githubusercontent.com/mcarvin8/xml-disassembler-node/main/.github/images/disassembled-hashes-json5.png) |
 
 ### grouped-by-tag
 
@@ -170,10 +170,10 @@ Creates `HR_Admin/` with e.g. `objectPermissions/Job_Request__c.objectPermission
 
 | Format    | Layout                                                                                                                                                                                                                                   |
 | --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **XML**   | [![XML tag](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-tags.png)](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-tags.png)               |
-| **YAML**  | [![YAML tag](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-tags-yaml.png)](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-tags-yaml.png)    |
-| **JSON**  | [![JSON tag](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-tags-json.png)](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-tags-json.png)    |
-| **JSON5** | [![JSON5 tag](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-tags-json5.png)](https://raw.githubusercontent.com/mcarvin8/xml-disassembler/main/.github/images/disassembled-tags-json5.png) |
+| **XML**   | [![XML tag](https://raw.githubusercontent.com/mcarvin8/xml-disassembler-node/main/.github/images/disassembled-tags.png)](https://raw.githubusercontent.com/mcarvin8/xml-disassembler-node/main/.github/images/disassembled-tags.png)               |
+| **YAML**  | [![YAML tag](https://raw.githubusercontent.com/mcarvin8/xml-disassembler-node/main/.github/images/disassembled-tags-yaml.png)](https://raw.githubusercontent.com/mcarvin8/xml-disassembler-node/main/.github/images/disassembled-tags-yaml.png)    |
+| **JSON**  | [![JSON tag](https://raw.githubusercontent.com/mcarvin8/xml-disassembler-node/main/.github/images/disassembled-tags-json.png)](https://raw.githubusercontent.com/mcarvin8/xml-disassembler-node/main/.github/images/disassembled-tags-json.png)    |
+| **JSON5** | [![JSON5 tag](https://raw.githubusercontent.com/mcarvin8/xml-disassembler-node/main/.github/images/disassembled-tags-json5.png)](https://raw.githubusercontent.com/mcarvin8/xml-disassembler-node/main/.github/images/disassembled-tags-json5.png) |
 
 ---
 
@@ -277,4 +277,4 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for code style, PR process, and coverage 
 
 ## License
 
-This project is based on a template by [Allan Oricil](https://github.com/AllanOricil); the original template code is under the [ISC license](LICENSE.isc). The xml-disassembler code is under the [MIT license](LICENSE.md).
+This project is based on a template by [Allan Oricil](https://github.com/AllanOricil); the original template code is under the [ISC license](LICENSE.isc). The xml-disassembler-node code is under the [MIT license](LICENSE.md).

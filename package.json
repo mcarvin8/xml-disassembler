@@ -61,10 +61,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mcarvin8/xml-disassembler.git"
+    "url": "git+https://github.com/mcarvin8/xml-disassembler-node.git"
   },
   "bugs": {
-    "url": "https://github.com/mcarvin8/xml-disassembler/issues"
+    "url": "https://github.com/mcarvin8/xml-disassembler-node/issues"
   },
   "keywords": [
     "xml",
@@ -77,6 +77,8 @@
     "yaml",
     "xml2json",
     "xml2yaml",
-    "xml2json5"
+    "xml2json5",
+    "rust",
+    "neon"
   ]
 }
